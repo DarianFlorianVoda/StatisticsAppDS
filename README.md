@@ -15,6 +15,7 @@ Graduation Year: 2021-2022
 Prof. Dr. Daniela Zaharie 
 
 Dr. med. Leonard Mada (Syonic SRL)
+
 In collaboration with Syonic SRL
 
 
