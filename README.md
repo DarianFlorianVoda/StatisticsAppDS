@@ -14,7 +14,8 @@ Graduation Year: 2021-2022
 # Supervisors
 Prof. Dr. Daniela Zaharie 
 
-Dr. Leonard Mada
+Dr. med. Leonard Mada (Syonic SRL)
+In collaboration with Syonic SRL
 
 
 # Description
