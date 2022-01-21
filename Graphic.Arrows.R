@@ -22,13 +22,16 @@
 
 ### Helper Functions
 
-source("Graphic.Helper.R");
+# Set your own path to your working directory
+path = "C:\\Users\\daria\\OneDrive\\Desktop\\Licenta"
+setwd(path)
+source(paste(path, "Graphic.Helper.R", sep="\\"));
 
 
 ### Arrows:
 
 arrowDH = function(x, y, d=0.2, lwd=1, h.lwd=lwd, col="red", asD=FALSE) {
-	slope = slope(x, y);
+	slope = compute_slope(x, y);
 	lst = list();
 	xylist = function(x, y, lwd) list(list(x=x, y=y, lwd=lwd));
 	if(asD) {
@@ -58,7 +61,7 @@ arrowDH = function(x, y, d=0.2, lwd=1, h.lwd=lwd, col="red", asD=FALSE) {
 	invisible(lst);
 }
 arrowInvH = function(x, y, lwd=1, h.lwd=lwd, col="red") {
-	slope = slope(x, y);
+	slope = compute_slope(x, y);
 	lines(x, y, lwd=lwd, col=col);
 	### Head
 	# Shift point along line:
@@ -80,7 +83,7 @@ arrowInvH = function(x, y, lwd=1, h.lwd=lwd, col="red") {
 # - just a simple Example;
 lineBanded = function(x, y, w=0.1, delta=0.25, lwd=1.5, lty=1, n=NULL, col="black", slope=NULL) {
 	if(is.null(slope)) {
-		slope = slope(x, y);
+		slope = compute_slope(x, y);
 	}
 	lsh = shift(x, y, d=w, slope=slope);
 	distxy = sqrt((x[1] - x[2])^2 + (y[1] - y[2])^2);
@@ -104,8 +107,8 @@ lineBanded = function(x, y, w=0.1, delta=0.25, lwd=1.5, lty=1, n=NULL, col="blac
 
 
 ### Test:
-plot.base = function(xlim=c(-2,10), ylim=c(-2,10), axt=c(2)) {
-	mar = 0.25 + c(2,2,0,0); # TODO
+plot.base = function(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2)) {
+	mar = 0.25 + c(2,2,0,0); # TODO:
 	par.old = par(mar = mar);
 	plot.new()
 	plot.window(xlim=xlim, ylim=ylim)

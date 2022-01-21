@@ -27,6 +27,21 @@
 # - shift;
 # - plot;
 
+compute_slope = function(x, y) {
+  if(length(x) < 2 || length(y) < 2) {
+    stop("The base-line requires 2 points!");
+    # TODO: check if it works properly.
+  }
+  
+  if(length(x) == 2){
+    slope = (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
+  }
+  else{
+    slope = diff(y) / diff(x);
+  }
+  return(slope);
+}
+
 
 ### Plot:
 lines.list = function(x, y, lwd=NULL, ...) {
@@ -45,13 +60,16 @@ reflect = function(x, y, p, slope=NULL) {
 		if(length(x) < 2 || length(y) < 2)
 			stop("The base-line requires 2 points!");
 		# TODO: handle if more than 2 points!
-		slope = (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
+		slope = compute_slope(x,y) # (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
 	}
+  
 	if(slope == 0) {
 		# Horizontal Line
+	  return(c(p[1], 2*y[1]-p[2]))
 	} else if(x[[1]] == x[[2]]) {
 		# Vertical Line
 	}
+  
 	sl.orto = - 1 / slope;
 	# intersection point:
 	div = slope - sl.orto; # div always > 0!
@@ -71,7 +89,7 @@ shift = function(x, y, d=2, slope=NULL) {
 		if(length(x) < 2 || length(y) < 2)
 			stop("The base-line requires 2 points!");
 		# TODO: handle if more than 2 points!
-		slope = (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
+		slope = compute_slope(x,y) # (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
 	} else {
 		if(missing(y)) {
 			# both coordinates encoded using parameter x;
@@ -92,13 +110,6 @@ shift = function(x, y, d=2, slope=NULL) {
 	colnames(rez) = c("x", "y");
 	return(rez);
 }
-slope = function(x, y) {
-	if(length(x) < 2 || length(y) < 2)
-		stop("The base-line requires 2 points!");
-	# TODO: handle if more than 2 points!
-	slope = (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
-	return(slope);
-}
 
 # shift point p along line defined by (x, y);
 # d = distance;
@@ -107,7 +118,7 @@ shiftH = function(p, x, y, d=1, slope=NULL) {
 		if(length(x) < 2 || length(y) < 2)
 			stop("The base-line requires 2 points!");
 		# TODO: handle if more than 2 points!
-		slope = (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
+		slope = compute_slope(x,y) # (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
 	}
 	if(length(p) < 2) stop("Point needs both x & y coordinates!");
 	slope.sqrt = 1 / sqrt(slope^2 + 1);
