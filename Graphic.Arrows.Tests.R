@@ -129,9 +129,9 @@ slope = compute_slope(x, y);
 # - test cases for various types of base-lines and points;
 # - base line:
 #  -- origin: (0, 0), (0, 1), (0, 2), (0, -2), ...;
-#  -- slope: ascending, descending, vertical, horizontal,
+#  -- slope: ascending X, descending X?, vertical X, horizontal X,
 #     slightly perturbed vertical or horizontal;
-# - separate source file with the various tests;
+# - separate source file with the various tests X;
 
 # Base-Line
 # TODO: various origins, e.g.(x0=0, y0=0) vs non-zero;
@@ -300,13 +300,13 @@ stopifnot(all(p == c(4,-1)))
 
 ### Vertical Slope
 
-#line
+# line
 plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
 x = c(3,3); y = c(1, 8);
 lines(x, y, lwd=2, col="red")
 abline(v=c(-2,8), col="green", lty=3)
 
-#points(x, y)!
+# points(x, y)!
 p0 = c(4, 7)
 p = reflect(x, y, p0)
 points(p0[1], p0[2]) 
@@ -329,4 +329,60 @@ lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 stopifnot(all(p == c(-2,3)))
 
 
+### Ascending Slope
+# line
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(0,6); y = c(0, 6);
+lines(x, y, lwd=2, col="red")
+
+# points(x, y)!
+p0 = c(1, 2)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p == c(2,1)))
+
+p0 = c(2, 4)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p == c(4,2)))
+
+p0 = c(4, 7)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p == c(7,4)))
+
+
+### Descending Slope
+# line
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(0,8); y = c(8, 1);
+lines(x, y, lwd=2, col="red")
+
+# points(x, y)!
+p0 = c(1, 8)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+# p has float values stopifnot(all(p == c(0.133,7.009)))
+
+p0 = c(3, 8)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+# p has float values stopifnot(all(p == c(0.133,7.009)))
+
+p0 = c(6, 7)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+# p has float values stopifnot(all(p == c(0.133,7.009))) ??
 
