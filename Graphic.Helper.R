@@ -68,6 +68,8 @@ reflect = function(x, y, p, slope=NULL) {
 	  return(c(p[1], 2*y[1]-p[2]))
 	} else if(x[[1]] == x[[2]]) {
 		# Vertical Line
+	  return(c(2*x[1]-p[1], p[2])) # De ce?
+	  # TODO: distanta de la punct la dreapta + punctul initial ?
 	}
   
 	sl.orto = - 1 / slope;

@@ -140,10 +140,10 @@ slope = compute_slope(x, y);
 
 P = c(10,5)
 
-#x0 = [0, 10]; y0 = 0
+### x0 = [0, 10]; y0 = 0
 plot.base()
 x = c(0,P[1]); y = c(0, P[2]);
-lines(x, y, lwd=2, col="red") # Why is it right?
+lines(x, y, lwd=2, col="red") 
 
 x = c(1,P[1]); y = c(0, P[2]);
 lines(x, y, lwd=2, col="red")
@@ -176,7 +176,7 @@ x = c(10,P[1]); y = c(0, P[2]);
 lines(x, y, lwd=2, col="red")
 
 
-#x0 = 0; y0 = [0,10]
+### x0 = 0; y0 = [0,10]
 plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(2))
 x = c(0,10); y = c(0, 5);
 lines(x, y, lwd=2, col="red") # Why is it right?
@@ -221,8 +221,8 @@ p0 = c(2, 6)
 p = reflect(x, y, p0)
 points(p0[1], p0[2]); points(p[1], p[2]);
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
-# -- origin: (0, 0), (0, 1), (0, 2), (0, -2), ...;
 
+### -- origin: (0, 0), (0, 1), (0, 2), (0, -2), ...;
 plot.base()
 P = c(0, 0)
 x = c(0,P[1]); y = c(0, P[2]);
@@ -259,6 +259,74 @@ lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 l = shift(x, y, d=2)
 len = nrow(l) / 2;
 sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col="orange"))
+
+### Horizontal slope
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(0,5); y = c(4, 4);
+lines(x, y, lwd=2, col="red")
+abline(v=x, col="green", lty=3)
+
+p0 = c(2, 6)
+p = reflect(x, y, p0)
+points(p0[1], p0[2])
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p == c(2,2)))
+
+
+p0 = c(1, 8)
+p = reflect(x, y, p0)
+points(p0[1], p0[2])
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p == c(1,0)))
+
+p0 = c(3, 5)
+p = reflect(x, y, p0)
+points(p0[1], p0[2])
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p == c(3,3)))
+
+p0 = c(4, 9)
+p = reflect(x, y, p0)
+points(p0[1], p0[2])
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p == c(4,-1)))
+
+# Question: Should add all into one p to check at the final?
+
+
+### Vertical Slope
+
+#line
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(3,3); y = c(1, 8);
+lines(x, y, lwd=2, col="red")
+abline(v=c(-2,8), col="green", lty=3)
+
+#points(x, y)!
+p0 = c(4, 7)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p == c(2,7)))
+
+p0 = c(6, 5)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p == c(0,5)))
+
+p0 = c(8, 3)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p == c(-2,3)))
 
 
 
