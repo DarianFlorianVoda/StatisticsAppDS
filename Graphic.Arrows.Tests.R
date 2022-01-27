@@ -214,7 +214,7 @@ lines(x, y, lwd=2, col="red")
 x = c(0,P[1]); y = c(10, P[2]);
 lines(x, y, lwd=2, col="red")
 
-### -- origin: (0, 0), (0, 1), (0, 2), (0, -2), ... ;
+### Test: origin: (0, 0), (0, 1), (0, 2), (0, -2), ... ;
 # line
 plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
 x = c(0,5); y = c(4, 4);
@@ -227,40 +227,6 @@ p0 = c(0, 0)
 p = reflect(x, y, p0)
 points(p0[1], p0[2]); points(p[1], p[2]);
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
-
-
-### Shift point along line:
-
-p = shiftH(c(0,1), x, y, d=1)
-points(p, col="green")
-# only as example:
-p = shiftH(c(0,2), x, y, d=seq(1,4, by=0.5))
-points(p, col="blue")
-
-
-### Reflected point:
-# points(x, y)!
-p0 = c(1, 2)
-p = reflect(x, y, p0)
-points(p0[1], p0[2]); points(p[1], p[2]);
-lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
-
-#
-p0 = c(4, 2)
-p = reflect(x, y, p0)
-points(p0[1], p0[2]); points(p[1], p[2]);
-lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
-
-#
-p0 = c(5, 1)
-p = reflect(x, y, p0)
-points(p0[1], p0[2]); points(p[1], p[2]);
-lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
-
-### Shift Line
-l = shift(x, y, d=2)
-len = nrow(l) / 2;
-sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col="orange"))
 
 ### Test: Reflections
 
@@ -478,3 +444,25 @@ points(p[1], p[2])
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 # Ambiguity: stopifnot(all(p == c(4,-1)))
 
+### Shift point along line:
+
+plot.base()
+x = c(0,10); y = c(1, 5);
+lines(x, y, lwd=2, col="red")
+
+p = shiftH(c(0,1), x, y, d=1)
+points(p, col="green")
+# only as example:
+p = shiftH(c(0,2), x, y, d=seq(1,4, by=0.5))
+points(p, col="blue")
+
+p = shiftH(c(4,2), x, y, d=1)
+points(p, col="green")
+# only as example:
+p = shiftH(c(0,4), x, y, d=seq(1,4, by=0.5))
+points(p, col="blue")
+
+### Shift Line
+l = shift(x, y, d=2)
+len = nrow(l) / 2;
+sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col="orange"))
