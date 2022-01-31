@@ -129,7 +129,7 @@ slope = compute_slope(x, y);
 # - test cases for various types of base-lines and points;
 # - base line:
 #  -- origin: (0, 0), (0, 1), (0, 2), (0, -2), ...;
-#  -- slope: ascending X, descending X?, vertical X, horizontal X,
+#  -- slope: ascending X, descending X, vertical X, horizontal X,
 #     slightly perturbed vertical or horizontal;
 # - separate source file with the various tests X;
 
@@ -182,7 +182,7 @@ lines(x, y, lwd=2, col="red")
 ### Test Different lines on x-axis where y is between 0 and 10
 plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(2))
 x = c(0,10); y = c(0, 5);
-lines(x, y, lwd=2, col="red") # Why is it right?
+lines(x, y, lwd=2, col="red")
 
 x = c(0,P[1]); y = c(1, P[2]);
 lines(x, y, lwd=2, col="red")
@@ -242,25 +242,26 @@ abline(v=x, col="green", lty=3)
 # Test 1
 p0 = c(2, 6)
 p = reflect(x, y, p0)
-points(p0[1], p0[2]); points(p[1], p[2]);
+points(p0[1], p0[2])
+points(p[1], p[2]);
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 stopifnot(all(p==c(2,2)))
 
 # Test 2
-p0 = c(1, 8)
+p0 = c(2.5, 2)
 p = reflect(x, y, p0)
 points(p0[1], p0[2])
-points(p[1], p[2])
+points(p[1], p[2]);
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
-stopifnot(all(p == c(1,0)))
+# ambiguity: stopifnot(all(p==c(2.6,6)))
 
 # Test 3
-p0 = c(3, 5)
+p0 = c(1, 1)
 p = reflect(x, y, p0)
 points(p0[1], p0[2])
 points(p[1], p[2])
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
-stopifnot(all(p == c(3,3)))
+stopifnot(all(p == c(1,7)))
 
 # Test 4
 p0 = c(4, 9)
@@ -270,6 +271,37 @@ points(p[1], p[2])
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 stopifnot(all(p == c(4,-1)))
 
+# Test 5 # out of bound?
+p0 = c(6, 6)
+p = reflect(x, y, p0)
+points(p0[1], p0[2])
+points(p[1], p[2]);
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p==c(6,2)))
+
+# Test 6 # out of bound?
+p0 = c(-1, -1)
+p = reflect(x, y, p0)
+points(p0[1], p0[2])
+points(p[1], p[2]);
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p==c(-1,9)))
+
+# Test 7 # still a small green line on point?
+p0 = c(3, 4)
+p = reflect(x, y, p0)
+points(p0[1], p0[2])
+points(p[1], p[2]);
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p==c(3,4)))
+
+# Test 8
+p0 = c(3.5, 4.25)
+p = reflect(x, y, p0)
+points(p0[1], p0[2])
+points(p[1], p[2]);
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p==c(3,4)))
 
 ### Vertical Reflection
 
@@ -304,6 +336,29 @@ points(p[1], p[2])
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 stopifnot(all(p == c(-2,3)))
 
+# Test 4
+p0 = c(2, 6)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p == c(4,6)))
+
+# Test 5
+p0 = c(3, 4)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p == c(3,4)))
+
+# Test 6 # out of bound?
+p0 = c(2, 0)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p == c(4,0)))
 
 ### Ascending Reflection
 
@@ -337,6 +392,30 @@ points(p[1], p[2])
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 stopifnot(all(p == c(7,4)))
 
+# Test 4
+p0 = c(1, 0)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p == c(0,1)))
+
+# Test 5
+p0 = c(4, 4)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p == c(4,4)))
+
+
+# Test 6 # out of bound?
+p0 = c(0, -1)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p == c(-1,0)))
 
 ### Descending Reflection
 
@@ -353,6 +432,9 @@ points(p0[1], p0[2])
 points(p[1], p[2])
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 # Ambiguity: p has float values stopifnot(all(p == c(0.133,7.009)))
+stopifnot(round(p - c(0, 7) - c(15,1)/113, 12) == 0)
+# print(p, 13)
+# ... (round(p - ...., 12) == 0)
 
 # Test 2
 p0 = c(3, 8)
@@ -362,6 +444,7 @@ points(p[1], p[2])
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 # Ambiguity: p has float values stopifnot(all(p == c(0.133,7.009)))
 
+# Test 3
 p0 = c(6, 7)
 p = reflect(x, y, p0)
 points(p0[1], p0[2]) 
@@ -369,6 +452,21 @@ points(p[1], p[2])
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 # Ambiguity: p has float values stopifnot(all(p == c(0.133,7.009))) ??
 
+# Test 4
+p0 = c(4, 2)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+# Ambiguity: p has float values stopifnot(all(p == c(0.133,7.009))) ??
+
+# Test 5
+p0 = c(8, 1)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot((all(p == c(8,1))))
 
 ### Slightly Perturbed Vertical Reflection
 
@@ -385,7 +483,7 @@ p = reflect(x, y, p0)
 points(p0[1], p0[2]) 
 points(p[1], p[2])
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
-# Ambugity: stopifnot(all(p == c(2.073885,6.931210)))
+# Ambiugity: stopifnot(all(p == c(2.073885,6.931210)))
 
 # Test 2
 p0 = c(6, 5)
@@ -402,6 +500,22 @@ points(p0[1], p0[2])
 points(p[1], p[2])
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 # Ambiguity: stopifnot(all(p == c(-2,3)))
+
+# Test 4
+p0 = c(3, 8)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+# Ambiguity: stopifnot(all(p == c(3, 8)))
+
+# Test 5
+p0 = c(2, 2)
+p = reflect(x, y, p0)
+points(p0[1], p0[2]) 
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+# Ambiguity: stopifnot(all(p == c(4.43, 2.09)))
 
 
 ### Slightly Perturbed Horizontal Reflection
@@ -444,22 +558,64 @@ points(p[1], p[2])
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 # Ambiguity: stopifnot(all(p == c(4,-1)))
 
+# Test 5
+p0 = c(4, 0)
+p = reflect(x, y, p0)
+points(p0[1], p0[2])
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+# Ambiguity: stopifnot(all(p == c(4,-1)))
+
+# Test 6
+p0 = c(0, 4)
+p = reflect(x, y, p0)
+points(p0[1], p0[2])
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+stopifnot(all(p == c(0,4)))
+
+# Test 7 # out of bound
+p0 = c(6, 2)
+p = reflect(x, y, p0)
+points(p0[1], p0[2])
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+# Ambiguity: stopifnot(all(p == c(4,-1)))
+
 ### Shift point along line:
 
 plot.base()
 x = c(0,10); y = c(1, 5);
 lines(x, y, lwd=2, col="red")
 
-p = shiftH(c(0,1), x, y, d=1)
+# Test 1
+p0 = c(0, 1)
+p = shiftH(p0, x, y, d=1)
+points(p0[1], p0[2])
 points(p, col="green")
-# only as example:
-p = shiftH(c(0,2), x, y, d=seq(1,4, by=0.5))
+
+# Test 2
+p0 = c(0, 2)
+p = shiftH(p0, x, y, d=seq(1, 4, by=0.5))
+points(p0[1], p0[2])
 points(p, col="blue")
 
-p = shiftH(c(4,2), x, y, d=1)
+# Test 3
+p0 = c(4, 2)
+p = shiftH(p0, x, y, d=1)
+points(p0[1], p0[2])
 points(p, col="green")
-# only as example:
-p = shiftH(c(0,4), x, y, d=seq(1,4, by=0.5))
+
+# Test 4
+p0 = c(0,4)
+p = shiftH(p0, x, y, d=seq(1,4, by=0.5))
+points(p0[1], p0[2])
+points(p, col="blue")
+
+# Test 5
+p0 = c(0,4)
+p = shiftH(p0, x, y, d=seq(1,4, by=0.5))
+points(p0[1], p0[2])
 points(p, col="blue")
 
 ### Shift Line
