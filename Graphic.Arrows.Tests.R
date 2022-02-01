@@ -130,7 +130,7 @@ slope = compute_slope(x, y);
 # - base line:
 #  -- origin: (0, 0), (0, 1), (0, 2), (0, -2), ...;
 #  -- slope: ascending X, descending X, vertical X, horizontal X,
-#     slightly perturbed vertical or horizontal;
+#     slightly perturbed vertical or horizontal X;
 # - separate source file with the various tests X;
 
 # Base-Line
@@ -138,7 +138,7 @@ slope = compute_slope(x, y);
 # Note: x = (x0, x1); y = (y0, y1);
 # Testing various origins
 
-### Test: Lines
+#####Test: Lines#####
 
 ### Test Different lines on x-axis where x is between 0 and 10
 ### Point P is the upper limit of the line with x2 = 10; y2 = 5
@@ -214,23 +214,9 @@ lines(x, y, lwd=2, col="red")
 x = c(0,P[1]); y = c(10, P[2]);
 lines(x, y, lwd=2, col="red")
 
-### Test: origin: (0, 0), (0, 1), (0, 2), (0, -2), ... ;
-# line
-plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
-x = c(0,5); y = c(4, 4);
-lines(x, y, lwd=2, col="red")
-abline(v=x, col="green", lty=3)
+##### Test: Reflections #####
 
-# points(x, y)!
-# Test 1
-p0 = c(0, 0)
-p = reflect(x, y, p0)
-points(p0[1], p0[2]); points(p[1], p[2]);
-lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
-
-### Test: Reflections
-
-### Horizontal Reflection
+###### Horizontal Reflection ######
 
 # line
 plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
@@ -287,7 +273,7 @@ points(p[1], p[2]);
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 stopifnot(all(p==c(-1,9)))
 
-# Test 7 # still a small green line on point?
+# Test 7 #TODO: still a small green line on point?
 p0 = c(3, 4)
 p = reflect(x, y, p0)
 points(p0[1], p0[2])
@@ -303,7 +289,63 @@ points(p[1], p[2]);
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 stopifnot(all(p==c(3,4)))
 
-### Vertical Reflection
+###### origin: (0, 0), (0, 1), (0, 2), (0, -2) ######
+# line (0,0) (0, 5)
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(0,5); y = c(0, 4);
+lines(x, y, lwd=2, col="red")
+abline(v=x, col="green", lty=3)
+
+# points(x, y)!
+# Test 1
+p0 = c(0, 0)
+p = reflect(x, y, p0)
+points(p0[1], p0[2])
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+
+
+# Test 2
+p0 = c(4, 0)
+p = reflect(x, y, p0)
+points(p0[1], p0[2])
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+
+# Test 3
+p0 = c(0, 2)
+p = reflect(x, y, p0)
+points(p0[1], p0[2])
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+
+# Test 4
+p0 = c(3.75, 0.3)
+p = reflect(x, y, p0)
+points(p0[1], p0[2])
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+
+# line (0, 1) (0, -2)
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(0,0); y = c(1, -2);
+lines(x, y, lwd=2, col="red")
+
+# Test 1
+p0 = c(-1, -1)
+p = reflect(x, y, p0)
+points(p0[1], p0[2])
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+
+# Test 2
+p0 = c(0, 0)
+p = reflect(x, y, p0)
+points(p0[1], p0[2])
+points(p[1], p[2])
+lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
+
+###### Vertical Reflection ######
 
 # line
 plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
@@ -360,7 +402,7 @@ points(p[1], p[2])
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 stopifnot(all(p == c(4,0)))
 
-### Ascending Reflection
+###### Ascending Reflection #######
 
 # line
 plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
@@ -409,7 +451,7 @@ lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 stopifnot(all(p == c(4,4)))
 
 
-# Test 6 # out of bound?
+# Test 6 #TODO: out of bound?
 p0 = c(0, -1)
 p = reflect(x, y, p0)
 points(p0[1], p0[2]) 
@@ -417,7 +459,7 @@ points(p[1], p[2])
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 stopifnot(all(p == c(-1,0)))
 
-### Descending Reflection
+###### Descending Reflection ######
 
 # line
 plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
@@ -468,7 +510,7 @@ points(p[1], p[2])
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 stopifnot((all(p == c(8,1))))
 
-### Slightly Perturbed Vertical Reflection
+###### Slightly Perturbed Vertical Reflection ######
 
 # line
 plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
@@ -518,7 +560,7 @@ lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 # Ambiguity: stopifnot(all(p == c(4.43, 2.09)))
 
 
-### Slightly Perturbed Horizontal Reflection
+###### Slightly Perturbed Horizontal Reflection ######
 
 # line
 plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
@@ -574,7 +616,7 @@ points(p[1], p[2])
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 stopifnot(all(p == c(0,4)))
 
-# Test 7 # out of bound
+# Test 7 #TODO: out of bound
 p0 = c(6, 2)
 p = reflect(x, y, p0)
 points(p0[1], p0[2])
@@ -582,43 +624,338 @@ points(p[1], p[2])
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 # Ambiguity: stopifnot(all(p == c(4,-1)))
 
-### Shift point along line:
+##### Test: Shift point along line #####
 
-plot.base()
-x = c(0,10); y = c(1, 5);
+###### Horizontal line ######
+
+# line
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(0,5); y = c(4, 4);
 lines(x, y, lwd=2, col="red")
 
-# Test 1
-p0 = c(0, 1)
+# Test 1 - origin of line
+p0 = c(0, 4)
 p = shiftH(p0, x, y, d=1)
 points(p0[1], p0[2])
 points(p, col="green")
 
-# Test 2
-p0 = c(0, 2)
+###### #TODO: Test 2 - over the line #########
+p0 = c(2, 6)
 p = shiftH(p0, x, y, d=seq(1, 4, by=0.5))
 points(p0[1], p0[2])
 points(p, col="blue")
 
-# Test 3
+# Test 3 - under the line
+p0 = c(2, 1)
+p = shiftH(p0, x, y, d=1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+# Test 4 - over the line
+p0 = c(3, 7)
+p = shiftH(p0, x, y, d=seq(1,4, by=0.5))
+points(p0[1], p0[2])
+points(p, col="blue")
+
+# Test 5 - shift behind
+p0 = c(4, 4)
+p = shiftH(p0, x, y, d=-1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+###### origin: (0, 0), (0, 1), (0, 2), (0, -2) ######
+# line (0,0) (0, 5)
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(0,5); y = c(0, 4);
+lines(x, y, lwd=2, col="red")
+
+# Test 1 - origin of line
+p0 = c(0, 0)
+p = shiftH(p0, x, y, d=1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+# Test 2 - over the line
+p0 = c(2, 6)
+p = shiftH(p0, x, y, d=seq(1, 4, by=0.5))
+points(p0[1], p0[2])
+points(p, col="blue")
+
+# Test 3 - under the line
+p0 = c(2, -1)
+p = shiftH(p0, x, y, d=1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+# Test 4 - over the line
+p0 = c(3, 2)
+p = shiftH(p0, x, y, d=seq(1,4, by=0.5))
+points(p0[1], p0[2])
+points(p, col="blue")
+
+# Test 5 - shift behind
+p0 = c(4, 2)
+p = shiftH(p0, x, y, d=-1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+###### TODO: Vertical line ######
+
+###### line ######
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(3, 3); y = c(1, 8);
+lines(x, y, lwd=2, col="red")
+
+# Test 1 - origin of line
+p0 = c(3, 8)
+p = shiftH(p0, x, y, d=1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+# Test 2 - over the line
+p0 = c(2, 2)
+p = shiftH(p0, x, y, d=seq(1, 4, by=0.5))
+points(p0[1], p0[2])
+points(p, col="blue")
+
+# Test 3 - under the line
 p0 = c(4, 2)
 p = shiftH(p0, x, y, d=1)
 points(p0[1], p0[2])
 points(p, col="green")
 
-# Test 4
-p0 = c(0,4)
+# Test 4 - over the line
+p0 = c(0, 2)
 p = shiftH(p0, x, y, d=seq(1,4, by=0.5))
 points(p0[1], p0[2])
 points(p, col="blue")
 
-# Test 5
-p0 = c(0,4)
+# Test 5 - shift behind
+p0 = c(3, 2)
+p = shiftH(p0, x, y, d=-1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+###### Ascending line ######
+plot.base()
+x = c(0,10); y = c(1, 5);
+lines(x, y, lwd=2, col="red")
+
+# Test 1 - origin of line
+p0 = c(0, 1)
+p = shiftH(p0, x, y, d=1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+# Test 2 - over the line
+p0 = c(0, 2)
+p = shiftH(p0, x, y, d=seq(1, 4, by=0.5))
+points(p0[1], p0[2])
+points(p, col="blue")
+
+# Test 3 - under the line
+p0 = c(4, 2)
+p = shiftH(p0, x, y, d=1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+# Test 4 - over the line
+p0 = c(0, 4)
 p = shiftH(p0, x, y, d=seq(1,4, by=0.5))
 points(p0[1], p0[2])
 points(p, col="blue")
 
-### Shift Line
+# Test 5 - shift behind
+p0 = c(10, 4)
+p = shiftH(p0, x, y, d=-1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+###### Descending line ######
+
+# line
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(0,8); y = c(8, 1);
+lines(x, y, lwd=2, col="red")
+
+# Test 1 - origin of line
+p0 = c(0, 8)
+p = shiftH(p0, x, y, d=1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+# Test 2 - over the line
+p0 = c(6, 4)
+p = shiftH(p0, x, y, d=seq(1, 4, by=0.5))
+points(p0[1], p0[2])
+points(p, col="blue")
+
+# Test 3 - under the line
+p0 = c(2, 4)
+p = shiftH(p0, x, y, d=1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+# Test 4 - over the line
+p0 = c(4, 7)
+p = shiftH(p0, x, y, d=seq(1,4, by=0.5))
+points(p0[1], p0[2])
+points(p, col="blue")
+
+# Test 5 - shift behind
+p0 = c(6, 2)
+p = shiftH(p0, x, y, d=-1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+###### Slightly Perturbed Vertical Reflection ######
+
+# line
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(3.25,3); y = c(1, 8);
+lines(x, y, lwd=2, col="red")
+
+# Test 1 - origin of line
+p0 = c(3, 8)
+p = shiftH(p0, x, y, d=1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+# Test 2 - over the line
+p0 = c(6, 2)
+p = shiftH(p0, x, y, d=seq(1, 4, by=0.5))
+points(p0[1], p0[2])
+points(p, col="blue")
+
+# Test 3 - under the line
+p0 = c(5, 4)
+p = shiftH(p0, x, y, d=1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+# Test 4 - over the line
+p0 = c(2, 3)
+p = shiftH(p0, x, y, d=seq(1,4, by=0.5))
+points(p0[1], p0[2])
+points(p, col="blue")
+
+# Test 5 - shift behind
+p0 = c(3.5, 2)
+p = shiftH(p0, x, y, d=-1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+###### Slightly Perturbed Horizontal Reflection ######
+
+# line
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(0,5); y = c(4, 4.5);
+lines(x, y, lwd=2, col="red")
+
+# Test 1 - origin of line
+p0 = c(0, 4)
+p = shiftH(p0, x, y, d=1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+# Test 2 - over the line
+p0 = c(2, 5)
+p = shiftH(p0, x, y, d=seq(1, 4, by=0.5))
+points(p0[1], p0[2])
+points(p, col="blue")
+
+# Test 3 - under the line
+p0 = c(2, 3)
+p = shiftH(p0, x, y, d=1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+# Test 4 - over the line
+p0 = c(3, 6)
+p = shiftH(p0, x, y, d=seq(1,4, by=0.5))
+points(p0[1], p0[2])
+points(p, col="blue")
+
+# Test 5 - shift behind
+p0 = c(4, 4.25)
+p = shiftH(p0, x, y, d=-1)
+points(p0[1], p0[2])
+points(p, col="green")
+
+
+##### Test: Shift Line #####
+
+###### TODO: Horizontal line ######
+
+# line
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(0,5); y = c(4, 4);
+lines(x, y, lwd=2, col="red")
+
+l = shift(x, y, d=2)
+len = nrow(l) / 2;
+sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col="orange"))
+
+###### origin: (0, 0), (0, 1), (0, 2), (0, -2) ######
+# line (0,0) (0, 5)
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(0,5); y = c(0, 4);
+lines(x, y, lwd=2, col="red")
+
+l = shift(x, y, d=2)
+len = nrow(l) / 2;
+sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col="orange"))
+
+
+###### Vertical line ######
+
+# line
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(3, 3); y = c(1, 8);
+lines(x, y, lwd=2, col="red")
+
+l = shift(x, y, d=2)
+len = nrow(l) / 2;
+sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col="orange"))
+
+
+###### Ascending line ######
+plot.base()
+x = c(0,10); y = c(1, 5);
+lines(x, y, lwd=2, col="red")
+
+l = shift(x, y, d=2)
+len = nrow(l) / 2;
+sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col="orange"))
+
+# line
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(0,8); y = c(8, 1);
+lines(x, y, lwd=2, col="red")
+
+l = shift(x, y, d=2)
+len = nrow(l) / 2;
+sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col="orange"))
+
+###### Slightly Perturbed Vertical line ######
+
+# line
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(3.25,3); y = c(1, 8);
+lines(x, y, lwd=2, col="red")
+
+l = shift(x, y, d=2)
+len = nrow(l) / 2;
+sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col="orange"))
+
+
+###### Slightly Perturbed Horizontal line ######
+
+# line
+plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
+x = c(0,5); y = c(4, 4.5);
+lines(x, y, lwd=2, col="red")
+
 l = shift(x, y, d=2)
 len = nrow(l) / 2;
 sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col="orange"))
