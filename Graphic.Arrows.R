@@ -22,12 +22,6 @@
 
 ### Helper Functions
 
-# Set your own path to your working directory
-path = "C:\\Users\\daria\\OneDrive\\Desktop\\Licenta"
-setwd(path)
-source(paste(path, "Graphic.Helper.R", sep="\\"));
-
-
 ### Arrows:
 
 arrowDH = function(x, y, d=0.2, lwd=1, h.lwd=lwd, col="red", asD=FALSE) {
