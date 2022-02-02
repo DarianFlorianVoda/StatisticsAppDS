@@ -297,12 +297,12 @@ stopifnot(p == c(0, 0))
 # Test 2
 p0 = c(4, 0)
 p = testReflection(p0, x, y)
-# Ambiguity: stopifnot(p == c(0.878, 3.902))
+stopifnot(round(p - c(36 / 41, 3 + 37/41), 12) == 0)
 
 # Test 3
 p0 = c(0, 2)
 p = testReflection(p0, x, y)
-# Ambiguity: stopifnot(p == c(0, 0))
+stopifnot(round(p - c(80/41, - 18/41), 12) == 0)
 
 # Test 4
 p0 = c(3.75, 0.3)
