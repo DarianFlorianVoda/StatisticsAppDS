@@ -330,7 +330,7 @@ stopifnot(p == c(0, 0))
 plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
 x = c(3, 3); y = c(1, 8);
 lines(x, y, lwd=2, col="red")
-abline(v=c(-2,8), col="green", lty=3)
+abline(h=y, col="green", lty=3)
 
 # points(x, y)!
 # Test 1
@@ -444,7 +444,7 @@ stopifnot((all(p == c(8,1))))
 plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
 x = c(3.25, 3); y = c(1, 8);
 lines(x, y, lwd=2, col="red")
-#TODO: abline?
+abline(h=y, col="green", lty=3)
 
 # points(x, y)!
 # Test 1
@@ -465,7 +465,7 @@ p = testReflection(p0, x, y)
 # Test 4
 p0 = c(3, 8)
 p = testReflection(p0, x, y)
-# Ambiguity: stopifnot(all(p == c(3, 8)))
+# Ambiguity: stopifnot(p == c(3, 8))
 
 # Test 5
 p0 = c(2, 2)
