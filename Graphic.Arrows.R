@@ -2,7 +2,7 @@
 #
 # Thesis
 #
-# Title: ...
+# Title: Diagram Generator
 #
 # Candidate: Darian Voda
 # Faculty of Mathematics and Informatics, UVT
@@ -13,7 +13,7 @@
 #
 # in collaboration with Syonic SRL
 #
-# GitHub/Gitlab/...: TODO
+# GitHub: https://github.com/DarianFlorianVoda/Diagram-Generator
 
 
 ### Functions to Generate Arrows

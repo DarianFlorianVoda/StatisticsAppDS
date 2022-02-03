@@ -13,7 +13,7 @@
 #
 # in collaboration with Syonic SRL
 #
-# GitHub/Gitlab/...: TODO
+# GitHub/Gitlab/...: 
 
 
 ### Initial Ideas
@@ -123,7 +123,11 @@ shiftH = function(p, x, y, d=1, slope=NULL) {
 		slope = compute_slope(x,y) # (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
 	}
 	if(length(p) < 2) stop("Point needs both x & y coordinates!");
-	slope.sqrt = 1 / sqrt(slope^2 + 1);
+	if(x[1] == x[2]) {
+	  r = cbind(x = x, y = y + d)
+	  return(r)
+	}
+  slope.sqrt = 1 / sqrt(slope^2 + 1);
 	dx = d * slope.sqrt;
 	dy = dx * slope;
 	xsh = p[[1]] + dx;

@@ -2,7 +2,7 @@
 #
 # Thesis
 #
-# Title: ...
+# Title: Diagram Generator
 #
 # Candidate: Darian Voda
 # Faculty of Mathematics and Informatics, UVT
@@ -13,7 +13,7 @@
 #
 # in collaboration with Syonic SRL
 #
-# GitHub/Gitlab/...: TODO X
+# GitHub: https://github.com/DarianFlorianVoda/Diagram-Generator
 
 
 ### Tests & Examples
@@ -145,13 +145,15 @@ testShiftPoint = function(p0, x, y, d=1, color="green") {
   points(p, col=color)
 }
 
-testShiftLine = function(x, y, color = "orange") {
-  l = shift(x, y, d=2)
+
+# TODO
+testShiftLine = function(x, y, d=1, color = "orange") {
+  l = shift(x, y, d)
   len = nrow(l) / 2;
   sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col=color))
 }
 
-#####Test: Lines#####
+##### Test: Lines #####
 
 ### Test Different lines on x-axis where x is between 0 and 10
 ### Point P is the upper limit of the line with x2 = 10; y2 = 5
@@ -246,32 +248,32 @@ stopifnot(p==c(2, 2))
 # Test 2
 p0 = c(2.5, 2)
 p = testReflection(p0, x, y)
-stopifnot(p==c(2.5,6))
+stopifnot(p==c(2.5, 6))
 
 # Test 3
 p0 = c(1, 1)
 p = testReflection(p0, x, y)
-stopifnot(p == c(1,7))
+stopifnot(p == c(1, 7))
 
 # Test 4
 p0 = c(4, 9)
 p = testReflection(p0, x, y)
-stopifnot(p == c(4,-1))
+stopifnot(p == c(4, -1))
 
-# Test 5 # out of bound?
+# Test 5
 p0 = c(6, 6)
 p = testReflection(p0, x, y)
-stopifnot(p==c(6,2))
+stopifnot(p==c(6, 2))
 
-# Test 6 # out of bound?
+# Test 6
 p0 = c(-1, -1)
 p = testReflection(p0, x, y)
-stopifnot(p==c(-1,9))
+stopifnot(p==c(-1, 9))
 
-# Test 7 #TODO: still a small green line on point?
+# Test 7
 p0 = c(3, 4)
 p = testReflection(p0, x, y)
-stopifnot(p==c(3,4))
+stopifnot(p==c(3, 4))
 
 # Test 8
 p0 = c(3.5, 4.25)
@@ -358,7 +360,7 @@ p0 = c(3, 4)
 p = testReflection(p0, x, y)
 stopifnot(all(p == c(3,4)))
 
-# Test 6 # out of bound?
+# Test 6
 p0 = c(2, 0)
 p = testReflection(p0, x, y)
 stopifnot(all(p == c(4,0)))
@@ -397,7 +399,7 @@ p = testReflection(p0, x, y)
 stopifnot(all(p == c(4,4)))
 
 
-# Test 6 #TODO: out of bound?
+# Test 6
 p0 = c(0, -1)
 p = testReflection(p0, x, y)
 stopifnot(all(p == c(-1,0)))
@@ -421,7 +423,23 @@ stopifnot(round(p - c(0, 7) - c(15,1)/113, 12) == 0)
 # Test 2
 p0 = c(3, 8)
 p = testReflection(p0, x, y)
-# Ambiguity: p has float values stopifnot(all(p == c(0.133,7.009)))
+stopifnot(round(p-c(0.398230088496, 5.026548672566), 12) == 0)
+
+# s = (x[2] - x[1])**2 + (y[2] - y[1])**2
+
+# s
+# p*113
+# 45/113
+# 568/113
+
+# div = ...;
+# p = p*div;
+# paste(p, "/", div, sep="", collapse=", ")
+# paste("c(", paste(p, "/", div, sep="", collapse=", "), ")")
+# testRoundReflection = function(p, pt) {
+# (x2-x1)^2 + (y2-y1)^2
+# div = (x2-x1)^2 + (y2-y1)^2
+# p = round(p*div, 6)
 
 # Test 3
 p0 = c(6, 7)
@@ -512,7 +530,7 @@ p0 = c(0, 4)
 p = testReflection(p0, x, y)
 stopifnot(all(p == c(0,4)))
 
-# Test 7 #TODO: out of bound
+# Test 7
 p0 = c(6, 2)
 p = testReflection(p0, x, y)
 # Ambiguity: stopifnot(all(p == c(4,-1)))
