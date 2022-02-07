@@ -29,7 +29,7 @@ arrowDH = function(x, y, d=0.2, lwd=1, h.lwd=lwd, col="red", asD=FALSE) {
 	lst = list();
 	xylist = function(x, y, lwd) list(list(x=x, y=y, lwd=lwd));
 	if(asD) {
-		l = shift(x, y, d = d, slope=slope);
+		l = shiftLine(x, y, d = d, slope=slope);
 		lst = c(lst, xylist(l[c(1,3), 1], l[c(1,3), 2], lwd));
 		lst = c(lst, xylist(l[c(2,4), 1], l[c(2,4), 2], lwd));
 	} else {
@@ -39,13 +39,13 @@ arrowDH = function(x, y, d=0.2, lwd=1, h.lwd=lwd, col="red", asD=FALSE) {
 	# Shift point along line:
 	d.head = -1;
 	p = shiftH(c(x[2], y[2]), x, y, d = d.head)
-	pV = shift(p, slope=slope);
+	pV = shiftLine(p, slope=slope);
 	lst = c(lst, xylist(
 		x = c(pV[1,1], x[2], pV[2,1]),
 		y = c(pV[1,2], y[2], pV[2,2]), h.lwd) );
 	# Double Arrow
 	p = shiftH(c(x[2], y[2]), x, y, d = d.head - d);
-	pV = shift(p, slope=slope);
+	pV = shiftLine(p, slope=slope);
 	pVV = shiftH(c(x[2], y[2]), x, y, d = 0 - d);
 	lst = c(lst, xylist(
 		x = c(pV[1,1], pVV[1,1], pV[2,1]),
@@ -60,11 +60,11 @@ arrowInvH = function(x, y, lwd=1, h.lwd=lwd, col="red") {
 	### Head
 	# Shift point along line:
 	p = shiftH(c(x[2], y[2]), slope=slope, d = 1)
-	pV = shift(p, slope=slope, d=1);
+	pV = shiftLine(p, slope=slope, d=1);
 	lines(c(pV[1,1], x[2], pV[2,1]),
 		c(pV[1,2], y[2], pV[2,2]), lwd=h.lwd, col=col)
 	# Stop Arrow
-	pV = shift(c(x[2], y[2]), slope=slope, d = 1);
+	pV = shiftLine(c(x[2], y[2]), slope=slope, d = 1);
 	lines(c(pV[1,1], pV[2,1]),
 		c(pV[1,2], pV[2,2]), lwd=h.lwd, col=col);
 	invisible(); # TODO
@@ -79,7 +79,7 @@ lineBanded = function(x, y, w=0.1, delta=0.25, lwd=1.5, lty=1, n=NULL, col="blac
 	if(is.null(slope)) {
 		slope = compute_slope(x, y);
 	}
-	lsh = shift(x, y, d=w, slope=slope);
+	lsh = shiftLine(x, y, d=w, slope=slope);
 	distxy = sqrt((x[1] - x[2])^2 + (y[1] - y[2])^2);
 	if(is.null(n)) {
 		# TODO: use also lwd for better accuracy;

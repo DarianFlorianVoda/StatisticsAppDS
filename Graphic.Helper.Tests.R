@@ -59,7 +59,7 @@ points(p0[1], p0[2]); points(p[1], p[2]);
 lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
 
 ### Shift Line
-l = shift(x, y, d=2)
+l = shiftLine(x, y, d=2)
 len = nrow(l) / 2;
 sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col="orange"))
 
@@ -116,7 +116,7 @@ testShiftPoint = function(p0, x, y, d=1, color="green") {
 
 # TODO
 testShiftLine = function(x, y, d=1, color = "orange") {
-  l = shift(x, y, d)
+  l = shiftLine(x, y, d)
   len = nrow(l) / 2;
   sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col=color))
 }
