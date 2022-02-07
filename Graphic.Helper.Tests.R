@@ -393,8 +393,6 @@ abline(v=x, col="green", lty=3)
 p0 = c(1, 8)
 p = testReflection(p0, x, y)
 stopifnot(round(p - c(0, 7) - c(15,1)/113, 12) == 0)
-# print(p, 13)
-# ... (round(p - ...., 12) == 0)
 
 # Test 2
 p0 = c(3, 8)
@@ -405,12 +403,11 @@ stopifnot(round(p-c(0.398230088496, 5.026548672566), 12) == 0)
 p0 = c(6, 7)
 p = testReflection(p0, x, y)
 stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
-# Ambiguity: p has float values stopifnot(all(p == c(0.133,7.009))) ??
 
 # Test 4
 p0 = c(4, 2)
 p = testReflection(p0, x, y)
-# Ambiguity: p has float values stopifnot(all(p == c(0.133,7.009))) ??
+stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
 
 # Test 5
 p0 = c(8, 1)
@@ -429,27 +426,27 @@ abline(h=y, col="green", lty=3)
 # Test 1
 p0 = c(4, 7)
 p = testReflection(p0, x, y)
-# Ambiugity: stopifnot(all(p == c(2.073885,6.931210)))
+stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
 
 # Test 2
 p0 = c(6, 5)
 p = testReflection(p0, x, y)
-# Ambiguity: stopifnot(all(p == c(0,5)))
+stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
 
 # Test 3
 p0 = c(8, 3)
 p = testReflection(p0, x, y)
-# Ambiguity: stopifnot(all(p == c(-2,3)))
+stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
 
 # Test 4
 p0 = c(3, 8)
 p = testReflection(p0, x, y)
-# Ambiguity: stopifnot(p == c(3, 8))
+stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
 
 # Test 5
 p0 = c(2, 2)
 p = testReflection(p0, x, y)
-# Ambiguity: stopifnot(all(p == c(4.43, 2.09)))
+stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
 
 
 ###### Slightly Perturbed Horizontal Reflection ######
@@ -464,27 +461,27 @@ abline(v=x, col="green", lty=3)
 # Test 1
 p0 = c(2, 6)
 p = testReflection(p0, x, y)
-# Ambiguity: stopifnot(all(p==c(2,2)))
+stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
 
 # Test 2
 p0 = c(1, 8)
 p = testReflection(p0, x, y)
-# Ambiguity: stopifnot(all(p == c(1,0)))
+stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
 
 # Test 3
 p0 = c(3, 5)
 p = testReflection(p0, x, y)
-# Ambiguity: stopifnot(all(p == c(3,3)))
+stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
 
 # Test 4
 p0 = c(4, 9)
 p = testReflection(p0, x, y)
-# Ambiguity: stopifnot(all(p == c(4,-1)))
+stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
 
 # Test 5
 p0 = c(4, 0)
 p = testReflection(p0, x, y)
-# Ambiguity: stopifnot(all(p == c(4,-1)))
+stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
 
 # Test 6
 p0 = c(0, 4)
@@ -494,7 +491,7 @@ stopifnot(all(p == c(0,4)))
 # Test 7
 p0 = c(6, 2)
 p = testReflection(p0, x, y)
-# Ambiguity: stopifnot(all(p == c(4,-1)))
+stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
 
 ##### Test: Shift point along line #####
 
