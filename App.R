@@ -8,3 +8,4 @@ source("Graphic.Arrows.R");
 
 ### Tests
 source("Graphic.Arrows.Tests.R")
+source("Graphic.Helper.Tests.R")

@@ -45,96 +45,120 @@ compute_slope = function(x, y) {
 
 ### Plot:
 lines.list = function(x, y, lwd=NULL, ...) {
-	sapply(x, function(lst) {
-		lwd = if(is.null(lwd)) {
-			if(is.null(lst$lwd)) 1 else lst$lwd;
-		} else lwd;
-		lines(lst$x, lst$y, lwd=lwd, ...);
-	});
+  sapply(x, function(lst) {
+    lwd = if(is.null(lwd)) {
+      if(is.null(lst$lwd)) 1 else lst$lwd;
+    } else lwd;
+    lines(lst$x, lst$y, lwd=lwd, ...);
+  });
 }
 
 ### Reflect Point across line
 # p = c(x, y) # the point to reflect;
 reflect = function(x, y, p, slope=NULL) {
-	if(is.null(slope)) {
-		if(length(x) < 2 || length(y) < 2)
-			stop("The base-line requires 2 points!");
-		# TODO: handle if more than 2 points!
-		slope = compute_slope(x,y) # (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
-	}
+  if(is.null(slope)) {
+    if(length(x) < 2 || length(y) < 2)
+      stop("The base-line requires 2 points!");
+    # TODO: handle if more than 2 points!
+    slope = compute_slope(x,y) # (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
+  }
   
-	if(slope == 0) {
-		# Horizontal Line
-	  return(c(p[1], 2*y[1]-p[2]))
-	} else if(x[[1]] == x[[2]]) {
-		# Vertical Line
-	  return(c(2*x[1]-p[1], p[2])) # De ce?
-	  # TODO: distanta de la punct la dreapta + punctul initial ?
-	}
+  if(slope == 0) {
+    # Horizontal Line
+    return(c(p[1], 2*y[1]-p[2]))
+  } else if(x[[1]] == x[[2]]) {
+    # Vertical Line
+    return(c(2*x[1]-p[1], p[2])) # De ce?
+    # TODO: distanta de la punct la dreapta + punctul initial ?
+  }
   
-	sl.orto = - 1 / slope;
-	# intersection point:
-	div = slope - sl.orto; # div always > 0!
-	x.int = (x[1]*slope - p[1]*sl.orto - y[1] + p[2]) / div;
-	y.int = (x.int - p[1])*sl.orto + p[2];
-	print(c(x.int, y.int))
-	# Reflected point:
-	x.rfl = 2*x.int - p[1];
-	y.rfl = 2*y.int - p[2];
-	return(c(x.rfl, y.rfl));
+  sl.orto = - 1 / slope;
+  # intersection point:
+  div = slope - sl.orto; # div always > 0!
+  x.int = (x[1]*slope - p[1]*sl.orto - y[1] + p[2]) / div;
+  y.int = (x.int - p[1])*sl.orto + p[2];
+  print(c(x.int, y.int))
+  # Reflected point:
+  x.rfl = 2*x.int - p[1];
+  y.rfl = 2*y.int - p[2];
+  return(c(x.rfl, y.rfl));
 }
 
-### Shift line
+### Shift Line
 # d = distance to shift (translate);
-shift = function(x, y, d=2, slope=NULL) {
-	if(is.null(slope)) {
-		if(length(x) < 2 || length(y) < 2)
-			stop("The base-line requires 2 points!");
-		# TODO: handle if more than 2 points!
-		slope = compute_slope(x,y) # (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
-	} else {
-		if(missing(y)) {
-			# both coordinates encoded using parameter x;
-			y = x[2]; x = x[1];
-		}
-	}
-	sl.orto = - 1 / slope;
-	sl2 = (sl.orto^2 + 1);
-	delta = d / sl2;
-	# shift Start- & End-points:
-	shift.f = function(x, y) {
-		x.sh = c(x + delta, x - delta);
-		y.sh = (x.sh - x)*sl.orto + y;
-		cbind(x.sh, y.sh);
-	}
-	rez = lapply(seq(length(x)), function(id) shift.f(x[id], y[id]))
-	rez = do.call(rbind, rez);
-	colnames(rez) = c("x", "y");
-	return(rez);
+shiftLine = function(x, y, d=2, slope=NULL) {
+  if(is.null(slope)) {
+    if(length(x) < 2 || length(y) < 2)
+      stop("The base-line requires 2 points!");
+    # TODO: handle if more than 2 points!
+    slope = compute_slope(x,y) # (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
+  } else {
+    if(missing(y)) {
+      # both coordinates encoded using parameter x;
+      y = x[2]; x = x[1];
+    }
+  }
+  ### Vertical Line
+  if(x[1] == x[2]) {
+    if(length(d) == 1) {
+      r = data.frame(x = x + d, y = y);
+    } else {
+      r = lapply(seq(along=d), function(id) {
+        data.frame(x = x + d[id], y = y, id=id);
+      })
+      r = do.call(rbind, r);
+    }
+    return(r)
+  }
+  ### Horizontal Line
+  if(y[1] == y[2]) {
+    if(length(d) == 1) {
+      r = data.frame(x = x, y = y + d);
+    } else {
+      r = lapply(seq(along=d), function(id) {
+        data.frame(x = x, y = y + d[id], id=id);
+      })
+      r = do.call(rbind, r);
+    }
+    return(r)
+  }
+  sl.orto = - 1 / slope;
+  sl2 = (sl.orto^2 + 1);
+  delta = d / sl2;
+  # shift Start- & End-points:
+  shift.f = function(x, y, id) {
+    delta = d[id] / sl2;
+    x.sh  = x + delta;
+    y.sh  = (x.sh - x)*sl.orto + y;
+    data.frame(x=x.sh, y=y.sh, id=id);
+  }
+  rez = lapply(seq(length(d)), function(id) shift.f(x, y, id))
+  rez = data.frame(do.call(rbind, rez));
+  # colnames(rez) = c("x", "y");
+  return(rez);
 }
 
 # shift point p along line defined by (x, y);
 # d = distance;
 shiftH = function(p, x, y, d=1, slope=NULL) {
-	if(is.null(slope)) {
-		if(length(x) < 2 || length(y) < 2)
-			stop("The base-line requires 2 points!");
-		# TODO: handle if more than 2 points!
-		slope = compute_slope(x,y) # (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
-	}
-	if(length(p) < 2) stop("Point needs both x & y coordinates!");
-	if(x[1] == x[2]) {
-	  r = cbind(x = x, y = y + d)
-	  return(r)
-	}
+  if(is.null(slope)) {
+    if(length(x) < 2 || length(y) < 2)
+      stop("The base-line requires 2 points!");
+    # TODO: handle if more than 2 points!
+    slope = compute_slope(x,y) # (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
+  }
+  if(length(p) < 2) stop("Point needs both x & y coordinates!");
+  if(x[1] == x[2]) {
+    r = cbind(x = p[1], y = p[2] + d);
+    return(r)
+  }
   slope.sqrt = 1 / sqrt(slope^2 + 1);
-	dx = d * slope.sqrt;
-	dy = dx * slope;
-	xsh = p[[1]] + dx;
-	ysh = p[[2]] + dy;
-	return(cbind(x=xsh, y=ysh));
+  dx = d * slope.sqrt;
+  dy = dx * slope;
+  xsh = p[[1]] + dx;
+  ysh = p[[2]] + dy;
+  return(cbind(x=xsh, y=ysh));
 }
 
 
 #######################
-
