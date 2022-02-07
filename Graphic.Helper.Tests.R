@@ -121,6 +121,14 @@ testShiftLine = function(x, y, d=1, color = "orange") {
   sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col=color))
 }
 
+testRoundValues = function(x, y, p){
+  div = (x[2]-x[1])**2 + (y[2]-y[1])**2
+  value = p*div
+  value = round(value/div, 6)
+  return(value)
+  # paste("c(", paste(value, "/", div, sep="", collapse=", "), ")", 6) == 0)
+}
+
 ##### Test: Lines #####
 
 ### Test Different lines on x-axis where x is between 0 and 10
@@ -277,7 +285,7 @@ stopifnot(round(p - c(80/41, - 18/41), 12) == 0)
 # Test 4
 p0 = c(3.75, 0.3)
 p = testReflection(p0, x, y)
-# Ambiguity: stopifnot(p == c(0, 0))
+stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
 
 # Line Start = (0, 1), End = (0, -2)
 plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
@@ -393,25 +401,10 @@ p0 = c(3, 8)
 p = testReflection(p0, x, y)
 stopifnot(round(p-c(0.398230088496, 5.026548672566), 12) == 0)
 
-# s = (x[2] - x[1])**2 + (y[2] - y[1])**2
-
-# s
-# p*113
-# 45/113
-# 568/113
-
-# div = ...;
-# p = p*div;
-# paste(p, "/", div, sep="", collapse=", ")
-# paste("c(", paste(p, "/", div, sep="", collapse=", "), ")")
-# testRoundReflection = function(p, pt) {
-# (x2-x1)^2 + (y2-y1)^2
-# div = (x2-x1)^2 + (y2-y1)^2
-# p = round(p*div, 6)
-
 # Test 3
 p0 = c(6, 7)
 p = testReflection(p0, x, y)
+stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
 # Ambiguity: p has float values stopifnot(all(p == c(0.133,7.009))) ??
 
 # Test 4
@@ -707,7 +700,7 @@ p = testShiftPoint(p0, x, y, d = -1)
 
 ##### Test: Shift Line #####
 
-###### TODO: Horizontal line ######
+###### Horizontal line ######
 
 # Line Start = (0, 4), End = (5, 4)
 plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
@@ -772,3 +765,4 @@ lines(x, y, lwd=2, col="red")
 
 # Test 1
 testShiftLine(x, y)
+

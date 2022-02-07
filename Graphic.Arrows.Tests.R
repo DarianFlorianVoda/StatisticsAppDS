@@ -18,15 +18,6 @@
 
 ### Tests & Examples
 
-#####################
-### Test Helper Functions
-
-### Example 1:
-
-# Base-Line
-# TODO: various origins, e.g.(x0=0, y0=0) vs non-zero;
-# Note: x = (x0, x1); y = (y0, y1);
-
 ### Arrows:
 
 ### Ex 1:
