@@ -32,10 +32,10 @@ x = c(0,10); y = c(1, 5);
 lines(x, y, lwd=2, col="red")
 
 ### Shift point along line:
-p = shiftH(c(0,1), x, y, d=1)
+p = shiftPoint(c(0,1), x, y, d=1)
 points(p, col="green")
 # only as example:
-p = shiftH(c(0,2), x, y, d=seq(1, 4, by=0.5))
+p = shiftPoint(c(0,2), x, y, d=seq(1, 4, by=0.5))
 points(p, col="blue")
 
 
@@ -108,7 +108,7 @@ testReflection = function(p0, x, y) {
 }
 
 testShiftPoint = function(p0, x, y, d=1, color="green") {
-  p = shiftH(p0, x, y, d)
+  p = shiftPoint(p0, x, y, d)
   points(p0[1], p0[2])
   points(p, col=color)
 }
@@ -568,31 +568,31 @@ lines(x, y, lwd=2, col="red")
 
 # Test 1 - origin of line
 p0 = c(3, 8)
-p = shiftH(p0, x, y, d=1)
+p = shiftPoint(p0, x, y, d=1)
 points(p0[1], p0[2])
 points(p, col="green")
 
 # Test 2 - over the line
 p0 = c(2, 2)
-p = shiftH(p0, x, y, d=seq(1, 4, by=0.5))
+p = shiftPoint(p0, x, y, d=seq(1, 4, by=0.5))
 points(p0[1], p0[2])
 points(p, col="blue")
 
 # Test 3 - under the line
 p0 = c(4, 2)
-p = shiftH(p0, x, y, d=1)
+p = shiftPoint(p0, x, y, d=1)
 points(p0[1], p0[2])
 points(p, col="green")
 
 # Test 4 - over the line
 p0 = c(0, 2)
-p = shiftH(p0, x, y, d=seq(1,4, by=0.5))
+p = shiftPoint(p0, x, y, d=seq(1,4, by=0.5))
 points(p0[1], p0[2])
 points(p, col="blue")
 
 # Test 5 - shift behind
 p0 = c(3, 2)
-p = shiftH(p0, x, y, d=-1)
+p = shiftPoint(p0, x, y, d=-1)
 points(p0[1], p0[2])
 points(p, col="green")
 

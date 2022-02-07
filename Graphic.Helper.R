@@ -140,7 +140,7 @@ shiftLine = function(x, y, d=2, slope=NULL) {
 
 # shift point p along line defined by (x, y);
 # d = distance;
-shiftH = function(p, x, y, d=1, slope=NULL) {
+shiftpoint = function(p, x, y, d=1, slope=NULL) {
   if(is.null(slope)) {
     if(length(x) < 2 || length(y) < 2)
       stop("The base-line requires 2 points!");

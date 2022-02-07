@@ -38,15 +38,15 @@ arrowDH = function(x, y, d=0.2, lwd=1, h.lwd=lwd, col="red", asD=FALSE) {
 	### Head
 	# Shift point along line:
 	d.head = -1;
-	p = shiftH(c(x[2], y[2]), x, y, d = d.head)
+	p = shiftPoint(c(x[2], y[2]), x, y, d = d.head)
 	pV = shiftLine(p, slope=slope);
 	lst = c(lst, xylist(
 		x = c(pV[1,1], x[2], pV[2,1]),
 		y = c(pV[1,2], y[2], pV[2,2]), h.lwd) );
 	# Double Arrow
-	p = shiftH(c(x[2], y[2]), x, y, d = d.head - d);
+	p = shiftPoint(c(x[2], y[2]), x, y, d = d.head - d);
 	pV = shiftLine(p, slope=slope);
-	pVV = shiftH(c(x[2], y[2]), x, y, d = 0 - d);
+	pVV = shiftPoint(c(x[2], y[2]), x, y, d = 0 - d);
 	lst = c(lst, xylist(
 		x = c(pV[1,1], pVV[1,1], pV[2,1]),
 		y = c(pV[1,2], pVV[1,2], pV[2,2]), h.lwd) );
@@ -59,7 +59,7 @@ arrowInvH = function(x, y, lwd=1, h.lwd=lwd, col="red") {
 	lines(x, y, lwd=lwd, col=col);
 	### Head
 	# Shift point along line:
-	p = shiftH(c(x[2], y[2]), slope=slope, d = 1)
+	p = shiftPoint(c(x[2], y[2]), slope=slope, d = 1)
 	pV = shiftLine(p, slope=slope, d=1);
 	lines(c(pV[1,1], x[2], pV[2,1]),
 		c(pV[1,2], y[2], pV[2,2]), lwd=h.lwd, col=col)
