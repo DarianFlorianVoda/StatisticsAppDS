@@ -15,75 +15,6 @@
 #
 # GitHub: https://github.com/DarianFlorianVoda/Diagram-Generator
 
-
-### Tests & Examples
-
-#####################
-### Test Helper Functions
-
-### Example 1:
-
-# Base-Line
-# TODO: various origins, e.g.(x0=0, y0=0) vs non-zero;
-# Note: x = (x0, x1); y = (y0, y1);
-
-plot.base()
-x = c(0,10); y = c(1, 5);
-lines(x, y, lwd=2, col="red")
-
-### Shift point along line:
-p = shiftPoint(c(0,1), x, y, d=1)
-points(p, col="green")
-# only as example:
-p = shiftPoint(c(0,2), x, y, d=seq(1, 4, by=0.5))
-points(p, col="blue")
-
-
-### Reflected point:
-# points(x, y)!
-p0 = c(1, 2)
-p = reflect(x, y, p0)
-points(p0[1], p0[2]); points(p[1], p[2]);
-lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
-
-#
-p0 = c(4, 2)
-p = reflect(x, y, p0)
-points(p0[1], p0[2]); points(p[1], p[2]);
-lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
-
-#
-p0 = c(5, 1)
-p = reflect(x, y, p0)
-points(p0[1], p0[2]); points(p[1], p[2]);
-lines(c(p0[1], p[1]), c(p0[2], p[2]), col="green")
-
-### Shift Line
-l = shiftLine(x, y, d=2)
-len = nrow(l) / 2;
-sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col="orange"))
-
-### Derivation:
-
-### Reflection:
-# - slope.orthogonal = - 1 / slope;
-# - intersection between base-line and reflexion line:
-# y.int = (x.int - x[1])*slope + y[1] # Initial Line
-# y.int = - (x.int - p[1])/slope + p[2]; # p[1] = x; p[2] = y;
-# =>
-# x.int = (x[1]*slope + p[1]/slope - y[1] + p[2]) / (slope + 1/slope);
-# y.int = - (x.int - p[1])/slope + p[2];
-
-
-### Shift:
-x = c(0,10); y = c(1, 5);
-slope = compute_slope(x, y);
-# y.sh = - (x.sh - x[1]) / slope + y[1];
-# (x.sh - x[1])^2 + (y.sh - y[1])^2 = d^2
-# =>
-#sl.o = - 1 / slope;
-#(sl.o^2 + 1)*x.sh^2 - 2*x1*(sl.o^2 + 1)*x.sh + x1^2*(sl.o^2 + 1) - d^2 # = 0
-
 # TODO:
 # - verification of formulas; - quite completed
 # - test cases for various types of base-lines and points;
@@ -114,96 +45,17 @@ testShiftPoint = function(p0, x, y, d=1, color="green") {
 }
 
 
-# TODO
 testShiftLine = function(x, y, d=1, color = "orange") {
   l = shiftLine(x, y, d)
   len = nrow(l) / 2;
   sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col=color))
 }
 
-testRoundValues = function(x, y, p){
+testRoundValues = function(x, y, p, decimal=6){
   div = (x[2]-x[1])**2 + (y[2]-y[1])**2
   value = p*div
-  value = round(value/div, 6)
-  return(value)
-  # paste("c(", paste(value, "/", div, sep="", collapse=", "), ")", 6) == 0)
+  paste("c(", paste(value, "/", div, sep="", collapse=", "), "),", decimal)
 }
-
-##### Test: Lines #####
-
-### Test Different lines on x-axis where x is between 0 and 10
-### Point P is the upper limit of the line with x2 = 10; y2 = 5
-P = c(10,5)
-
-plot.base()
-x = c(0, P[1]); y = c(0, P[2]);
-lines(x, y, lwd=2, col="red") 
-
-x = c(1, P[1]); y = c(0, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(2, P[1]); y = c(0, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(3, P[1]); y = c(0, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(4, P[1]); y = c(0, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(5, P[1]); y = c(0, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(6, P[1]); y = c(0, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(7, P[1]); y = c(0, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(8, P[1]); y = c(0, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(9, P[1]); y = c(0, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(10, P[1]); y = c(0, P[2]);
-lines(x, y, lwd=2, col="red")
-
-
-### Test Different lines on x-axis where y is between 0 and 10
-plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(2))
-x = c(0, 10); y = c(0, 5);
-lines(x, y, lwd=2, col="red")
-
-x = c(0, P[1]); y = c(1, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(0, P[1]); y = c(2, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(0, P[1]); y = c(3, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(0, P[1]); y = c(4, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(0, P[1]); y = c(5, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(0, P[1]); y = c(6, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(0, P[1]); y = c(7, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(0, P[1]); y = c(8, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(0, P[1]); y = c(9, P[2]);
-lines(x, y, lwd=2, col="red")
-
-x = c(0, P[1]); y = c(10, P[2]);
-lines(x, y, lwd=2, col="red")
 
 ##### Test: Reflections #####
 
@@ -397,17 +249,20 @@ stopifnot(round(p - c(0, 7) - c(15,1)/113, 12) == 0)
 # Test 2
 p0 = c(3, 8)
 p = testReflection(p0, x, y)
-stopifnot(round(p-c(0.398230088496, 5.026548672566), 12) == 0)
+testRoundValues(x, y, p)
+stopifnot(round(p-c( 45/113, 568/113 ), 6) == 0)
 
 # Test 3
 p0 = c(6, 7)
 p = testReflection(p0, x, y)
-stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
+testRoundValues(x, y, p)
+stopifnot(round(p-c( 202/113, 247/113 ), 6) == 0)
 
 # Test 4
 p0 = c(4, 2)
 p = testReflection(p0, x, y)
-stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
+testRoundValues(x, y, p)
+stopifnot(round(p-c( 732/113, 546/113 ), 6) == 0)
 
 # Test 5
 p0 = c(8, 1)
@@ -426,27 +281,32 @@ abline(h=y, col="green", lty=3)
 # Test 1
 p0 = c(4, 7)
 p = testReflection(p0, x, y)
-stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
+testRoundValues(x, y, p)
+stopifnot(round(p-c( 101.75/49.0625, 340.0625/49.0625 ), 6) == 0)
 
 # Test 2
 p0 = c(6, 5)
 p = testReflection(p0, x, y)
-stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
+testRoundValues(x, y, p)
+stopifnot(round(p-c( 10.875/49.0625, 235.1875/49.0625 ), 6) == 0)
 
 # Test 3
 p0 = c(8, 3)
 p = testReflection(p0, x, y)
-stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
+testRoundValues(x, y, p)
+stopifnot(round(p-c( -80/49.0625, 130.3125/49.0625 ), 6) == 0)
 
 # Test 4
 p0 = c(3, 8)
 p = testReflection(p0, x, y)
-stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
+testRoundValues(x, y, p)
+stopifnot(round(p-c( 147.1875/49.0625, 392.5/49.0625 ), 6) == 0)
 
 # Test 5
 p0 = c(2, 2)
 p = testReflection(p0, x, y)
-stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
+testRoundValues(x, y, p)
+stopifnot(round(p-c( 217.125/49.0625, 102.375/49.0625 ), 6) == 0)
 
 
 ###### Slightly Perturbed Horizontal Reflection ######
@@ -461,27 +321,32 @@ abline(v=x, col="green", lty=3)
 # Test 1
 p0 = c(2, 6)
 p = testReflection(p0, x, y)
-stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
+testRoundValues(x, y, p)
+stopifnot(round(p-c( 59.5/25.25, 61.4999999999999/25.25 ), 6) == 0)
 
 # Test 2
 p0 = c(1, 8)
 p = testReflection(p0, x, y)
-stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
+testRoundValues(x, y, p)
+stopifnot(round(p-c( 44.75/25.25, 6.99999999999992/25.25 ), 6) == 0)
 
 # Test 3
 p0 = c(3, 5)
 p = testReflection(p0, x, y)
-stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
+testRoundValues(x, y, p)
+stopifnot(round(p-c( 79.25/25.25, 91.25/25.25 ), 6) == 0)
 
 # Test 4
 p0 = c(4, 9)
 p = testReflection(p0, x, y)
-stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
+testRoundValues(x, y, p)
+stopifnot(round(p-c( 124/25.25, -2.7500000000002/25.25 ), 6) == 0)
 
 # Test 5
 p0 = c(4, 0)
 p = testReflection(p0, x, y)
-stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
+testRoundValues(x, y, p)
+stopifnot(round(p-c( 79/25.25, 220/25.25 ), 6) == 0)
 
 # Test 6
 p0 = c(0, 4)
@@ -491,7 +356,10 @@ stopifnot(all(p == c(0,4)))
 # Test 7
 p0 = c(6, 2)
 p = testReflection(p0, x, y)
-stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
+testRoundValues(x, y, p)
+stopifnot(round(p-c( 138.5/25.25, 180.5/25.25 ), 6) == 0)
+
+cat("Finshed Section: Reflections \n")
 
 ##### Test: Shift point along line #####
 
@@ -694,6 +562,7 @@ p = testShiftPoint(p0, x, y, d=seq(1,4, by=0.5), color = "blue")
 p0 = c(4, 4.25)
 p = testShiftPoint(p0, x, y, d = -1)
 
+cat("Finshed Section: Shift point along line \n")
 
 ##### Test: Shift Line #####
 
@@ -763,3 +632,6 @@ lines(x, y, lwd=2, col="red")
 # Test 1
 testShiftLine(x, y)
 
+
+
+cat("Finshed Section: Shift Line \n")
