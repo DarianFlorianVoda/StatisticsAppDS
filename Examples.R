@@ -98,3 +98,4 @@ plot.base()
 lineBanded(c(0,5), c(1, 8), lwd=2.5)
 lineBanded(c(1,7), c(0, 5), lwd=2.5)
 lineBanded(c(0,6), c(6, 0), lwd=2.5, col="green")
+

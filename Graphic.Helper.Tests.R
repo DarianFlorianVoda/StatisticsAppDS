@@ -322,13 +322,13 @@ abline(v=x, col="green", lty=3)
 p0 = c(2, 6)
 p = testReflection(p0, x, y)
 testRoundValues(x, y, p)
-stopifnot(round(p-c( 59.5/25.25, 61.4999999999999/25.25 ), 6) == 0)
+stopifnot(round(p-c( 59.5/25.25, 61.5 /25.25 ), 6) == 0)
 
 # Test 2
 p0 = c(1, 8)
 p = testReflection(p0, x, y)
 testRoundValues(x, y, p)
-stopifnot(round(p-c( 44.75/25.25, 6.99999999999992/25.25 ), 6) == 0)
+stopifnot(round(p-c( 44.75/25.25, 7/25.25 ), 6) == 0)
 
 # Test 3
 p0 = c(3, 5)
@@ -340,7 +340,7 @@ stopifnot(round(p-c( 79.25/25.25, 91.25/25.25 ), 6) == 0)
 p0 = c(4, 9)
 p = testReflection(p0, x, y)
 testRoundValues(x, y, p)
-stopifnot(round(p-c( 124/25.25, -2.7500000000002/25.25 ), 6) == 0)
+stopifnot(round(p-c( 124/25.25, -2.75/25.25 ), 6) == 0)
 
 # Test 5
 p0 = c(4, 0)
