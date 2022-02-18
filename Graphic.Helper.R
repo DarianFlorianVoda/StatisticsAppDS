@@ -52,6 +52,28 @@ lines.list = function(x, y, lwd=NULL, ...) {
     lines(lst$x, lst$y, lwd=lwd, ...);
   });
 }
+### list(Tail=list(...), Head=list(...))
+lines.arrow = function(x, lwd=NULL, col, ...) {
+  lines.l = function(x, lwd, col, ...) {
+    # do NOT overwrite user-value;
+    if(is.null(lwd)) {
+      lwd = if(is.null(x$lwd)) 1 else x$lwd;
+    }
+    x$lwd = NULL;
+    if(length(x) == 1 && inherits(x[[1]], "data.frame")) {
+      x = split(x[[1]][, c("x", "y")], x[[1]]$id);
+    }
+    lapply(x, function(lst) lines(lst$x, lst$y, lwd=lwd, ...));
+  }
+  ### ArrowTail
+  arrow = x[[1]];
+  lines.l(arrow, lwd=lwd)
+  ### ArrowHead
+  ahead = x[[2]];
+  lines.l(ahead, lwd=lwd);
+  #
+  invisible();
+}
 
 ### Reflect Point across line
 # p = c(x, y) # the point to reflect;
@@ -86,7 +108,7 @@ reflect = function(x, y, p, slope=NULL) {
 
 ### Shift Line
 # d = distance to shift (translate);
-shiftLine = function(x, y, d=2, slope=NULL) {
+shiftLine = function(x, y, d=1, slope=NULL) {
   if(is.null(slope)) {
     if(length(x) < 2 || length(y) < 2)
       stop("The base-line requires 2 points!");
@@ -99,7 +121,8 @@ shiftLine = function(x, y, d=2, slope=NULL) {
     }
   }
   ### Vertical Line
-  if(x[1] == x[2]) {
+  if(abs(slope) == Inf) {
+    # if((length(x) >= 2 && x[1] == x[2]) || (length(x) == 1 && abs(slope) == Inf)) {
     if(length(d) == 1) {
       r = data.frame(x = x + d, y = y);
     } else {
@@ -111,7 +134,8 @@ shiftLine = function(x, y, d=2, slope=NULL) {
     return(r)
   }
   ### Horizontal Line
-  if(y[1] == y[2]) {
+  if(slope == 0) {
+    # if(y[1] == y[2]) {
     if(length(d) == 1) {
       r = data.frame(x = x, y = y + d);
     } else {
@@ -148,7 +172,8 @@ shiftPoint = function(p, x, y, d=1, slope=NULL) {
     slope = compute_slope(x,y) # (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
   }
   if(length(p) < 2) stop("Point needs both x & y coordinates!");
-  if(x[1] == x[2]) {
+  # if(x[1] == x[2]) {
+  if(slope == 0) {
     r = cbind(x = p[1], y = p[2] + d);
     return(r)
   }

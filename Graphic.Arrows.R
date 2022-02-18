@@ -24,36 +24,37 @@
 
 ### Arrows:
 
+
+### Simple ArrowHead
+# (x, y) = tip of the ArrowHead;
+arrHS = function(x, y, slope, d=-1, dV=c(d, -d)) {
+  p = if(d == 0) matrix(c(x, y), nrow=1, ncol=2)
+  else shiftPoint(c(x, y), slope=slope, d = d);
+  pV = shiftLine(p, slope=slope, d = dV);
+  arrHead = list(
+    x = c(pV[1,1], x, pV[2,1]),
+    y = c(pV[1,2], y, pV[2,2]));
+  return(arrHead);
+}
 # Double Lined Head
-arrowDH = function(x, y, d=0.2, lwd=1, h.lwd=lwd, col="red", asD=FALSE) {
+arrowDH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", asD=FALSE) {
   slope = compute_slope(x, y);
   xylist = function(x, y) list(list(x=x, y=y));
-  ### Arrow
+  ### ArrowTail
   if(asD) {
-    l = shiftLine(x, y, d = c(d, -d), slope=slope);
-    # TODO:
-    arrow = xylist(l[c(1,3), 1], l[c(1,3), 2], lwd);
-    arrow = c(arrow, xylist(l[c(2,4), 1], l[c(2,4), 2]), lwd=lwd);
+    arrow = shiftLine(x, y, d = c(d, -d), slope=slope);
+    arrow = list(arrow, lwd=lwd);
   } else {
     arrow = xylist(x, y);
     arrow = c(arrow, lwd = lwd);
   }
   ### Head
   # Shift point along line:
-  d.head = -1;
-  p = shiftPoint(c(x[2], y[2]), x, y, d = d.head);
-  print(p)
-  pV = shiftLine(p, slope=slope); print(pV)
-  ahead = xylist(
-    x = c(pV[1,1], x[2], pV[2,1]),
-    y = c(pV[1,2], y[2], pV[2,2]));
+  ahead = list(arrHS(x[2], y[2], slope=slope, d = d.head));
   # Double Arrow
-  p = shiftPoint(c(x[2], y[2]), x, y, d = d.head - d);
-  pV = shiftLine(p, slope=slope);
-  pVV = shiftPoint(c(x[2], y[2]), x, y, d = 0 - d);
-  ahead = c(ahead, xylist(
-    x = c(pV[1,1], pVV[1,1], pV[2,1]),
-    y = c(pV[1,2], pVV[1,2], pV[2,2])), lwd = h.lwd );
+  p2 = shiftPoint(c(x[2], y[2]), slope=slope, d = - d);
+  ahead2 = list(arrHS(p2[1], p2[2], slope=slope, d = d.head));
+  ahead  = c(ahead, ahead2, lwd = h.lwd);
   ### Full Arrow
   lst = list(Arrow=arrow, Head=ahead);
   class(lst) = c("arrow", "list");
@@ -62,6 +63,9 @@ arrowDH = function(x, y, d=0.2, lwd=1, h.lwd=lwd, col="red", asD=FALSE) {
   lines(lst, col=col);
   invisible(lst);
 }
+
+### Other:
+# TODO: fix & clean-up code;
 arrowInvH = function(x, y, lwd=1, h.lwd=lwd, col="red") {
   slope = compute_slope(x, y);
   lines(x, y, lwd=lwd, col=col);
@@ -119,4 +123,3 @@ plot.base = function(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2)) {
   }
   invisible(par.old);
 }
-
