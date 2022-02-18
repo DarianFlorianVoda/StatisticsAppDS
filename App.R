@@ -5,6 +5,7 @@ setwd(path)
 
 source("Graphic.Helper.R");
 source("Graphic.Arrows.R");
+source("Graphic.Arrows.Heads.R");
 
 #### Tests ####
 source("Graphic.Arrows.Tests.R")

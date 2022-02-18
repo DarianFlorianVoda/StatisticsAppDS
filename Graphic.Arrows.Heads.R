@@ -1,0 +1,69 @@
+###################
+#
+# Thesis
+#
+# Title: Diagram Generator
+#
+# Candidate: Darian Voda
+# Faculty of Mathematics and Informatics, UVT
+#
+# Coordinator:
+#   Prof. Daniela Zaharie
+#   Dr. med. Leonard Mada (Syonic SRL)
+#
+# in collaboration with Syonic SRL
+#
+# GitHub: https://github.com/DarianFlorianVoda/Diagram-Generator
+
+
+### Functions to Generate ArrowHeads
+
+#####################
+
+### Simple ArrowHead
+# (x, y) = tip of the ArrowHead;
+arrHS = function(x, y, slope, d=-1, dV=c(d, -d)) {
+  p = if(d == 0) matrix(c(x, y), nrow=1, ncol=2)
+  else shiftPoint(c(x, y), slope=slope, d = d);
+  pV = shiftLine(p, slope=slope, d = dV);
+  arrHead = list(
+    x = c(pV[1,1], x, pV[2,1]),
+    y = c(pV[1,2], y, pV[2,2]));
+  return(arrHead);
+}
+
+# Diamond ArrowHead: ---<>
+arrHD = function(x, y, slope, d=-1, dV=c(d, -d)) {
+  if(length(d) > 2) stop("Only 2 values are supported for d!");
+  d1 = d[[1]];
+  d2 = if(length(d) == 1) 2*d else sum(d);
+  # TODO: more than 2 values for dV;
+  pV = arrHS(x, y, slope=slope, d=d1, dV=dV);
+  p2 = shiftPoint(c(x, y), slope=slope, d = d2);
+  arrHead = list(
+    x = c(pV$x[1], p2[1,1], pV$x[3], x, pV$x[1]),
+    y = c(pV$y[1], p2[1,2], pV$y[3], y, pV$y[1]));
+  return(arrHead);
+}
+
+# Double Lined ArrowHead: --->>
+# - a high-level helper function;
+arrH2 = function(x, y, slope, d=-1, dV=c(d, -d)) {
+  # Shift point along line:
+  arrHead = list(arrHS(x, y, slope=slope, d = dV));
+  # Double Arrow
+  p2 = shiftPoint(c(x, y), slope=slope, d = - d);
+  arrHead2 = list(arrHS(p2[1], p2[2], slope=slope, d = dV));
+  arrHead  = c(arrHead, arrHead2);
+  return(arrHead);
+}
+
+# T ArrowHead: ---|
+arrHT = function(x, y, slope, d=-1, dV=c(d, -d)) {
+  p  = cbind(x, y);
+  pV = shiftLine(p, slope=slope, d = dV);
+  arrHead = list(
+    x = c(pV[1,1], pV[2,1]),
+    y = c(pV[1,2], pV[2,2]));
+  return(arrHead);
+}
