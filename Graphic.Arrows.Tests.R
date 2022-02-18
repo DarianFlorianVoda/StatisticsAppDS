@@ -20,12 +20,7 @@
 
 #### Simple Arrows ####
 
-### Test 1:
-plot.base()
-x = c(0,10); y = c(1, 5);
-arrowDH(x, y, lwd=2, asD=TRUE);
-
-### Test 2:
+#### Invisible Head ####:
 plot.base()
 x = c(0, 6); y = c(1, 6);
 arrowInvH(x, y, lwd=2);
@@ -50,8 +45,4 @@ plot.base()
 x = c(0, 6); y = c(1, 6);
 arrowTH(x, y, d=2, lwd=2);
 
-
-### Test:
-plot.base()
-arrowDH(x, y*2 - 2, d = 0.3, lwd=2, col="blue", asD=TRUE)
 
