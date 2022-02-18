@@ -173,7 +173,7 @@ shiftPoint = function(p, x, y, d=1, slope=NULL) {
   }
   if(length(p) < 2) stop("Point needs both x & y coordinates!");
   # if(x[1] == x[2]) {
-  if(slope == 0) {
+  if(abs(slope) == Inf) {
     r = cbind(x = p[1], y = p[2] + d);
     return(r)
   }
