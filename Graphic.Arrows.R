@@ -70,6 +70,29 @@ arrowDiamondH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", as
   invisible(lst);
 }
 
+#### Arrow X Head ####
+arrowXH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", asD=FALSE) {
+  slope = compute_slope(x, y);
+  xylist = function(x, y) list(list(x=x, y=y));
+  ### ArrowTail
+  if(asD) {
+    arrow = shiftLine(x, y, d = c(d, -d), slope=slope);
+    arrow = list(arrow, lwd=lwd);
+  } else {
+    arrow = xylist(x, y);
+    arrow = c(arrow, lwd = lwd);
+  }
+  ### Head
+  ahead  = list(arrHX(x[2], y[2], slope=slope, d=d), lwd = h.lwd);
+  ### Full Arrow
+  lst = list(Arrow=arrow, Head=ahead);
+  class(lst) = c("arrow", "list");
+  # Plot lines:
+  print("Finished")
+  lines(lst, col=col);
+  invisible(lst);
+}
+
 #### Arrow Simple Head ####
 arrowSimpleH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", asD=FALSE) {
   slope = compute_slope(x, y);

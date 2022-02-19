@@ -33,7 +33,7 @@ arrowDiamondH(x, y, d= 0.5, lwd=2);
 #### Simple  ArrowHead ####
 plot.base()
 x = c(0, 6); y = c(1, 6);
-arrowSimpleH(x, y, d=1, lwd=2);
+arrowSimpleH(x, y, d=-1, lwd=2);
 
 #### Double lined ArrowHead ####
 plot.base()
@@ -45,4 +45,8 @@ plot.base()
 x = c(0, 6); y = c(1, 6);
 arrowTH(x, y, d=2, lwd=2);
 
+#### X Shape ArrowHead ####
+plot.base()
+x = c(0, 6); y = c(1, 6);
+arrowXH(x, y, d=1, lwd=2)
 

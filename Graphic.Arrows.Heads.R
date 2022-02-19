@@ -46,6 +46,20 @@ arrHD = function(x, y, slope, d=-1, dV=c(d, -d)) {
   return(arrHead);
 }
 
+# X ArrowHead: ---X
+arrHX = function(x, y, slope, d=-1, dV=c(d, -d)) {
+  if(length(d) > 2) stop("Only 2 values are supported for d!");
+  d1 = d[[1]];
+  d2 = if(length(d) == 1) 2*d else sum(d);
+  # TODO: more than 2 values for dV;
+  pV = arrHS(x, y, slope=slope, d=d1, dV=dV);
+  p2 = shiftPoint(c(x, y), slope=slope, d = d2);
+  arrHead = list(
+    x = c(pV$x[1], p2[1,1], pV$x[3], x, pV$x[1]),
+    y = c(pV$y[1], p2[1,2], pV$y[3], y, pV$y[1]));
+  return(arrHead);
+}
+
 # Double Lined ArrowHead: --->>
 # - a high-level helper function;
 arrH2 = function(x, y, slope, d=-1, dV=c(d, -d)) {
@@ -67,3 +81,4 @@ arrHT = function(x, y, slope, d=-1, dV=c(d, -d)) {
     y = c(pV[1,2], pV[2,2]));
   return(arrHead);
 }
+
