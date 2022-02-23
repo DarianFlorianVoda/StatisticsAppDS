@@ -20,7 +20,7 @@
 
 #### Simple Arrows ####
 
-#### Invisible Head ####:
+#### Inverted Head ####:
 plot.base()
 x = c(0, 6); y = c(1, 6);
 arrowInvH(x, y, lwd=2);
