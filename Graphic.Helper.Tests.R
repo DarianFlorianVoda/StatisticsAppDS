@@ -108,6 +108,8 @@ p0 = c(3.5, 4.25)
 p = testReflection(p0, x, y)
 stopifnot(p==c(3.5, 3.75))
 
+cat("Finished Subsection [Reflections]: Horizontal Reflection - part 1\n");
+
 ###### Origin: (0, y) ######
 
 # Tests: (0, 0), (0, 1), (0, 2), (0, -2)
@@ -154,6 +156,8 @@ p0 = c(0, 0)
 p = testReflection(p0, x, y)
 stopifnot(p == c(0, 0))
 
+cat("Finished Subsection [Reflections]: Origin: (0, y) - part 2\n");
+
 ###### Vertical Reflection ######
 
 # Line Start = (3, 1), End = (3, 8)
@@ -192,6 +196,8 @@ stopifnot(all(p == c(3,4)))
 p0 = c(2, 0)
 p = testReflection(p0, x, y)
 stopifnot(all(p == c(4,0)))
+
+cat("Finished Subsection [Reflections]: Vertical Reflection - part 3\n");
 
 ###### Ascending Reflection #######
 
@@ -232,6 +238,8 @@ p0 = c(0, -1)
 p = testReflection(p0, x, y)
 stopifnot(all(p == c(-1,0)))
 
+cat("Finished Subsection [Reflections]: Ascending Reflection - part 4\n");
+
 ###### Descending Reflection ######
 
 # Line Start = (0, 8), End = (8, 1)
@@ -268,6 +276,8 @@ stopifnot(round(p-c( 732/113, 546/113 ), 6) == 0)
 p0 = c(8, 1)
 p = testReflection(p0, x, y)
 stopifnot((all(p == c(8,1))))
+
+cat("Finished Subsection [Reflections]: Descending Reflection - part 5\n");
 
 ###### Slightly Perturbed Vertical Reflection ######
 
@@ -307,6 +317,8 @@ p0 = c(2, 2)
 p = testReflection(p0, x, y)
 testRoundValues(x, y, p)
 stopifnot(round(p-c( 217.125/49.0625, 102.375/49.0625 ), 6) == 0)
+
+cat("Finished Subsection [Reflections]: Slightly Perturbed Vertical Reflection Reflection - part 6\n");
 
 
 ###### Slightly Perturbed Horizontal Reflection ######
@@ -359,6 +371,8 @@ p = testReflection(p0, x, y)
 testRoundValues(x, y, p)
 stopifnot(round(p-c( 138.5/25.25, 180.5/25.25 ), 6) == 0)
 
+cat("Finished Subsection [Reflections]: Slightly Perturbed Horizontal Reflection Reflection - part 7\n");
+
 cat("Finshed Section: Reflections \n")
 
 ##### Test: Shift point along line #####
@@ -390,6 +404,8 @@ testShiftPoint(p0, x, y, d=seq(1,4, by=0.5), color="blue")
 p0 = c(4, 4)
 p = testShiftPoint(p0, x, y, d=-1)
 
+cat("Finished Subsection [Shift point]: Horizontal line - part 1\n");
+
 ###### Origin: (0, y) ######
 
 # Line Start = (0, 0), End = (5, 4)
@@ -417,7 +433,9 @@ p = testShiftPoint(p0, x, y, d=seq(1,4, by=0.5), color="blue")
 p0 = c(4, 2)
 p = testShiftPoint(p0, x, y, d = -1)
 
-###### TODO: Vertical line ######
+cat("Finished Subsection [Shift point]: Origin: (0, y) line - part 2\n");
+
+###### Vertical line ######
 
 # Line Start = (3, 1), End = (3, 8)
 plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
@@ -454,6 +472,8 @@ p = shiftPoint(p0, x, y, d=-1)
 points(p0[1], p0[2])
 points(p, col="green")
 
+cat("Finished Subsection [Shift point]: Vertical line - part 3\n");
+
 ###### Ascending line ######
 
 # Line Start = (0, 1), End = (10, 5)
@@ -480,6 +500,8 @@ p = testShiftPoint(p0, x, y, d=seq(1,4, by=0.5), color = "blue")
 # Test 5 - shift behind
 p0 = c(10, 4)
 p = testShiftPoint(p0, x, y, d = -1)
+
+cat("Finished Subsection [Shift point]: Ascending line - part 4\n");
 
 ###### Descending line ######
 
@@ -508,6 +530,8 @@ p = testShiftPoint(p0, x, y, d=seq(1,4, by=0.5), color = "blue")
 p0 = c(6, 2)
 p = testShiftPoint(p0, x, y, d = -1)
 
+cat("Finished Subsection [Shift point]: Descending line - part 5\n");
+
 ###### Slightly Perturbed Vertical Reflection ######
 
 # Line Start = (3.25, 3), End = (1, 8)
@@ -534,6 +558,8 @@ p = testShiftPoint(p0, x, y, d=seq(1,4, by=0.5), color = "blue")
 # Test 5 - shift behind
 p0 = c(3.5, 2)
 p = testShiftPoint(p0, x, y, d = -1)
+
+cat("Finished Subsection [Shift point]: Slightly Perturbed Vertical line - part 6\n");
 
 ###### Slightly Perturbed Horizontal Reflection ######
 
@@ -562,6 +588,8 @@ p = testShiftPoint(p0, x, y, d=seq(1,4, by=0.5), color = "blue")
 p0 = c(4, 4.25)
 p = testShiftPoint(p0, x, y, d = -1)
 
+cat("Finished Subsection [Shift point]: Slightly Perturbed Horizontal line - part 7\n");
+
 cat("Finshed Section: Shift point along line \n")
 
 ##### Test: Shift Line #####
@@ -576,6 +604,8 @@ lines(x, y, lwd=2, col="red")
 # Test 1
 testShiftLine(x, y)
 
+cat("Finished Subsection [Shift line]: Horizontal line - part 1\n");
+
 ###### Origin: (0, y) ######
 
 # Line Start = (0, 0), End = (5, 4)
@@ -586,6 +616,8 @@ lines(x, y, lwd=2, col="red")
 # Test 1
 testShiftLine(x, y)
 
+cat("Finished Subsection [Shift line]: Origin: (0, y) line - part 2\n");
+
 ###### Vertical line ######
 
 # Line Start = (3, 1), End = (3, 8)
@@ -595,6 +627,8 @@ lines(x, y, lwd=2, col="red")
 
 # Test 1
 testShiftLine(x, y)
+
+cat("Finished Subsection [Shift line]: Vertical line - part 3\n");
 
 ###### Ascending line ######
 plot.base()
@@ -609,8 +643,10 @@ plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
 x = c(0, 8); y = c(8, 1);
 lines(x, y, lwd=2, col="red")
 
-# Test 1
+# Test 2
 testShiftLine(x, y)
+
+cat("Finished Subsection [Shift line]: Ascending line - part 4\n");
 
 ###### Slightly Perturbed Vertical line ######
 
@@ -622,6 +658,8 @@ lines(x, y, lwd=2, col="red")
 # Test 1
 testShiftLine(x, y)
 
+cat("Finished Subsection [Shift line]: Slightly Perturbed Vertical line - part 5\n");
+
 ###### Slightly Perturbed Horizontal line ######
 
 # Line Start = (0, 4), End = (5, 4.5)
@@ -632,6 +670,6 @@ lines(x, y, lwd=2, col="red")
 # Test 1
 testShiftLine(x, y)
 
-
+cat("Finished Subsection [Shift line]: Slightly Perturbed Horizontal line - part 6\n");
 
 cat("Finshed Section: Shift Line \n")
