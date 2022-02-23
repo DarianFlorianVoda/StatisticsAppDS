@@ -139,7 +139,7 @@ stopifnot(round(p - c(80/41, - 18/41), 12) == 0)
 # Test 4
 p0 = c(3.75, 0.3)
 p = testReflection(p0, x, y)
-stopifnot(round(p-testRoundValues(x, y, p), 6) == 0)
+stopifnot(round(p - c( 45.75/41, 147.3/41 ), 6) == 0)
 
 # Line Start = (0, 1), End = (0, -2)
 plot.base(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2))
