@@ -50,18 +50,18 @@ arrHD = function(x, y, slope, d=-1, dV=c(d, -d)) {
 # X ArrowHead: ---X
 arrHX = function(x, y, slope, d=-1, dV=c(d, -d)) {
   if(length(d) > 2) stop("Only 2 values are supported for d!");
-  d1 = d[[1]];
   d2 = if(length(d) == 1) 2*d else sum(d);
   # TODO: more than 2 values for dV;
   pB1 = c(x[1], y[1]);
   pB2 = shiftPoint(c(x[1], y[1]), d=d, slope=slope);
   p1 = shiftLine(pB1, d=dV, slope=slope);
   p2 = shiftLine(pB2, d=dV, slope=slope);
-  midpoint1 = (p1$x[2]+p2$x[1])/2;
-  midpoint2 = (p2$y[2]+p1$y[1])/2;
+  midpointX = (p1$x[2]+p2$x[1])/2;
+  midpointY = (p1$y[2]+p2$y[1])/2;
   arrHead = list(
-    x = c(p1$x[2], p2$x[1], midpoint1, p2$x[1], midpoint1, p1$x[2]),
-    y = c(p2$y[2], p1$y[1], midpoint2, p2$y[2], midpoint2, p1$y[1]));
+    x = c(p1$x[2], p2$x[1], midpointX, p2$x[2], p1$x[1]),
+    y = c(p1$y[2], p2$y[1], midpointY, p2$y[2], p1$y[1]));
+  attr(arrHead, "Mid") = c(midpointX, midpointY)
   return(arrHead);
 }
 

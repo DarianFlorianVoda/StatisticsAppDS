@@ -74,7 +74,13 @@ arrowDiamondH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", as
 arrowXH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", asD=FALSE) {
   slope = compute_slope(x, y);
   xylist = function(x, y) list(list(x=x, y=y));
+  ### Head
+  arrHead = arrHX(x[2], y[2], slope=slope, d=d);
+  ahead  = list(arrHead, lwd = h.lwd);
+  midpoint = attr(arrHead, "Mid")
   ### ArrowTail
+  x[2] = midpoint[1]
+  y[2] = midpoint[2]
   if(asD) {
     arrow = shiftLine(x, y, d = c(d, -d), slope=slope);
     arrow = list(arrow, lwd=lwd);
@@ -82,8 +88,6 @@ arrowXH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", asD=FALS
     arrow = xylist(x, y);
     arrow = c(arrow, lwd = lwd);
   }
-  ### Head
-  ahead  = list(arrHX(x[2], y[2], slope=slope, d=d), lwd = h.lwd);
   ### Full Arrow
   lst = list(Arrow=arrow, Head=ahead);
   class(lst) = c("arrow", "list");
