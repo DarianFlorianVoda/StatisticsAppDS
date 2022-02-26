@@ -37,7 +37,6 @@ arrowTail = function(x, y, d.lines, lwd=1, slope=NULL) {
 #### Double Lined Arrow ####
 arrowDH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=0) {
   slope = compute_slope(x, y);
-  xylist = function(x, y) list(list(x=x, y=y));
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
@@ -55,7 +54,6 @@ arrowDH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=
 #### Arrow Diamond ####
 arrowDiamondH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=0) {
   slope = compute_slope(x, y);
-  xylist = function(x, y) list(list(x=x, y=y));
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
@@ -72,7 +70,6 @@ arrowDiamondH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.
 #### Arrow X ####
 arrowXH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=0) {
   slope = compute_slope(x, y);
-  xylist = function(x, y) list(list(x=x, y=y));
   ### Head
   arrHead = arrHX(x[2], y[2], slope=slope, d=d);
   ahead  = list(arrHead, lwd = h.lwd);
@@ -93,7 +90,6 @@ arrowXH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=
 #### Arrow Simple ####
 arrowSimpleH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=0) {
   slope = compute_slope(x, y);
-  xylist = function(x, y) list(list(x=x, y=y));
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
@@ -110,7 +106,6 @@ arrowSimpleH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.l
 #### Arrow T ####
 arrowTH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=0) {
   slope = compute_slope(x, y);
-  xylist = function(x, y) list(list(x=x, y=y));
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
@@ -127,7 +122,6 @@ arrowTH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=
 #### Arrow Square ####
 arrowSQ = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=0) {
   slope = compute_slope(x, y);
-  xylist = function(x, y) list(list(x=x, y=y));
   ### Head
   arrHead = arrSQH(x[2], y[2], slope=slope, d=d);
   ahead  = list(arrHead, lwd = h.lwd);

@@ -43,7 +43,6 @@ arrHD = function(x, y, slope, d=-1, dV=c(d, -d)) {
   arrHead = list(
     x = c(pV$x[1], p2[1,1], pV$x[3], x, pV$x[1]),
     y = c(pV$y[1], p2[1,2], pV$y[3], y, pV$y[1]));
-  browser()
   return(arrHead);
 }
 
