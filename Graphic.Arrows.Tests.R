@@ -50,3 +50,7 @@ plot.base()
 x = c(0, 6); y = c(1, 8);
 arrowXH(x, y, d=1.5, lwd=2)
 
+#### Square Shape ArrowHead ####
+plot.base()
+x = c(0, 6); y = c(1, 8);
+arrowSQ(x, y, d=1.5, lwd=2)

@@ -87,3 +87,18 @@ arrHT = function(x, y, slope, d=-1, dV=c(d, -d)) {
   return(arrHead);
 }
 
+# Square ArrowHead: |_|
+arrSQH = function(x, y, slope, d=-1, dV=c(d, -d)) {
+  if(length(d) > 2) stop("Only 2 values are supported for d!");
+  d2 = if(length(d) == 1) 2*d else sum(d);
+  # TODO: more than 2 values for dV;
+  pB1 = c(x[1], y[1]);
+  pB2 = shiftPoint(c(x[1], y[1]), d=d, slope=slope);
+  p1 = shiftLine(pB1, d=dV, slope=slope);
+  p2 = shiftLine(pB2, d=dV, slope=slope);
+  arrHead = list(
+    x = c(p1$x[2], p1$x[1], p2$x[1],  p2$x[2], p1$x[2]),
+    y = c(p1$y[2], p1$y[1], p2$y[1],  p2$y[2], p1$y[2]));
+  return(arrHead);
+}
+
