@@ -48,5 +48,5 @@ arrowTH(x, y, d=2, lwd=2);
 #### X Shape ArrowHead ####
 plot.base()
 x = c(0, 6); y = c(1, 8);
-arrowXH(x, y, d=1.5, lwd=2, asD=TRUE)
+arrowXH(x, y, d=1.5, lwd=2)
 
