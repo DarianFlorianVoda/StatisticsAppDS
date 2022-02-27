@@ -38,7 +38,7 @@ arrowSimpleH(x, y, d=-1, lwd=2);
 #### Double lined ArrowHead ####
 plot.base()
 x = c(0, 6); y = c(1, 6);
-arrowDH(x, y, d=-1, lwd=2);
+arrowDH(x, y, d=0.5, lwd=2);
 
 #### T Shape ArrowHead ####
 plot.base()
@@ -54,3 +54,8 @@ arrowXH(x, y, d=1.5, lwd=2)
 plot.base()
 x = c(0, 6); y = c(1, 8);
 arrowSQ(x, y, d=1.5, lwd=2)
+
+#### Double lined ArrowHead ####
+plot.base()
+x = c(0, 6); y = c(1, 6);
+arrowMultiH(x, y, d=0.5, lwd=2, n=5)

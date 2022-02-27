@@ -76,6 +76,19 @@ arrH2 = function(x, y, slope, d=-1, dV=c(d, -d)) {
   return(arrHead);
 }
 
+# N-Lined ArrowHead: --->>...> (n times)
+arrHN = function(x, y, slope, d=-1, dV=c(d, -d), n=1) {
+  # Shift point along line:
+  arrHead = list(arrHS(x, y, slope=slope, d = dV));
+  # Double Arrow
+  for(id in 1:n) {
+    p[id] = shiftPoint(c(x, y), slope=slope, d = - d);
+    arrowhead = list(arrHS(p[id][1], p[id][2], slope=slope, d = dV));
+    arrHead  = c(arrHead, arrowhead);
+  }
+  return(arrHead);
+}
+
 # T ArrowHead: ---|
 arrHT = function(x, y, slope, d=-1, dV=c(d, -d)) {
   p  = cbind(x, y);

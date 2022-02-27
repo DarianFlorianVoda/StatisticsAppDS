@@ -136,6 +136,25 @@ arrowSQ = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=
   invisible(lst);
 }
 
+# n = number of sub-components;
+# d = distance between each "> >";
+# dH = horizontal shift (shiftPoint), dV = vertical shift (shiftLine) of each ">";
+arrowMultiH = function(x, y, slope, n=1, lwd=1, d=0.25, h.lwd=lwd, dH=0.5, dV=c(-dH, dH), d.lines=0) {
+  slope = compute_slope(x, y);
+  ### ArrowTail
+  arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
+  ### Head
+  arrHead = arrHN(x[2], y[2], slope=slope, d=d, dV=dH, n=n);
+  arrHead$lwd = h.lwd;
+  ### Full Arrow
+  lst = list(Arrow=arrow, Head=arrHead);
+  class(lst) = c("arrow", "list");
+  # Plot lines:
+  print("Finished")
+  lines(lst, col=col);
+  invisible(lst);
+}
+
 
 
 ### Other:
