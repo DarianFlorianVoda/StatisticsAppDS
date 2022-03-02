@@ -1,17 +1,39 @@
-n = 10
-r = 8
-x = r * cos(seq(0, n-1) * 2*pi/n)
-y = r * sin(seq(0, n-1) * 2*pi/n)
-plot(x, y)
-library(shape)
-filledcircle(r2=0, mid = c(x[1], y[1]))
-for(id in seq(n)) {
-  filledcircle(r2=0, mid = c(x[id], y[id]))
+###################
+#
+# Thesis
+#
+# Title: Diagram Generator
+#
+# Candidate: Darian Voda
+# Faculty of Mathematics and Informatics, UVT
+#
+# Coordinator:
+#   Prof. Daniela Zaharie
+#   Dr. med. Leonard Mada (Syonic SRL)
+#
+# in collaboration with Syonic SRL
+#
+# GitHub: https://github.com/DarianFlorianVoda/Diagram-Generator
+
+
+### Functions to Generate Objects
+
+#####################
+
+### Helper Functions
+
+# r = radius;
+# phi = rotation (counter-clockwise);
+pointsCircle = function(n, r, center = c(0,0), phi=0) {
+  x = r * cos(seq(0, n-1) * 2*pi/n + phi) + center[1];
+  y = r * sin(seq(0, n-1) * 2*pi/n + phi) + center[2];
+  return(list(x=x, y=y));
 }
 
-r = r-2
-x = r * cos(seq(0, n-1) * 2*pi/n)
-y = r * sin(seq(0, n-1) * 2*pi/n)
-for(id in seq(n)) {
-  filledcircle(r2=0, mid = c(x[id], y[id]))
+# Tangent circles forming a large circle
+circlesOnCircle = function(n, r, center = c(0,0), phi=0) {
+  R  = r / sin(pi/n);
+  xy = pointsCircle(n, r=R, center=center, phi=phi);
+  attr(xy, "R") = R;
+  return(xy);
 }

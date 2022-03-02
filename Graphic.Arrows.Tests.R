@@ -18,8 +18,6 @@
 
 #### Tests ####
 
-#### Simple Arrows ####
-
 #### Inverted Head ####:
 plot.base()
 x = c(0, 6); y = c(1, 6);
