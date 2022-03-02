@@ -97,3 +97,12 @@ parseCycles = function(x, r=1, d2=0.0625) {
   }
   return(l)
 }
+
+
+#### Tangent circles forming large circle of given radius ####
+circlesOnFixedCircle = function(n, r, center = c(0,0), phi=0) {
+  r1 = r * sin(pi/n);
+  xy = pointsCircle(n, r=r, center=center, phi=phi);
+  attr(xy, "R") = r1; # reuse same attribute name ???
+  return(xy);
+}

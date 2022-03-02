@@ -66,3 +66,15 @@ lines.arrow(list(parseCycles("5-5"), list()))
 plot.base()
 lines.arrow(list(parseCycles("7=5"), list()))
 
+
+# Radius of Big Circle: known
+R = R-2
+xy = circlesOnFixedCircle(n, r=R, phi=phi);
+x = xy$x; y = xy$y;
+r = attr(xy, "R");
+par.old = par(pin = c(4.8, 4.8))
+plot.base()
+for(id in seq(n)) {
+  filledcircle(r1=r, r2=0, mid = c(x[id], y[id]))
+}
+par(par.old)
