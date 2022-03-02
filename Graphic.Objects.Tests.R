@@ -44,3 +44,25 @@ for(id in seq(n)) {
   filledcircle(r1=r, r2=0, mid = c(x[id], y[id]))
 }
 par(par.old)
+
+#### poly-cyclic chemical molecules ####
+plot.base()
+lines.arrow(list(parseCycles("6|6|5<5"), list()))
+
+plot.base()
+lines.arrow(list(parseCycles("6|6|5<7"), list()))
+
+### Cholesterol backbone
+plot.base()
+lines.arrow(list(parseCycles("6|6\\6|5"), list()))
+
+plot.base()
+lines.arrow(list(parseCycles("6|6|6|5<3"), list()))
+
+plot.base()
+lines.arrow(list(parseCycles("5-5"), list()))
+
+### Sesquifulvalene backbone
+plot.base()
+lines.arrow(list(parseCycles("7=5"), list()))
+
