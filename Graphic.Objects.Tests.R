@@ -78,3 +78,32 @@ for(id in seq(n)) {
   filledcircle(r1=r, r2=0, mid = c(x[id], y[id]))
 }
 par(par.old)
+
+
+#### Inside Circle ####
+
+### Outer Circle
+n = 19
+r = 1
+phi = pi / n; # add some rotation
+xy = circlesOnCircle(n, r, phi=phi);
+x = xy$x; y = xy$y;
+R = attr(xy, "R");
+d = R + r + 1;
+plot(x, y, xlim=c(-d, d), ylim=c(-d, d))
+par.old = par(pin = c(4.8, 4.8))
+for(id in seq(n)) {
+  filledcircle(r1=r, r2=0, mid = c(x[id], y[id]))
+}
+par(par.old)
+
+# Inner Circle: unknown
+R = R - r;
+xy = circlesInFixedCircle(n, r=R, phi=phi);
+x = xy$x; y = xy$y;
+r = attr(xy, "r");
+par.old = par(pin = c(4.8, 4.8))
+for(id in seq(n)) {
+  filledcircle(r1=r, r2=0, mid = c(x[id], y[id]))
+}
+par(par.old)
