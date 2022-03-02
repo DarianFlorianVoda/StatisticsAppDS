@@ -139,12 +139,13 @@ arrowSQ = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=
 # n = number of sub-components;
 # d = distance between each "> >";
 # dH = horizontal shift (shiftPoint), dV = vertical shift (shiftLine) of each ">";
-arrowMultiH = function(x, y, slope, n=1, lwd=1, d=0.25, h.lwd=lwd, dH=0.5, dV=c(-dH, dH), d.lines=0) {
+arrowMultiH = function(x, y, slope, n=1, lwd=1, d=0.25, h.lwd=lwd, d.head=0.5, dV=c(-d.head, d.head), d.lines=0) {
   slope = compute_slope(x, y);
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
-  arrHead = arrHN(x[2], y[2], slope=slope, d=d, dV=dH, n=n);
+  arrHead = arrHN(x[2], y[2], slope=slope, n=n, d=d, dV=d.head);
+  arrHead = c(arrHead, arrHN(x[2], y[2], slope=slope, n=n, d=d, dV=-d.head));
   arrHead$lwd = h.lwd;
   ### Full Arrow
   lst = list(Arrow=arrow, Head=arrHead);

@@ -55,7 +55,10 @@ plot.base()
 x = c(0, 6); y = c(1, 8);
 arrowSQ(x, y, d=1.5, lwd=2)
 
-#### Double lined ArrowHead ####
+#### Multiple-lined ArrowHead ####
+# TODO: Junction
 plot.base()
 x = c(0, 6); y = c(1, 6);
-arrowMultiH(x, y, d=0.5, lwd=2, n=5)
+arrowMultiH(x, y, n = 5, d=0.5, lwd=2)
+abline(v=x[2], col="green");
+points(x[2], y[2], col="red")
