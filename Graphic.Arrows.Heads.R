@@ -116,3 +116,19 @@ arrSQH = function(x, y, slope, d=-1, dV=c(d, -d)) {
   return(arrHead);
 }
 
+# Double Lined Inverted ArrowHead: ---<<
+arrInv2H = function(x, y, slope, d=-1, dV=c(d, -d)) {
+  # Shift point along line:
+  dH = abs(dV[1]);
+  # Head: 2nd "<" of "<<"
+  p2 = shiftPoint(c(x, y), slope=slope, d = - dH);
+  arrHead = list(arrHS(p2[1], p2[2], slope=slope, d = dH));
+  # Head: 1st "<" of "<<"
+  p2 = shiftPoint(c(x, y), slope=slope, d = - d - dH);
+  arrHead2 = list(arrHS(p2[1], p2[2], slope=slope, d = dH));
+  arrHead  = c(arrHead, arrHead2);
+  midpoint = p2;
+  attr(arrHead, "Mid") = midpoint;
+  return(arrHead);
+}
+

@@ -156,6 +156,26 @@ arrowMultiH = function(x, y, slope, n=1, lwd=1, d=0.25, h.lwd=lwd, d.head=0.5, d
   invisible(lst);
 }
 
+# Double Lined Inevrted Head
+arrowInv2H = function(x, y, d=0.25, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=0) {
+  slope = compute_slope(x, y);
+  ### Head
+  arrHead = arrInv2H(x[2], y[2], slope=slope, d=d, dV=d.head);
+  midpoint = attr(arrHead, "Mid")
+  arrHead$lwd = h.lwd;
+  ### ArrowTail
+  x[2] = midpoint[1]
+  y[2] = midpoint[2]
+  arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
+  ### Full Arrow
+  lst = list(Arrow=arrow, Head=arrHead);
+  class(lst) = c("arrow", "list");
+  # Plot lines:
+  print("Finished")
+  lines(lst, col=col);
+  invisible(lst);
+}
+
 
 
 ### Other:
