@@ -66,26 +66,25 @@ arrHX = function(x, y, slope, d=-1, dV=c(d, -d)) {
 
 # Double Lined ArrowHead: --->>
 # - a high-level helper function;
-arrH2 = function(x, y, slope, d=-1, dV=c(d, -d)) {
+arrH2 = function(x, y, slope, d=-1, dH=-d, dV=c(dH, -dH)) {
   # Shift point along line:
-  arrHead = list(arrHS(x, y, slope=slope, d = dV));
+  arrHead = list(arrHS(x, y, slope=slope, d = dH, dV = dV));
   # Double Arrow
   p2 = shiftPoint(c(x, y), slope=slope, d = - d);
-  arrHead2 = list(arrHS(p2[1], p2[2], slope=slope, d = dV));
+  arrHead2 = list(arrHS(p2[1], p2[2], slope=slope, d = dH, dV = dV));
   arrHead  = c(arrHead, arrHead2);
   return(arrHead);
 }
 
 # N-Lined ArrowHead: --->>...> (n times)
-arrHN = function(x, y, slope, n=1, d = 0.5, d.head = - d, dV=c(d.head, -d.head)) {
+arrHN = function(x, y, slope, n=1, d = 0.5, dH = - d, dV=c(dH, -dH)) {
   # Shift point along line:
-  arrHead = list(arrHS(x, y, slope=slope, d = d.head, dV = dV));
+  arrHead = list(arrHS(x, y, slope=slope, d = dH, dV = dV));
   if(n == 1) return(arrHead);
   # Double Arrow
   for(id in seq(n-1)) {
     p = shiftPoint(c(x, y), slope=slope, d = - id * d);
-    arrowhead = list(arrHS(p[1], p[2], slope=slope, d = d.head, dV = dV));
-    print(arrowhead)
+    arrowhead = list(arrHS(p[1], p[2], slope=slope, d = dH, dV = dV));
     arrHead  = c(arrHead, arrowhead);
   }
   return(arrHead);

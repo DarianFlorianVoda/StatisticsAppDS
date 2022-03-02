@@ -34,13 +34,16 @@ arrowTail = function(x, y, d.lines, lwd=1, slope=NULL) {
   return(arrTail)
 }
 
+# dH = horizontal length of ">";
+# dV = vertical height of ">";
+# d = distance between each of ">>";
 #### Double Lined Arrow ####
 arrowDH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=0) {
   slope = compute_slope(x, y);
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
-  arrHead = arrH2(x[2], y[2], slope=slope, d=d, dV=d.head);
+  arrHead = arrH2(x[2], y[2], slope=slope, d=d, dH=d.head);
   arrHead$lwd = h.lwd;
   ### Full Arrow
   lst = list(Arrow=arrow, Head=arrHead);
@@ -138,14 +141,15 @@ arrowSQ = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=
 
 # n = number of sub-components;
 # d = distance between each "> >";
-# dH = horizontal shift (shiftPoint), dV = vertical shift (shiftLine) of each ">";
-arrowMultiH = function(x, y, slope, n=1, lwd=1, d=0.25, h.lwd=lwd, d.head=0.5, dV=c(-d.head, d.head), d.lines=0) {
+# dH = horizontal shift (shiftPoint)
+# dV = vertical shift (shiftLine) of each ">";
+arrowMultiH = function(x, y, slope, n=1, lwd=1, d=0.25, h.lwd=lwd, dH=0.5, dV=c(-dH, dH), d.lines=0) {
   slope = compute_slope(x, y);
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
-  arrHead = arrHN(x[2], y[2], slope=slope, n=n, d=d, dV=d.head);
-  arrHead = c(arrHead, arrHN(x[2], y[2], slope=slope, n=n, d=d, dV=-d.head));
+  arrHead = arrHN(x[2], y[2], slope=slope, n=n, d=d, dV=dH);
+  arrHead = c(arrHead, arrHN(x[2], y[2], slope=slope, n=n, d=d, dV=-dH));
   arrHead$lwd = h.lwd;
   ### Full Arrow
   lst = list(Arrow=arrow, Head=arrHead);
