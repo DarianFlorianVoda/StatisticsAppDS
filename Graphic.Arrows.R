@@ -143,7 +143,7 @@ arrowSQ = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=
 # d = distance between each "> >";
 # dH = horizontal shift (shiftPoint)
 # dV = vertical shift (shiftLine) of each ">";
-arrowMultiH = function(x, y, slope, n=1, lwd=1, d=0.25, h.lwd=lwd, dH=0.5, dV=c(-dH, dH), d.lines=0) {
+arrowMultiH = function(x, y, slope, n=1, lwd=1, col="red", d=0.25, h.lwd=lwd, dH=0.5, dV=c(-dH, dH), d.lines=0) {
   slope = compute_slope(x, y);
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
@@ -179,7 +179,6 @@ arrowInv2H = function(x, y, d=0.25, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.li
   lines(lst, col=col);
   invisible(lst);
 }
-
 
 
 ### Other:
@@ -231,6 +230,26 @@ lineBanded = function(x, y, w=0.1, delta=0.25, lwd=1.5, lty=1, n=NULL, col="blac
     lines(c(xup[id], xdn[id]), c(yup[id], ydn[id]), lwd=lwd, lty=lty, col=col);
   }
   invisible(cbind(xup, xdn, yup, ydn));
+}
+
+#### Arrow Circle
+arrowCircle = function(x, y, r=0.5, lwd=1, h.lwd=lwd, col="red", d.lines=0) {
+  slope = compute_slope(x, y);
+  ### Head
+  arrHead = arrCircle(x[2], y[2], slope=slope, r=r);
+  start = attr(arrHead, "start")
+  arrHead$lwd = h.lwd;
+  ### ArrowTail
+  x[2] = start[1]
+  y[2] = start[2]
+  arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
+  ### Full Arrow
+  lst = list(Arrow=arrow, Head=arrHead);
+  class(lst) = c("arrow", "list");
+  # Plot lines:
+  print("Finished")
+  lines(lst, col=col);
+  invisible(lst);
 }
 
 

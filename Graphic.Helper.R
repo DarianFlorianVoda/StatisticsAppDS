@@ -52,27 +52,41 @@ lines.list = function(x, y, lwd=NULL, ...) {
     lines(lst$x, lst$y, lwd=lwd, ...);
   });
 }
-### list(Tail=list(...), Head=list(...))
-lines.arrow = function(x, lwd=NULL, col, ...) {
-  lines.l = function(x, lwd, col, ...) {
-    # do NOT overwrite user-value;
-    if(is.null(lwd)) {
-      lwd = if(is.null(x$lwd)) 1 else x$lwd;
-    }
-    x$lwd = NULL;
-    if(length(x) == 1 && inherits(x[[1]], "data.frame")) {
-      x = split(x[[1]][, c("x", "y")], x[[1]]$id);
-    }
-    lapply(x, function(lst) lines(lst$x, lst$y, lwd=lwd, ...));
+
+### Base function
+lines.object.base = function(x, lwd, col=1, ...) {
+  # do NOT overwrite user-value;
+  if(is.null(lwd)) {
+    lwd = if(is.null(x$lwd)) 1 else x$lwd;
   }
+  x$lwd = NULL;
+  if(length(x) == 1 && inherits(x[[1]], "data.frame")) {
+    x = split(x[[1]][, c("x", "y")], x[[1]]$id);
+  }
+  basef = function(lst, ...) {
+    if(inherits(lst, "circle")) {
+      shape::plotellipse(rx = lst$r, ry = lst$r, mid = lst$center,
+                         col=col, lwd=lwd, ...);
+    } else lines(lst$x, lst$y, lwd=lwd, col=col, ...);
+  }
+  lapply(x, basef, ...);
+}
+
+### list(Tail=list(...), Head=list(...))
+lines.arrow = function(x, lwd=NULL, col=1, ...) {
   ### ArrowTail
   arrow = x[[1]];
-  lines.l(arrow, lwd=lwd)
+  lines.object.base(arrow, lwd=lwd, col=col, ...)
   ### ArrowHead
   ahead = x[[2]];
-  lines.l(ahead, lwd=lwd);
+  lines.object.base(ahead, lwd=lwd, col=col, ...);
   #
   invisible();
+}
+
+### Chemistry
+lines.chemistry = function(x, lwd=NULL, col=1, ...) {
+  lines.object.base(x, lwd=lwd, col=col, ...)
 }
 
 ### Reflect Point across line

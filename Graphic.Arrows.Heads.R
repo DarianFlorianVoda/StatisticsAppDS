@@ -153,3 +153,14 @@ arrInv2H = function(x, y, slope, d=-1, dV=c(d, -d)) {
   return(arrHead);
 }
 
+# Circle ArrowHead ---O
+arrCircle = function(x, y, slope, r=0.5) {
+  center = shiftPoint(c(x, y), slope = slope, d = -r)
+  startP = shiftPoint(c(x, y), slope = slope, d = -2*r)
+  lst = list(r=r, center=center);
+  attr(lst, "class") = c("circle", class(lst));
+  lst = list(lst);
+  attr(lst, "start") = startP;
+  return(lst)
+}
+

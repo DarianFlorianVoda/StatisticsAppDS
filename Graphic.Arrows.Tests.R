@@ -80,4 +80,11 @@ plot.base()
 x = c(0, 6); y = c(1, 6);
 arrowDH(x, y, d=0.5, lwd=2);
 abline(v=x[2], col="green");
+points(x[2], y[2], col="black")
+
+### Circle Arrowhead 
+plot.base()
+x = c(0, 6); y = c(1, 6);
+arrowCircle(x, y, r=0.5, lwd=2);
+abline(v=x[2], col="green");
 points(x[2], y[2], col="red")
