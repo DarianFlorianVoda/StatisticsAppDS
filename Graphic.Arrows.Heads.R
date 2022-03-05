@@ -52,14 +52,36 @@ arrHX = function(x, y, slope, d=-1, dV=c(d, -d)) {
   d2 = if(length(d) == 1) 2*d else sum(d);
   # TODO: more than 2 values for dV;
   pB1 = c(x[1], y[1]);
-  pB2 = shiftPoint(c(x[1], y[1]), d=d, slope=slope);
+  pB2 = shiftPoint(c(x[1], y[1]), d=d2, slope=slope);
   p1 = shiftLine(pB1, d=dV, slope=slope);
   p2 = shiftLine(pB2, d=dV, slope=slope);
-  midpointX = (p1$x[2]+p2$x[1])/2;
-  midpointY = (p1$y[2]+p2$y[1])/2;
+  if(length(d) == 1) {
+    # TODO: one pass;
+    midpointX = (p1$x[2]+p2$x[1])/2;
+    midpointY = (p1$y[2]+p2$y[1])/2;
+    arrHead = list(
+      x = c(p1$x[2], p2$x[1], midpointX, p2$x[2], p1$x[1]),
+      y = c(p1$y[2], p2$y[1], midpointY, p2$y[2], p1$y[1]));
+  } else {
+    pM = shiftPoint(c(x[1], y[1]), d=d[1], slope=slope);
+    midpointX = pM[1];
+    midpointY = pM[2];
+    arrHead = data.frame(
+      x = c(p1$x[1], midpointX, p1$x[2], p2$x[1], midpointX, p2$x[2]),
+      y = c(p1$y[1], midpointY, p1$y[2], p2$y[1], midpointY, p2$y[2]),
+      id = c(1,1,1, 2,2,2));
+  }
   arrHead = list(
     x = c(p1$x[2], p2$x[1], midpointX, p2$x[2], p1$x[1]),
     y = c(p1$y[2], p2$y[1], midpointY, p2$y[2], p1$y[1]));
+  print(arrHead)
+  print(p1)
+  print(p2)
+  print(midpointX)
+  print(midpointY)
+  print(p1$x[2])
+  print(p2$x[1])
+  print(length(d))
   attr(arrHead, "Mid") = c(midpointX, midpointY)
   return(arrHead);
 }

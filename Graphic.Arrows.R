@@ -71,10 +71,10 @@ arrowDiamondH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.
 }
 
 #### Arrow X ####
-arrowXH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=0) {
+arrowXH = function(x, y, d=0.5, lwd=1, d.head=c(-d, d), d.lines=0, h.lwd=lwd, col="red") {
   slope = compute_slope(x, y);
   ### Head
-  arrHead = arrHX(x[2], y[2], slope=slope, d=d);
+  arrHead = arrHX(x[2], y[2], slope=slope, d = - d, dV = d.head);
   ahead  = list(arrHead, lwd = h.lwd);
   midpoint = attr(arrHead, "Mid")
   ### ArrowTail

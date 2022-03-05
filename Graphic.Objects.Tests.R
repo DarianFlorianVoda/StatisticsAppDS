@@ -17,7 +17,7 @@
 
 
 #### Tests ####
-
+library(shape)
 #### Circles distanced ####
 n = 10
 r = 8

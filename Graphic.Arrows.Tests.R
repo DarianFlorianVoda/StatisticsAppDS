@@ -48,6 +48,13 @@ plot.base()
 x = c(0, 6); y = c(1, 8);
 arrowXH(x, y, d=1.5, lwd=2)
 
+### X: Different lengths
+plot.base()
+x = c(0, 6); y = c(1, 8);
+arrowXH(x, y, d=c(0.75, 2.0), d.head=c(-1,1), lwd=2)
+abline(v=x[2], col="green");
+points(x[2], y[2], col="red")
+
 #### Square Shape ArrowHead ####
 plot.base()
 x = c(0, 6); y = c(1, 8);
