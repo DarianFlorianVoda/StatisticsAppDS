@@ -8,12 +8,6 @@ lines(parseCycles("6|6\\6|5"))
 plot.base()
 lines(parseCycles("6|6\\6|6\\6"))
 
-#### [2] Triterpenoids ####
-#this does not work yet, but can be added as a test
-# TODO
-plot.base()
-lines(parseCycles("6|6\\6|6\\5"))
-
 #### [3] Molecules from vegetables; ####
 ##### Psoralens & Pabulenol quasi-backbone #####
 # - vegetables: parsnip (pastarnac) & parsley (patrunjel);
@@ -28,6 +22,9 @@ plot.base()
 lines.arrow(list(parseCycles("6|6|5<7"), list()))
 
 #### Other ####
+plot.base()
+lines.arrow(list(parseCycles("6|6|6|5<3"), list()))
+
 plot.base()
 lines.arrow(list(parseCycles("5-5"), list()))
 
