@@ -56,6 +56,7 @@ lines.list = function(x, y, lwd=NULL, ...) {
 ### Base function
 lines.object.base = function(x, lwd, col=1, ...) {
   # do NOT overwrite user-value;
+  
   if(is.null(lwd)) {
     lwd = if(is.null(x$lwd)) 1 else x$lwd;
   }
@@ -67,6 +68,16 @@ lines.object.base = function(x, lwd, col=1, ...) {
     if(inherits(lst, "circle")) {
       shape::plotellipse(rx = lst$r, ry = lst$r, mid = lst$center,
                          col=col, lwd=lwd, ...);
+    } else lines(lst$x, lst$y, lwd=lwd, col=col, ...);
+  }
+  basef = function(lst, ...) {
+    if(inherits(lst, "circle")) {
+      shape::plotellipse(rx = lst$r, ry = lst$r, mid = lst$center,
+                         col=col, lwd=lwd, ...);
+    } else if(inherits(lst, "polygon")) {
+      col0 = lst$col;
+      col  = if(is.null(col0)) col else col0;
+      polygon(lst$x, lst$y, col=col);
     } else lines(lst$x, lst$y, lwd=lwd, col=col, ...);
   }
   lapply(x, basef, ...);

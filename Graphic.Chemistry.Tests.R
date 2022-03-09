@@ -20,6 +20,10 @@ lines(parseCycles("6|6\\6|6\\5"))
 plot.base()
 lines(parseCycles("6|6|5"))
 
+### Etoposide backbone
+plot.base()
+lines(parseCycles("<5|6|6|5"))
+
 #### Spiro-Derivatives ####
 plot.base()
 lines.arrow(list(parseCycles("6|6|5<5"), list()))
@@ -34,3 +38,4 @@ lines.arrow(list(parseCycles("5-5"), list()))
 #### Sesquifulvalene backbone ####
 plot.base()
 lines.arrow(list(parseCycles("7=5"), list()))
+
