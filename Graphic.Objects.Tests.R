@@ -19,7 +19,6 @@
 #### Tests ####
 library(shape)
 #### Circles distanced ####
-library(shape)
 n = 10
 r = 8
 phi = pi / n;
@@ -80,6 +79,23 @@ R = R - r;
 xy = circlesInFixedCircle(n, r=R, phi=phi);
 x = xy$x; y = xy$y;
 r = attr(xy, "r");
+par.old = par(pin = c(4.8, 4.8))
+for(id in seq(n)) {
+  filledcircle(r1=r, r2=0, mid = c(x[id], y[id]))
+}
+par(par.old)
+
+#### Outside Circle ####
+
+###
+n = 13
+R = 6
+phi = pi / n; # add some rotation
+xy = circlesOutsideFixedCircle(n, R, phi=phi);
+x = xy$x; y = xy$y;
+r = attr(xy, "r");
+d = R + 2*r + 1;
+plot(x, y, xlim=c(-d, d), ylim=c(-d, d))
 par.old = par(pin = c(4.8, 4.8))
 for(id in seq(n)) {
   filledcircle(r1=r, r2=0, mid = c(x[id], y[id]))

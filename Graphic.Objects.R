@@ -38,6 +38,16 @@ circlesOnCircle = function(n, r, center = c(0,0), phi=0) {
   return(xy);
 }
 
+##### Outside a large circle of given radius #####
+circlesOutsideFixedCircle = function(n, r, center = c(0,0), phi=0) {
+  r1 = r / (1/sin(pi/n) - 1);
+  R1 = r + r1;
+  xy = pointsCircle(n, r=R1, center=center, phi=phi);
+  attr(xy, "R") = R1;
+  attr(xy, "r") = r1;
+  return(xy);
+}
+
 #### Tangent circles ####
 
 ##### Forming large circle of given radius #####
@@ -57,4 +67,6 @@ circlesInFixedCircle = function(n, r, center = c(0,0), phi=0) {
   attr(xy, "r") = r1;
   return(xy);
 }
+
+
   
