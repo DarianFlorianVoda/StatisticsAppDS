@@ -2,7 +2,9 @@
 
 #### Cholesterol backbone ####
 plot.base()
-lines(parseCycles("6|6\\6|5"))
+p = parseCycles("6|6\\6|5")
+lines(p)
+lines(ligand(p, c(1,3), c(1,1), c(Inf, Inf), c(T,T)))
 
 ##### [1] Pentacyclic Triterpene backbone ####
 plot.base()
