@@ -70,6 +70,7 @@ lines.object.base = function(x, lwd, col=1, ...) {
     } else lines(lst$x, lst$y, lwd=lwd, col=col, ...);
   }
   lapply(x, basef, ...);
+  invisible();
 }
 
 ### list(Tail=list(...), Head=list(...))
@@ -87,6 +88,7 @@ lines.arrow = function(x, lwd=NULL, col=1, ...) {
 ### Chemistry
 lines.chemistry = function(x, lwd=NULL, col=1, ...) {
   lines.object.base(x, lwd=lwd, col=col, ...)
+  invisible();
 }
 
 ### Reflect Point across line
