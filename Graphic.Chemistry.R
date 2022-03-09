@@ -8,18 +8,25 @@ parseCycles = function(x, r=1, d2=0.0625) {
   #
   l = list();
   x0 = 0; y0 = 0; r0 = r;
-  r  = 0; d  = 0; phi0 = 0;
+  r  = 0; d  = 0;
+  phi0 = 0; phi = 0; s = "";
   nL = as.numeric(cyc);
   for(id in seq(length(cyc))) {
     n = nL[id];
     if( ! is.na(n)) {
-      r = r0 / 2 / sin(pi/n);
-      d = r * cos(pi/n);
-      if(phi0 != 0) d = d + r + d / cos(phi + phi0);
-      phi = if(n %% 2 == 1) 0 else pi/n;
-      lPp = pointsCircle(n, r=r, center=c(x0 + d, y0), phi = phi + phi0);
+      halpha = pi/n;
+      r = r0 / 2 / sin(halpha);
+      d = r * cos(halpha);
+      # Correction to rotation:
+      dp = if(phi0 == 0) d else (d + r + d / cos(phi + phi0));
+      phi = if(n %% 2 == 1) 0 else halpha;
+      lPp = pointsCircle(n, r=r, center=c(x0 + dp, y0), phi = phi + phi0);
       lPp$x = c(lPp$x, lPp$x[1]);
       lPp$y = c(lPp$y, lPp$y[1]);
+      # Reset phi0
+      if(phi0 != 0 && round(phi0 - pi, 8) == 0) {
+        phi0 = 0;
+      }
       l = c(l, list(lPp));
       next;
     }
