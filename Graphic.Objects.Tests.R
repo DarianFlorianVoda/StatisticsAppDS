@@ -101,3 +101,12 @@ for(id in seq(n)) {
   filledcircle(r1=r, r2=0, mid = c(x[id], y[id]))
 }
 par(par.old)
+
+
+#### Smooth Muscles / Connective Tissue ####
+plot.base()
+lst = cellSmooth(c(1,5), c(2, 7))
+lines.object.base(lst, lwd=2)
+
+lst = cellSmooth(c(2,7), c(1, 5), r=0.6)
+lines.object.base(lst, lwd=2)

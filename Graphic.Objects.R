@@ -68,5 +68,24 @@ circlesInFixedCircle = function(n, r, center = c(0,0), phi=0) {
   return(xy);
 }
 
+#### Cell-object resembling a smooth muscle cell ####
+cellSmooth = function(x, y, r=1, slope=NULL, lwd=2, N=128, phi=pi) {
+  if(is.null(slope)) slope = compute_slope(x, y);
+  d = sqrt((x[1] - x[2])^2 + (y[1] - y[2])^2);
+  dx = d / N;
+  pL = seq(0, d, by=dx);
+  pp = shiftPoint(c(x[1], y[1]), d=pL, slope=slope);
+  pL = pL + x[1];
+  px = pp[,1] - x[1]; px = px * pi / max(abs(px));
+  # Margin 1:
+  pS = r * sin(px) + pp[,2];
+  lst = list(x = pL, y = pS);
+  # Margin 2:
+  pS = r * sin(px + phi) + pp[,2];
+  lst = list(lst, list(x = pL, y = pS));
+  #
+  lst$lwd = lwd;
+  return(lst)
+}
 
   
