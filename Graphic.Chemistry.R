@@ -94,3 +94,4 @@ ligand = function(x, cyc, i, slope=Inf, solid=TRUE, col=NULL) {
   class(pol) = c("chemistry", class(pol))
   return(pol);
 }
+
