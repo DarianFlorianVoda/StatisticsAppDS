@@ -15,27 +15,31 @@
 #
 # GitHub: https://github.com/DarianFlorianVoda/Diagram-Generator
 
-### Library
+
+### External Libraries
 library(shape)
 
 
-testFilledCircle = function(xy, r=1, R=NULL, d=NULL, col="#B0B032", line=TRUE, add=FALSE){
+testFilledCircle = function(xy, r, R=NULL, lim=NULL, col="#B0B032", line=TRUE, add=FALSE, ...) {
   x = xy$x; y = xy$y;
-  if(is.null(d)) {
-    R0 = attr(xy, "R");
+  if(missing(r)) {
     r = attr(xy, "r");
-    d = R0 + r + 1;
+    if(is.null(r)) stop("Missing r!")
+  }
+  if(is.null(lim)) {
+    R0  = attr(xy, "R");
+    lim = R0 + r + 1;
   }
   if(!add) {
-    plot(x, y, xlim=c(-d, d), ylim=c(-d, d))
+    plot(x, y, xlim=c(-lim, lim), ylim=c(-lim, lim))
   }
   pin = mean(par("pin")) + 0.25;
   par.old = par(pin = c(pin, pin));
   for(id in seq(n)) {
     if(is.null(col)) {
-      filledcircle(r1=r, r2=0, mid = c(x[id], y[id]))
+      filledcircle(r1=r, r2=0, mid = c(x[id], y[id]), ...)
     } else {
-      filledcircle(r1=r, r2=0, mid = c(x[id], y[id]), col=col);
+      filledcircle(r1=r, r2=0, mid = c(x[id], y[id]), col=col, ...);
     }
   }
   if(line) {
@@ -45,27 +49,29 @@ testFilledCircle = function(xy, r=1, R=NULL, d=NULL, col="#B0B032", line=TRUE, a
   par(par.old);
 }
 
+
 #### Tests ####
 
 #### Circles distanced ####
 n = 10
 R = 8
-d = R+2;
+r = 1
 phi = pi / n;
 xy = pointsCircle(n, R, phi=phi);
-testFilledCircle(xy, d=R+1);
+testFilledCircle(xy, r=r, lim = R+1, lcol=1);
 
 
 #### Closed Circles ####
-# - n known;
+# - n known, R unknown;
 n = 15
 r = 1
 phi = pi / n; # add some rotation
 xy = circlesOnCircle(n, r, phi=phi);
 testFilledCircle(xy);
 
-# Radius of Big Circle: known
+### Radius of Big Circle: known
 # - small circles: on the big circle;
+n = 15
 R = 7
 xy = circlesOnFixedCircle(n, r=R, phi=phi);
 testFilledCircle(xy, R=R);
