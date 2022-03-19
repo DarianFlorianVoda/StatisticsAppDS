@@ -14,51 +14,58 @@
 # in collaboration with Syonic SRL
 #
 # GitHub: https://github.com/DarianFlorianVoda/Diagram-Generator
-testFilledCircle = function(xy, r=1, d){
+
+### Library
+library(shape)
+
+
+testFilledCircle = function(xy, r=1, R=NULL, d=NULL, col="#B0B032", line=TRUE, add=FALSE){
   x = xy$x; y = xy$y;
-  plot(x, y, xlim=c(-d, d), ylim=c(-d, d))
-  par.old = par(pin = c(4.8, 4.8))
-  for(id in seq(n)) {
-    filledcircle(r1=r, r2=0, mid = c(x[id], y[id]))
+  if(is.null(d)) {
+    R0 = attr(xy, "R");
+    r = attr(xy, "r");
+    d = R0 + r + 1;
   }
+  if(!add) {
+    plot(x, y, xlim=c(-d, d), ylim=c(-d, d))
+  }
+  pin = mean(par("pin")) + 0.25;
+  par.old = par(pin = c(pin, pin));
+  for(id in seq(n)) {
+    if(is.null(col)) {
+      filledcircle(r1=r, r2=0, mid = c(x[id], y[id]))
+    } else {
+        filledcircle(r1=r, r2=0, mid = c(x[id], y[id]), col=col);
+    }
+  }
+  if(line) {
+    R = if(is.null(R)) attr(xy, "R") else R;
+    plotcircle(r=R, lcol="green", col=NULL);
+  }
+  par(par.old);
 }
 
 #### Tests ####
-library(shape)
+
 #### Circles distanced ####
 n = 10
-r = 8
-d = r+2;
+R = 8
+d = R+2;
 phi = pi / n;
-xy = pointsCircle(n, r, phi=phi);
-testFilledCircle(xy, d=d);
-# x = xy$x; y = xy$y;
-# d = r + 2; # plot limits
-# plot(x, y, xlim=c(-d, d), ylim=c(-d, d))
-# for(id in seq(n)) {
-#  filledcircle(r2=0, mid = c(x[id], y[id]))
-# }
+xy = pointsCircle(n, R, phi=phi);
+testFilledCircle(xy, d=R+1);
 
-#### Close Circles ####
+#### Closed Circles ####
 n = 15
 r = 1
 phi = pi / n; # add some rotation
 xy = circlesOnCircle(n, r, phi=phi);
-d = R + r + 1;
-testFilledCircle(xy, r=r, d=d);
-par(par.old)
+testFilledCircle(xy);
 
 # Radius of Big Circle: known
-R = R-2
+R = 7
 xy = circlesOnFixedCircle(n, r=R, phi=phi);
-x = xy$x; y = xy$y;
-r = attr(xy, "R");
-par.old = par(pin = c(4.8, 4.8))
-plot.base()
-for(id in seq(n)) {
-  filledcircle(r1=r, r2=0, mid = c(x[id], y[id]))
-}
-par(par.old)
+testFilledCircle(xy, R=R);
 
 #### Inside Circle ####
 
@@ -67,37 +74,12 @@ n = 19
 r = 1
 phi = pi / n; # add some rotation
 xy = circlesOnCircle(n, r, phi=phi);
-x = xy$x; y = xy$y;
-R = attr(xy, "R");
-d = R + r + 1;
-plot(x, y, xlim=c(-d, d), ylim=c(-d, d))
-par.old = par(pin = c(4.8, 4.8))
-for(id in seq(n)) {
-  filledcircle(r1=r, r2=0, mid = c(x[id], y[id]))
-}
-par(par.old)
-
-### Outer Circle
-n = 19
-r = 1
-phi = pi / n; # add some rotation
-xy = circlesOnCircle(n, r, phi=phi);
-R = attr(xy, "R");
-d = R + r + 1;
-testFilledCircle(xy, r=r, d=d);
-par(par.old)
-
+testFilledCircle(xy)
 
 # Inner Circle: unknown
-R = R - r;
+R = attr(xy, "R") - r;
 xy = circlesInFixedCircle(n, r=R, phi=phi);
-x = xy$x; y = xy$y;
-r = attr(xy, "r");
-par.old = par(pin = c(4.8, 4.8))
-for(id in seq(n)) {
-  filledcircle(r1=r, r2=0, mid = c(x[id], y[id]))
-}
-par(par.old)
+testFilledCircle(xy, add=TRUE);
 
 #### Outside Circle ####
 ###
@@ -105,10 +87,7 @@ n = 13
 R = 6
 phi = pi / n; # add some rotation
 xy = circlesOutsideFixedCircle(n, R, phi=phi);
-r = attr(xy, "r");
-d = R + 2*r + 1;
-testFilledCircle(xy, r=r, d=d)
-par(par.old)
+testFilledCircle(xy, R=R);
 
 #### Smooth Muscles / Connective Tissue ####
 plot.base()

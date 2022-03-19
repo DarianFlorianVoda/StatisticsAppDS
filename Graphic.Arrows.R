@@ -252,6 +252,24 @@ arrowCircle = function(x, y, r=0.5, lwd=1, h.lwd=lwd, col="red", d.lines=0) {
   invisible(lst);
 }
 
+#### Arrow Solid Square
+arrowSolidSQ = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=0) {
+  slope = compute_slope(x, y);
+  ### Head
+  arrHead = arrSQH(x[2], y[2], slope=slope, d=d);
+  class(arrHead) = c("polygon", class(arrHead));
+  ahead  = list(arrHead, lwd = h.lwd);
+  ### ArrowTail
+  arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
+  ### Full Arrow
+  lst = list(Arrow=arrow, Head=ahead);
+  class(lst) = c("arrow", "list");
+  # Plot lines:
+  print("Finished")
+  lines(lst, col=col);
+  invisible(lst);
+}
+
 
 ### Test:
 plot.base = function(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2)) {

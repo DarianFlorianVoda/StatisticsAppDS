@@ -10,7 +10,9 @@ parseCycles = function(x, r=1, d2=0.0625) {
   x0 = 0; y0 = 0; r0 = r;
   r  = 0; d  = 0;
   phi0 = 0; phi = 0; s = "";
-  nL = as.numeric(cyc);
+  isNum = grepl("^[0-9]", cyc);
+  nL = rep(NA, length(cyc));
+  nL[isNum] = as.numeric(cyc[isNum]);
   for(id in seq(length(cyc))) {
     n = nL[id];
     if( ! is.na(n)) {

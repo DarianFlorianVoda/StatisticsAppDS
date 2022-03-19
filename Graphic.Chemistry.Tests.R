@@ -28,16 +28,16 @@ lines(parseCycles("<5|6|6|5"))
 
 #### Spiro-Derivatives ####
 plot.base()
-lines(parseCycles("6|6|5<5"), list())
+lines(parseCycles("6|6|5<5"))
 
 plot.base()
-lines(parseCycles("6|6|5<7"), list())
+lines(parseCycles("6|6|5<7"))
 
 #### Other ####
 plot.base()
-lines(parseCycles("5-5"), list())
+lines(parseCycles("5-5"))
 
 #### Sesquifulvalene backbone ####
 plot.base()
-lines(parseCycles("7=5"), list())
+lines(parseCycles("7=5"))
 
