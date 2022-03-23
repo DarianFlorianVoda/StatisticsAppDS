@@ -122,3 +122,4 @@ lines.object.base(lst, lwd=2)
 
 lst = cellSmooth(c(2,7), c(1, 5), r=0.6)
 lines.object.base(lst, lwd=2)
+
