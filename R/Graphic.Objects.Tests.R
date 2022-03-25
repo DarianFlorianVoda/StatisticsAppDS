@@ -34,6 +34,7 @@ testFilledCircle = function(xy, r, R=NULL, lim=NULL, col="#B0B032", line=TRUE, a
   }
   pin = mean(par("pin")) + 0.25;
   par.old = par(pin = c(pin, pin));
+  n = length(x)
   for(id in seq(n)) {
     if(is.null(col)) {
       shape::filledcircle(r1=r, r2=0, mid = c(x[id], y[id]), ...)
@@ -122,4 +123,12 @@ lines.object.base(lst, lwd=2)
 
 lst = cellSmooth(c(2,7), c(1, 5), r=0.6)
 lines.object.base(lst, lwd=2)
+
+
+#### Liposome ####
+plot.base(xlim=c(-10,10), ylim=c(-10,10))
+lst = liposomes(c(30, 15), r=0.5)
+testFilledCircle(lst[[1]], line = FALSE, add = TRUE)
+testFilledCircle(lst[[2]], line = FALSE, add = TRUE)
+lines.object.base(lst[3], lwd=1)
 

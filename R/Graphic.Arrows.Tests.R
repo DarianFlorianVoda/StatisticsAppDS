@@ -26,6 +26,7 @@ x = c(0, 6); y = c(1, 6);
 arrowSimpleH(x, y, d=-1, lwd=2);
 arrowSimpleH(c(x[1], 5), c(y[1], y[1]), d=-1, lwd=2);
 arrowSimpleH(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2);
+arrowSimpleH(x, y+2, d=-1.5, d.head=c(-0.5, 0.5), lwd=2);
 
 ##### Inverted Head #####
 plot.base()
