@@ -32,7 +32,7 @@ compute_slope = function(x, y) {
     stop("The base-line requires 2 points!");
     # TODO: check if it works properly.
   }
-  
+
   if(length(x) == 2){
     slope = (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
   }
@@ -56,7 +56,7 @@ lines.list = function(x, y, lwd=NULL, ...) {
 ### Base function
 lines.object.base = function(x, lwd, col=1, ...) {
   # do NOT overwrite user-value;
-  
+
   if(is.null(lwd)) {
     lwd = if(is.null(x$lwd)) 1 else x$lwd;
   }
@@ -111,7 +111,7 @@ reflect = function(x, y, p, slope=NULL) {
     # TODO: handle if more than 2 points!
     slope = compute_slope(x,y) # (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
   }
-  
+
   if(slope == 0) {
     # Horizontal Line
     return(c(p[1], 2*y[1]-p[2]))
@@ -120,7 +120,7 @@ reflect = function(x, y, p, slope=NULL) {
     return(c(2*x[1]-p[1], p[2])) # De ce?
     # TODO: distanta de la punct la dreapta + punctul initial ?
   }
-  
+
   sl.orto = - 1 / slope;
   # intersection point:
   div = slope - sl.orto; # div always > 0!
@@ -174,7 +174,7 @@ shiftLine = function(x, y, d=1, slope=NULL) {
     return(r)
   }
   sl.orto = - 1 / slope;
-  sl2 = (sl.orto^2 + 1);
+  sl2 = sqrt(sl.orto^2 + 1);
   delta = d / sl2;
   # shift Start- & End-points:
   shift.f = function(x, y, id) {
