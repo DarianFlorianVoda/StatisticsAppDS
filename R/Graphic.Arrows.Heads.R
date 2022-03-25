@@ -74,14 +74,6 @@ arrHX = function(x, y, slope, d=-1, dV=c(d, -d)) {
   arrHead = list(
     x = c(p1$x[2], p2$x[1], midpointX, p2$x[2], p1$x[1]),
     y = c(p1$y[2], p2$y[1], midpointY, p2$y[2], p1$y[1]));
-  print(arrHead)
-  print(p1)
-  print(p2)
-  print(midpointX)
-  print(midpointY)
-  print(p1$x[2])
-  print(p2$x[1])
-  print(length(d))
   attr(arrHead, "Mid") = c(midpointX, midpointY)
   return(arrHead);
 }
