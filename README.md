@@ -1,6 +1,6 @@
 # Bachelor Thesis R Package: Diagram-Generator
 # University
-West University Of Timișoara
+West University Of Timișoara, Timiș County, Romania
 
 # Graduate
 Vodă Darian-Florian
