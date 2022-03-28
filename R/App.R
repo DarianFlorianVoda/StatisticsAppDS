@@ -1,6 +1,6 @@
 #'TODO: source correct the directory path
 #' Set your own path to your working directory
-path = "C:/Users/daria/OneDrive/Desktop/Licenta/Diagram-Generator/Diagram.Generator/R"
+path = "C:/Users/daria/OneDrive/Desktop/Licenta/Diagram.Generator/R"
 setwd(path)
 
 source("Graphic.Helper.R");

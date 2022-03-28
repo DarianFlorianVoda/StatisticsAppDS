@@ -91,12 +91,12 @@ arrowXH = function(x, y, d=0.5, lwd=1, d.head=c(-d, d), d.lines=0, h.lwd=lwd, co
 }
 
 #### Arrow Simple ####
-arrowSimpleH = function(x, y, d=0.2, lwd=1, d.head=-1, h.lwd=lwd, col="red", d.lines=0) {
+arrowSimpleH = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), h.lwd=lwd, col="red", d.lines=0) {
   slope = compute_slope(x, y);
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
-  ahead  = list(arrHS(x[2], y[2], slope=slope, d=d), lwd = h.lwd);
+  ahead  = list(arrHS(x[2], y[2], slope=slope, d=d, dV = d.head), lwd = h.lwd);
   ### Full Arrow
   lst = list(Arrow=arrow, Head=ahead);
   class(lst) = c("arrow", "list");
@@ -189,14 +189,14 @@ arrowInvH = function(x, y, lwd=1, h.lwd=lwd, col="red", d.lines=0) {
   arrow = lines(x, y, lwd=lwd, col=col);
   p = shiftPoint(c(x[2], y[2]), slope=slope, d = 1)
   pV = shiftLine(p, slope=slope, d=c(-1, 1));
-  
+
   ### Head
   ahead = lines(c(pV[1,1], x[2], pV[2,1]),
                 c(pV[1,2], y[2], pV[2,2]), lwd=h.lwd, col=col)
   # Putting them into the list
   lst = list(Arrow=arrow, Head=ahead);
   class(lst) = c("arrow");
-  
+
   # Plot lines:
   print("Finished")
   lines(lst, col=col);
