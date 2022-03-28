@@ -18,7 +18,52 @@
 
 #### Tests ####
 
-#### Horizontal Tests ####
+Dsquare = function(xy, x0, y0) {
+  sum((xy$x - x0)^2, (xy$y - y0)^2)
+}
+
+#### Diagonal, H & V Tests ####
+
+##### Simple  ArrowHead ####
+
+### Test 1
+x = c(0, 6); y = c(1, 6);
+d = -1;
+plot.base()
+a1 = arrowSimpleH(x, y, d=d, lwd=2);
+a2 = arrowSimpleH(c(x[1], 5), c(y[1], y[1]), d=d, lwd=2);
+a3 = arrowSimpleH(c(x[1], x[1]), c(y[1], 5), d=d, lwd=2);
+# Head
+h1 = a1$Head[[1]]
+h2 = a2$Head[[1]]
+h3 = a3$Head[[1]]
+# - visual aids:
+lines(h1$x[c(1,3)], h1$y[c(1,3)], col="green")
+lines(h2$x[c(1,3)], h2$y[c(1,3)], col="green")
+lines(h3$x[c(1,3)], h3$y[c(1,3)], col="green")
+stopifnot(round(Dsquare(h1, h1$x[2], h1$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
+stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
+stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
+
+
+### Test 2
+plot.base()
+x = c(0, 6); y = c(1, 6) + 1;
+d=-1.5; d.head = c(-0.5, 0.5);
+a1 = arrowSimpleH(x, y, d=d, d.head=d.head, lwd=2);
+a2 = arrowSimpleH(c(x[1], 5), c(y[1], y[1]), d=d, d.head=d.head, lwd=2);
+a3 = arrowSimpleH(c(x[1], x[1]), c(y[1], 5), d=d, d.head=d.head, lwd=2);
+# Head
+h1 = a1$Head[[1]]
+h2 = a2$Head[[1]]
+h3 = a3$Head[[1]]
+# - visual aids:
+lines(h1$x[c(1,3)], h1$y[c(1,3)], col="green")
+lines(h2$x[c(1,3)], h2$y[c(1,3)], col="green")
+lines(h3$x[c(1,3)], h3$y[c(1,3)], col="green")
+stopifnot(round(Dsquare(h1, h1$x[2], h1$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
+stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
+stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
 
 ##### Simple  ArrowHead ####
 plot.base()
