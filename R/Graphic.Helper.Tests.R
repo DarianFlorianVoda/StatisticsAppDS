@@ -684,8 +684,8 @@ r = 3/2
 midp = c(midc[[1]] + r*cos(alpha), midc[[2]] + r*sin(alpha));
 p = solveCircleIntersection(midp, midc, 0.5, r)
 plot.base()
-shape::plotcircle(r, mid=midc)
-shape::plotcircle(0.5, mid=midp, lcol="red")
+shape::plotellipse(r, r, mid=midc)
+shape::plotellipse(0.5, 0.5, mid=midp, lcol="red")
 points(p$x, p$y, col="green", lwd=2)
 stopifnot(round(p$x - c(2.856325, 3.435889), 5) == 0)
 stopifnot(round(p$y - c(4.231547, 3.433845), 5) == 0)

@@ -126,9 +126,14 @@ lines.object.base(lst, lwd=2)
 
 
 #### Liposome ####
+
+testLiposome = function(lst, col="#48B000", col.line=1){
+  testFilledCircle(lst[[1]], line = FALSE, add = TRUE, col=col)
+  testFilledCircle(lst[[2]], line = FALSE, add = TRUE, col=col)
+  lines.object.base(lst[3], lwd=1, col=col.line) 
+}
+
 plot.base(xlim=c(-10,10), ylim=c(-10,10))
-lst = liposomes(c(30, 15), r=0.5)
-testFilledCircle(lst[[1]], line = FALSE, add = TRUE)
-testFilledCircle(lst[[2]], line = FALSE, add = TRUE)
-lines.object.base(lst[3], lwd=1)
+lst = liposomes(c(30, 17), r=0.5, phi=c(0, pi/34))
+testLiposome(lst)
 

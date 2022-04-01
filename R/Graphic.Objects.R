@@ -94,24 +94,27 @@ cellSmooth = function(x, y, r=1, slope=NULL, lwd=2, N=128, phi=pi) {
 }
 
 #### Liposomes ####
-liposomes = function(n, r, center=c(0, 0), col="blue", ...){
-  C1 = circlesOnCircle(n=n[1], r=r, center=center)
-  C2 = circlesOnCircle(n=n[2], r=r, center=center)
+liposomes = function(n, r, center=c(0, 0), phi=c(0, 0), ...){
+  C1 = circlesOnCircle(n=n[1], r=r, center=center, phi=phi[1])
+  C2 = circlesOnCircle(n=n[2], r=r, center=center, phi=phi[2])
   R1 = attr(C1, "R")
   R2 = attr(C2, "R")
   R1 = R1 - r
   R2 = R2 + r
   d2 = (R1-R2)/2
-  p1 = pointsCircle(n=n[1], r=R1)
-  p2 = pointsCircle(n=n[2], r=R2)
+  p1 = pointsCircle(n=n[1], r=R1, phi=phi[1])
+  p2 = pointsCircle(n=n[2], r=R2, phi=phi[2])
   fn = function(id, p1, p2, d){
     p1 = c(p1$x[id], p1$y[id])
     slope = compute_slope(x=c(p1[1], p2[1]), y=c(p1[2], p2[2]))
+    if(p1[1] > center[1]){
+      d = -d;
+    }
     pp = shiftPoint(p1, slope=slope, d=d)
     data.frame(x=c(p1[1], pp[1]), y=c(p1[2], pp[2]), id=id)
   }
   l1 = lapply(seq(n[1]), fn, p1, center, d2)
-  l2 = lapply(seq(n[2]), fn, p2, center, d2)
+  l2 = lapply(seq(n[2]), fn, p2, center, -d2)
 
   l1 = do.call(rbind, l1)
   l2 = do.call(rbind, l2)
