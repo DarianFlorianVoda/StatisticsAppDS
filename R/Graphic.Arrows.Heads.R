@@ -22,7 +22,7 @@
 
 ### Simple ArrowHead
 # (x, y) = tip of the ArrowHead;
-arrHS = function(x, y, slope, d=-1, dV=c(d, -d)) {
+ArrowSimpleHead = function(x, y, slope, d=-1, dV=c(d, -d)) {
   p = if(d == 0) matrix(c(x, y), nrow=1, ncol=2)
   else shiftPoint(c(x, y), slope=slope, d = d);
   pV = shiftLine(p, slope=slope, d = dV);
@@ -38,7 +38,7 @@ arrHD = function(x, y, slope, d=-1, dV=c(d, -d)) {
   d1 = d[[1]];
   d2 = if(length(d) == 1) 2*d else sum(d);
   # TODO: more than 2 values for dV;
-  pV = arrHS(x, y, slope=slope, d=d1, dV=dV);
+  pV = arrowHeadS(x, y, slope=slope, d=d1, dV=dV);
   p2 = shiftPoint(c(x, y), slope=slope, d = d2);
   arrHead = list(
     x = c(pV$x[1], p2[1,1], pV$x[3], x, pV$x[1]),
@@ -82,10 +82,10 @@ arrHX = function(x, y, slope, d=-1, dV=c(d, -d)) {
 # - a high-level helper function;
 arrH2 = function(x, y, slope, d=-1, dH=-d, dV=c(dH, -dH)) {
   # Shift point along line:
-  arrHead = list(arrHS(x, y, slope=slope, d = dH, dV = dV));
+  arrHead = list(arrowHeadS(x, y, slope=slope, d = dH, dV = dV));
   # Double Arrow
   p2 = shiftPoint(c(x, y), slope=slope, d = - d);
-  arrHead2 = list(arrHS(p2[1], p2[2], slope=slope, d = dH, dV = dV));
+  arrHead2 = list(arrowHeadS(p2[1], p2[2], slope=slope, d = dH, dV = dV));
   arrHead  = c(arrHead, arrHead2);
   return(arrHead);
 }
@@ -93,12 +93,12 @@ arrH2 = function(x, y, slope, d=-1, dH=-d, dV=c(dH, -dH)) {
 # N-Lined ArrowHead: --->>...> (n times)
 arrHN = function(x, y, slope, n=1, d = 0.5, dH = - d, dV=c(dH, -dH)) {
   # Shift point along line:
-  arrHead = list(arrHS(x, y, slope=slope, d = dH, dV = dV));
+  arrHead = list(arrowHeadS(x, y, slope=slope, d = dH, dV = dV));
   if(n == 1) return(arrHead);
   # Double Arrow
   for(id in seq(n-1)) {
     p = shiftPoint(c(x, y), slope=slope, d = - id * d);
-    arrowhead = list(arrHS(p[1], p[2], slope=slope, d = dH, dV = dV));
+    arrowhead = list(arrowHeadS(p[1], p[2], slope=slope, d = dH, dV = dV));
     arrHead  = c(arrHead, arrowhead);
   }
   return(arrHead);
@@ -135,10 +135,10 @@ arrInv2H = function(x, y, slope, d=-1, dV=c(d, -d)) {
   dH = abs(dV[1]);
   # Head: 2nd "<" of "<<"
   p2 = shiftPoint(c(x, y), slope=slope, d = - dH);
-  arrHead = list(arrHS(p2[1], p2[2], slope=slope, d = dH));
+  arrHead = list(arrowHeadS(p2[1], p2[2], slope=slope, d = dH));
   # Head: 1st "<" of "<<"
   p2 = shiftPoint(c(x, y), slope=slope, d = - d - dH);
-  arrHead2 = list(arrHS(p2[1], p2[2], slope=slope, d = dH));
+  arrHead2 = list(arrowHeadS(p2[1], p2[2], slope=slope, d = dH));
   arrHead  = c(arrHead, arrHead2);
   midpoint = p2;
   attr(arrHead, "Mid") = midpoint;

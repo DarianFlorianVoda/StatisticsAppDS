@@ -65,7 +65,7 @@ stopifnot(round(Dsquare(h1, h1$x[2], h1$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
 stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
 stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
 
-##### Simple  ArrowHead ####
+##### Simple  ArrowHead Mixed ####
 plot.base()
 x = c(0, 6); y = c(1, 6);
 arrowSimpleH(x, y, d=-1, lwd=2);
@@ -76,9 +76,9 @@ arrowSimpleH(x, y+2, d=-1.5, d.head=c(-0.5, 0.5), lwd=2);
 ##### Inverted Head #####
 plot.base()
 x = c(0, 6); y = c(1, 6);
-arrowInvH(x, y, d=-1, lwd=2);
-arrowInvH(c(x[1], 5), c(y[1], y[1]), d=-1, lwd=2);
-arrowInvH(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2);
+arrowInvH(x, y, d=1, lwd=2);
+arrowInvH(c(x[1], 5), c(y[1], y[1]), d=1, lwd=2);
+arrowInvH(c(x[1], x[1]), c(y[1], 5), d=1, lwd=2);
 
 ##### Diamond ArrowHead #####
 plot.base()
@@ -118,9 +118,9 @@ arrowSQ(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2);
 ##### Multiple-lined ArrowHead #####
 plot.base()
 x = c(0, 6); y = c(1, 6);
-arrowMultiH(x, y, d=-1, n=5, lwd=2);
-arrowMultiH(c(x[1], 5), c(y[1], y[1]), n=5, d=-1, lwd=2);
-arrowMultiH(c(x[1], x[1]), c(y[1], 5), n=5, d=-1, lwd=2);
+arrowMultiH(x, y, d=1, n=5, lwd=2);
+arrowMultiH(c(x[1], 8), c(y[1], y[1]), n=5, d=1, lwd=2);
+arrowMultiH(c(x[1], x[1]), c(y[1], 8), n=5, d=1, lwd=2);
 
 ##### Double Lined Inverted ArrowHead #####
 plot.base()
