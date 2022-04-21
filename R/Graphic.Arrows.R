@@ -46,7 +46,7 @@ arrowSimpleH = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), d.lines=0, h.lwd=lw
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
-  ahead  = list(arrowHeadS(x[2], y[2], slope=slope, d=d, dV = d.head), lwd = h.lwd);
+  ahead  = list(arrowSimpleHead(x[2], y[2], slope=slope, d=d, dV = d.head), lwd = h.lwd);
   ### Full Arrow
   lst = list(Arrow=arrow, Head=ahead);
   class(lst) = c("arrow", "list");
@@ -62,7 +62,7 @@ arrowDH = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
-  arrHead = arrH2(x[2], y[2], slope=slope, d=d, dH=d.head);
+  arrHead = arrowDoubleHead(x[2], y[2], slope=slope, d=d, dH=d.head);
   arrHead$lwd = h.lwd;
   ### Full Arrow
   lst = list(Arrow=arrow, Head=arrHead);
@@ -79,7 +79,7 @@ arrowDiamondH = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, co
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
-  ahead  = list(arrHD(x[2], y[2], slope=slope, d=d), lwd = h.lwd);
+  ahead  = list(arrowSimpleHead(x[2], y[2], slope=slope, d=d), lwd = h.lwd);
   ### Full Arrow
   lst = list(Arrow=arrow, Head=ahead);
   class(lst) = c("arrow", "list");
@@ -93,7 +93,7 @@ arrowDiamondH = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, co
 arrowXH = function(x, y, d=0.5, lwd=1, d.head=c(-d, d), d.lines=0, h.lwd=lwd, col="red") {
   slope = compute_slope(x, y);
   ### Head
-  arrHead = arrHX(x[2], y[2], slope=slope, d = - d, dV = d.head);
+  arrHead = arrowXHead(x[2], y[2], slope=slope, d = - d, dV = d.head);
   ahead  = list(arrHead, lwd = h.lwd);
   midpoint = attr(arrHead, "Mid")
   ### ArrowTail
@@ -115,7 +115,7 @@ arrowTH = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
-  ahead  = list(arrHT(x[2], y[2], slope=slope, d=d), lwd = h.lwd);
+  ahead  = list(arrowTHead(x[2], y[2], slope=slope, d=d), lwd = h.lwd);
   ### Full Arrow
   lst = list(Arrow=arrow, Head=ahead);
   class(lst) = c("arrow", "list");
@@ -129,7 +129,7 @@ arrowTH = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red
 arrowSQ = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red") {
   slope = compute_slope(x, y);
   ### Head
-  arrHead = arrSQH(x[2], y[2], slope=slope, d=d);
+  arrHead = arrowSquareHead(x[2], y[2], slope=slope, d=d);
   ahead  = list(arrHead, lwd = h.lwd);
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
@@ -151,8 +151,8 @@ arrowMultiH = function(x, y, slope, n=1, lwd=1, d=0.25, h.lwd=lwd, d.head=c(-d, 
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
-  arrHead = arrHN(x[2], y[2], slope=slope, n=n, d=d, dV=d.head);
-  arrHead = c(arrHead, arrHN(x[2], y[2], slope=slope, n=n, d=d, dV=-d.head));
+  arrHead = arrowNHead(x[2], y[2], slope=slope, n=n, d=d, dV=d.head);
+  arrHead = c(arrHead, arrowNHead(x[2], y[2], slope=slope, n=n, d=d, dV=-d.head));
   arrHead$lwd = h.lwd;
   ### Full Arrow
   lst = list(Arrow=arrow, Head=arrHead);
@@ -167,7 +167,7 @@ arrowMultiH = function(x, y, slope, n=1, lwd=1, d=0.25, h.lwd=lwd, d.head=c(-d, 
 arrowInv2H = function(x, y, d=0.25, lwd=1, d.head=c(-d, d), d.lines=0, h.lwd=lwd, col="red") {
   slope = compute_slope(x, y);
   ### Head
-  arrHead = arrInv2H(x[2], y[2], slope=slope, d=d, dV=d.head);
+  arrHead = arrowDoubleInvertedHead(x[2], y[2], slope=slope, d=d, dV=d.head);
   midpoint = attr(arrHead, "Mid")
   arrHead$lwd = h.lwd;
   ### ArrowTail
@@ -210,7 +210,7 @@ arrowInvH = function(x, y, lwd=1, d=1, d.head=c(-d,d), d.lines=0, h.lwd=lwd, col
 arrowCircle = function(x, y, r=0.5, lwd=1, d.lines=0, h.lwd=lwd, col="red") {
   slope = compute_slope(x, y);
   ### Head
-  arrHead = arrCircle(x[2], y[2], slope=slope, r=r);
+  arrHead = arrowCircleHead(x[2], y[2], slope=slope, r=r);
   start = attr(arrHead, "start")
   arrHead$lwd = h.lwd;
   ### ArrowTail
@@ -230,7 +230,7 @@ arrowCircle = function(x, y, r=0.5, lwd=1, d.lines=0, h.lwd=lwd, col="red") {
 arrowSolidSQ = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red") {
   slope = compute_slope(x, y);
   ### Head
-  arrHead = arrSQH(x[2], y[2], slope=slope, d=d);
+  arrHead = arrowSquareHead(x[2], y[2], slope=slope, d=d);
   class(arrHead) = c("polygon", class(arrHead));
   ahead  = list(arrHead, lwd = h.lwd);
   ### ArrowTail

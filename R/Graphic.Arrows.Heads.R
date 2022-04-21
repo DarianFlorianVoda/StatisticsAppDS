@@ -16,13 +16,13 @@
 # GitHub: https://github.com/DarianFlorianVoda/Diagram-Generator
 
 
-### Functions to Generate ArrowHeads
+### Functions to Generate arrowSimpleHead
 
 #####################
 
 ### Simple ArrowHead
 # (x, y) = tip of the ArrowHead;
-ArrowSimpleHead = function(x, y, slope, d=-1, dV=c(d, -d)) {
+arrowSimpleHead = function(x, y, slope, d=-1, dV=c(d, -d)) {
   p = if(d == 0) matrix(c(x, y), nrow=1, ncol=2)
   else shiftPoint(c(x, y), slope=slope, d = d);
   pV = shiftLine(p, slope=slope, d = dV);
@@ -33,12 +33,12 @@ ArrowSimpleHead = function(x, y, slope, d=-1, dV=c(d, -d)) {
 }
 
 # Diamond ArrowHead: ---<>
-arrHD = function(x, y, slope, d=-1, dV=c(d, -d)) {
+arrowDiamondHead = function(x, y, slope, d=-1, dV=c(d, -d)) {
   if(length(d) > 2) stop("Only 2 values are supported for d!");
   d1 = d[[1]];
   d2 = if(length(d) == 1) 2*d else sum(d);
   # TODO: more than 2 values for dV;
-  pV = arrowHeadS(x, y, slope=slope, d=d1, dV=dV);
+  pV = arrowSimpleHead(x, y, slope=slope, d=d1, dV=dV);
   p2 = shiftPoint(c(x, y), slope=slope, d = d2);
   arrHead = list(
     x = c(pV$x[1], p2[1,1], pV$x[3], x, pV$x[1]),
@@ -47,7 +47,7 @@ arrHD = function(x, y, slope, d=-1, dV=c(d, -d)) {
 }
 
 # X ArrowHead: ---X
-arrHX = function(x, y, slope, d=-1, dV=c(d, -d)) {
+arrowXHead = function(x, y, slope, d=-1, dV=c(d, -d)) {
   if(length(d) > 2) stop("Only 2 values are supported for d!");
   d2 = if(length(d) == 1) 2*d else sum(d);
   # TODO: more than 2 values for dV;
@@ -80,32 +80,32 @@ arrHX = function(x, y, slope, d=-1, dV=c(d, -d)) {
 
 # Double Lined ArrowHead: --->>
 # - a high-level helper function;
-arrH2 = function(x, y, slope, d=-1, dH=-d, dV=c(dH, -dH)) {
+arrowDoubleHead = function(x, y, slope, d=-1, dH=-d, dV=c(dH, -dH)) {
   # Shift point along line:
-  arrHead = list(arrowHeadS(x, y, slope=slope, d = dH, dV = dV));
+  arrHead = list(arrowSimpleHead(x, y, slope=slope, d = dH, dV = dV));
   # Double Arrow
   p2 = shiftPoint(c(x, y), slope=slope, d = - d);
-  arrHead2 = list(arrowHeadS(p2[1], p2[2], slope=slope, d = dH, dV = dV));
+  arrHead2 = list(arrowSimpleHead(p2[1], p2[2], slope=slope, d = dH, dV = dV));
   arrHead  = c(arrHead, arrHead2);
   return(arrHead);
 }
 
 # N-Lined ArrowHead: --->>...> (n times)
-arrHN = function(x, y, slope, n=1, d = 0.5, dH = - d, dV=c(dH, -dH)) {
+arrowNHead = function(x, y, slope, n=1, d = 0.5, dH = - d, dV=c(dH, -dH)) {
   # Shift point along line:
-  arrHead = list(arrowHeadS(x, y, slope=slope, d = dH, dV = dV));
+  arrHead = list(arrowSimpleHead(x, y, slope=slope, d = dH, dV = dV));
   if(n == 1) return(arrHead);
   # Double Arrow
   for(id in seq(n-1)) {
     p = shiftPoint(c(x, y), slope=slope, d = - id * d);
-    arrowhead = list(arrowHeadS(p[1], p[2], slope=slope, d = dH, dV = dV));
+    arrowhead = list(arrowSimpleHead(p[1], p[2], slope=slope, d = dH, dV = dV));
     arrHead  = c(arrHead, arrowhead);
   }
   return(arrHead);
 }
 
 # T ArrowHead: ---|
-arrHT = function(x, y, slope, d=-1, dV=c(d, -d)) {
+arrowTHead = function(x, y, slope, d=-1, dV=c(d, -d)) {
   p  = cbind(x, y);
   pV = shiftLine(p, slope=slope, d = dV);
   arrHead = list(
@@ -115,7 +115,7 @@ arrHT = function(x, y, slope, d=-1, dV=c(d, -d)) {
 }
 
 # Square ArrowHead: |_|
-arrSQH = function(x, y, slope, d=-1, dV=c(d, -d)) {
+arrowSquareHead = function(x, y, slope, d=-1, dV=c(d, -d)) {
   if(length(d) > 2) stop("Only 2 values are supported for d!");
   d2 = if(length(d) == 1) 2*d else sum(d);
   # TODO: more than 2 values for dV;
@@ -130,15 +130,15 @@ arrSQH = function(x, y, slope, d=-1, dV=c(d, -d)) {
 }
 
 # Double Lined Inverted ArrowHead: ---<<
-arrInv2H = function(x, y, slope, d=-1, dV=c(d, -d)) {
+arrowDoubleInvertedHead = function(x, y, slope, d=-1, dV=c(d, -d)) {
   # Shift point along line:
   dH = abs(dV[1]);
   # Head: 2nd "<" of "<<"
   p2 = shiftPoint(c(x, y), slope=slope, d = - dH);
-  arrHead = list(arrowHeadS(p2[1], p2[2], slope=slope, d = dH));
+  arrHead = list(arrowSimpleHead(p2[1], p2[2], slope=slope, d = dH));
   # Head: 1st "<" of "<<"
   p2 = shiftPoint(c(x, y), slope=slope, d = - d - dH);
-  arrHead2 = list(arrowHeadS(p2[1], p2[2], slope=slope, d = dH));
+  arrHead2 = list(arrowSimpleHead(p2[1], p2[2], slope=slope, d = dH));
   arrHead  = c(arrHead, arrHead2);
   midpoint = p2;
   attr(arrHead, "Mid") = midpoint;
@@ -146,7 +146,7 @@ arrInv2H = function(x, y, slope, d=-1, dV=c(d, -d)) {
 }
 
 # Circle ArrowHead ---O
-arrCircle = function(x, y, slope, r=0.5) {
+arrowCircleHead = function(x, y, slope, r=0.5) {
   center = shiftPoint(c(x, y), slope = slope, d = -r)
   startP = shiftPoint(c(x, y), slope = slope, d = -2*r)
   lst = list(r=r, center=center);
