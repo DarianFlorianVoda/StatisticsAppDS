@@ -22,6 +22,27 @@ Dsquare = function(xy, x0, y0) {
   sum((xy$x - x0)^2, (xy$y - y0)^2)
 }
 
+arrow = function(x, y, type = "Simple", d=1, lwd=1, ...) {
+  call = match.call();
+  idType = match("type", names(call));
+  if(is.na(idType)) {
+    type = "Simple";
+  } else {
+    types = c("Simple", "Double", "Diamond",
+              "Square", ...); # de completat
+    type = call[[idType]];
+    type = pmatch(type, types);
+    if(is.na(type)) stop("Invalid type!");
+    call = call[ - idType];
+    type = types[type];
+  }
+  # Function name:
+  type = paste0("arrow", type, "Head");
+  type = as.symbol(type);
+  call[[1]] = type;
+  eval(call)
+}
+
 #### Diagonal, H & V Tests ####
 
 ##### Simple  ArrowHead ####
