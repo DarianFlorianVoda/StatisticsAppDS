@@ -37,7 +37,7 @@ arrow = function(x, y, type = "Simple", d=1, lwd=1, ...) {
     type = types[type];
   }
   # Function name:
-  type = paste0("arrow", type, "Head");
+  type = paste0("arrow", type);
   type = as.symbol(type);
   call[[1]] = type;
   eval(call)

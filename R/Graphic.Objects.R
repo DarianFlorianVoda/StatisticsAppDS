@@ -94,14 +94,14 @@ cellSmooth = function(x, y, r=1, slope=NULL, lwd=2, N=128, phi=pi) {
 }
 
 #### Liposomes ####
-liposomes = function(n, r, center=c(0, 0), phi=c(0, 0), ...){
+liposomes = function(n, r, center=c(0, 0), phi=c(0, 0), d=0, ...){
   C1 = circlesOnCircle(n=n[1], r=r, center=center, phi=phi[1])
   C2 = circlesOnCircle(n=n[2], r=r, center=center, phi=phi[2])
   R1 = attr(C1, "R")
   R2 = attr(C2, "R")
   R1 = R1 - r
   R2 = R2 + r
-  d2 = (R1-R2)/2
+  d2 = (R1-R2-d)/2
   p1 = pointsCircle(n=n[1], r=R1, phi=phi[1])
   p2 = pointsCircle(n=n[2], r=R2, phi=phi[2])
   fn = function(id, p1, p2, d){
