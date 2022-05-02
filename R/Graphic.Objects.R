@@ -2,7 +2,7 @@
 #
 # Thesis
 #
-# Title: Diagram Generator
+# Title: BioShapes
 #
 # Candidate: Darian Voda
 # Faculty of Mathematics and Informatics, UVT
