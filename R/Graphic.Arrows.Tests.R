@@ -29,7 +29,8 @@ arrow = function(x, y, type = "Simple", d=1, lwd=1, ...) {
     type = "Simple";
   } else {
     types = c("Simple", "Double", "Diamond",
-              "Square", ...); # de completat
+              "Square", "Inverted", "T", "X", "N",
+              "DoubleInverted", "Circle", "SolidSquare"); # de completat
     type = call[[idType]];
     type = pmatch(type, types);
     if(is.na(type)) stop("Invalid type!");
