@@ -135,12 +135,12 @@ reflect = function(x, y, p, slope=NULL) {
 
 ### Shift Line
 # d = distance to shift (translate);
-shiftLine = function(x, y, d=1, slope=NULL) {
+shiftLine = function(x, y, d=1, slope=NULL, scale=1) {
   if(is.null(slope)) {
     if(length(x) < 2 || length(y) < 2)
       stop("The base-line requires 2 points!");
     # TODO: handle if more than 2 points!
-    slope = compute_slope(x,y) # (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
+    slope = compute_slope(x,y);
   } else {
     if(missing(y)) {
       # both coordinates encoded using parameter x;
@@ -149,7 +149,7 @@ shiftLine = function(x, y, d=1, slope=NULL) {
   }
   ### Vertical Line
   if(abs(slope) == Inf) {
-    # if((length(x) >= 2 && x[1] == x[2]) || (length(x) == 1 && abs(slope) == Inf)) {
+    d = d / scale;
     if(length(d) == 1) {
       r = data.frame(x = x + d, y = y);
     } else {
@@ -162,7 +162,6 @@ shiftLine = function(x, y, d=1, slope=NULL) {
   }
   ### Horizontal Line
   if(slope == 0) {
-    # if(y[1] == y[2]) {
     if(length(d) == 1) {
       r = data.frame(x = x, y = y + d);
     } else {
@@ -173,19 +172,19 @@ shiftLine = function(x, y, d=1, slope=NULL) {
     }
     return(r)
   }
+  ### Oblique Line
   sl.orto = - 1 / slope;
   sl2 = sqrt(sl.orto^2 + 1);
-  delta = d / sl2;
+  sl.orto = sl.orto * scale;
   # shift Start- & End-points:
   shift.f = function(x, y, id) {
     delta = d[id] / sl2;
-    x.sh  = x + delta;
-    y.sh  = (x.sh - x)*sl.orto + y;
+    x.sh  = x + delta / scale;
+    y.sh  = delta*sl.orto + y;
     data.frame(x=x.sh, y=y.sh, id=id);
   }
   rez = lapply(seq(length(d)), function(id) shift.f(x, y, id))
   rez = data.frame(do.call(rbind, rez));
-  # colnames(rez) = c("x", "y");
   return(rez);
 }
 

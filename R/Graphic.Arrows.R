@@ -41,12 +41,12 @@ arrowTail = function(x, y, d.lines, lwd=1, slope=NULL) {
 
 
 #### Arrow Simple ####
-arrowSimple = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), d.lines=0, h.lwd=lwd, col="red") {
+arrowSimple = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
-  ahead  = list(arrowHeadSimple(x[2], y[2], slope=slope, d=d, dV = d.head), lwd = h.lwd);
+  ahead  = list(arrowHeadSimple(x[2], y[2], slope=slope, d=d, dV = d.head, scale=scale), lwd = h.lwd);
   ### Full Arrow
   lst = list(Arrow=arrow, Head=ahead);
   class(lst) = c("arrow", "list");
@@ -57,12 +57,12 @@ arrowSimple = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), d.lines=0, h.lwd=lwd
 }
 
 #### Double Lined Arrow ####
-arrowDouble = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red") {
+arrowDouble = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
-  arrHead = arrowHeadDouble(x[2], y[2], slope=slope, d=d, dH=d.head);
+  arrHead = arrowHeadDouble(x[2], y[2], slope=slope, d=d, dH=d.head, scale=scale);
   arrHead$lwd = h.lwd;
   ### Full Arrow
   lst = list(Arrow=arrow, Head=arrHead);
@@ -74,12 +74,12 @@ arrowDouble = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col=
 }
 
 #### Arrow Diamond ####
-arrowDiamond = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red") {
+arrowDiamond = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
-  ahead  = list(arrowHeadSimple(x[2], y[2], slope=slope, d=d), lwd = h.lwd);
+  ahead  = list(arrowHeadDiamond(x[2], y[2], slope=slope, d=d, scale=scale), lwd = h.lwd);
   ### Full Arrow
   lst = list(Arrow=arrow, Head=ahead);
   class(lst) = c("arrow", "list");
@@ -90,10 +90,10 @@ arrowDiamond = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col
 }
 
 #### Arrow X ####
-arrowX = function(x, y, d=0.5, lwd=1, d.head=c(-d, d), d.lines=0, h.lwd=lwd, col="red") {
+arrowX = function(x, y, d=0.5, lwd=1, d.head=c(-d, d), d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### Head
-  arrHead = arrowHeadX(x[2], y[2], slope=slope, d = - d, dV = d.head);
+  arrHead = arrowHeadX(x[2], y[2], slope=slope, d = - d, dV = d.head, scale=scale);
   ahead  = list(arrHead, lwd = h.lwd);
   midpoint = attr(arrHead, "Mid")
   ### ArrowTail
@@ -110,12 +110,12 @@ arrowX = function(x, y, d=0.5, lwd=1, d.head=c(-d, d), d.lines=0, h.lwd=lwd, col
 }
 
 #### Arrow T ####
-arrowT = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red") {
+arrowT = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
-  ahead  = list(arrowHeadT(x[2], y[2], slope=slope, d=d), lwd = h.lwd);
+  ahead  = list(arrowHeadT(x[2], y[2], slope=slope, d=d, scale=scale), lwd = h.lwd);
   ### Full Arrow
   lst = list(Arrow=arrow, Head=ahead);
   class(lst) = c("arrow", "list");
@@ -126,10 +126,10 @@ arrowT = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red"
 }
 
 #### Arrow Square ####
-arrowSquare = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red") {
+arrowSquare = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### Head
-  arrHead = arrowHeadSquare(x[2], y[2], slope=slope, d=d);
+  arrHead = arrowHeadSquare(x[2], y[2], slope=slope, d=d, scale=scale);
   ahead  = list(arrHead, lwd = h.lwd);
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
@@ -146,13 +146,13 @@ arrowSquare = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col=
 # d = distance between each "> >";
 # dH = horizontal shift (shiftPoint)
 # dV = vertical shift (shiftLine) of each ">";
-arrowN = function(x, y, slope, n=1, lwd=1, d=0.25, h.lwd=lwd, d.head=c(-d, d), d.lines=0, col="red") {
+arrowN = function(x, y, slope, n=1, lwd=1, d=0.25, h.lwd=lwd, d.head=c(-d, d), d.lines=0, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
-  arrHead = arrowHeadN(x[2], y[2], slope=slope, n=n, d=d, dV=d.head);
-  arrHead = c(arrHead, arrowHeadN(x[2], y[2], slope=slope, n=n, d=d, dV=-d.head));
+  arrHead = arrowHeadN(x[2], y[2], slope=slope, n=n, d=d, dV=d.head, scale=scale);
+  arrHead = c(arrHead, arrowHeadN(x[2], y[2], slope=slope, n=n, d=d, dV=-d.head, scale=scale));
   arrHead$lwd = h.lwd;
   ### Full Arrow
   lst = list(Arrow=arrow, Head=arrHead);
@@ -164,10 +164,10 @@ arrowN = function(x, y, slope, n=1, lwd=1, d=0.25, h.lwd=lwd, d.head=c(-d, d), d
 }
 
 # Double Lined Inverted Head
-arrowDoubleInverted = function(x, y, d=0.25, lwd=1, d.head=c(-d, d), d.lines=0, h.lwd=lwd, col="red") {
+arrowDoubleInverted = function(x, y, d=0.25, lwd=1, d.head=c(-d, d), d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### Head
-  arrHead = arrowHeadDoubleInverted(x[2], y[2], slope=slope, d=d, dV=d.head);
+  arrHead = arrowHeadDoubleInverted(x[2], y[2], slope=slope, d=d, dV=d.head, scale=scale);
   midpoint = attr(arrHead, "Mid")
   arrHead$lwd = h.lwd;
   ### ArrowTail
@@ -185,13 +185,13 @@ arrowDoubleInverted = function(x, y, d=0.25, lwd=1, d.head=c(-d, d), d.lines=0, 
 
 
 ### Other:
-arrowInverted = function(x, y, lwd=1, d=1, d.head=c(-d,d), d.lines=0, h.lwd=lwd, col="red") {
+arrowInverted = function(x, y, lwd=1, d=1, d.head=c(-d,d), d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   xylist = function(x, y) list(list(x=x, y=y));
   ### Full Arrow
   arrow = lines(x, y, lwd=lwd, col=col);
   p = shiftPoint(c(x[2], y[2]), slope=slope, d = d)
-  pV = shiftLine(p, slope=slope, d=d.head);
+  pV = shiftLine(p, slope=slope, d=d.head, scale=scale);
 
   ### Head
   ahead = lines(c(pV[1,1], x[2], pV[2,1]),
@@ -207,10 +207,10 @@ arrowInverted = function(x, y, lwd=1, d=1, d.head=c(-d,d), d.lines=0, h.lwd=lwd,
 }
 
 #### Arrow Circle
-arrowCircle = function(x, y, r=0.5, lwd=1, d.lines=0, h.lwd=lwd, col="red") {
+arrowCircle = function(x, y, r=0.5, lwd=1, d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### Head
-  arrHead = arrowHeadCircle(x[2], y[2], slope=slope, r=r);
+  arrHead = arrowHeadCircle(x[2], y[2], slope=slope, r=r, scale=scale);
   start = attr(arrHead, "start")
   arrHead$lwd = h.lwd;
   ### ArrowTail
@@ -227,10 +227,10 @@ arrowCircle = function(x, y, r=0.5, lwd=1, d.lines=0, h.lwd=lwd, col="red") {
 }
 
 #### Arrow Solid Square
-arrowSolidSquare = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red") {
+arrowSolidSquare = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### Head
-  arrHead = arrowHeadSquare(x[2], y[2], slope=slope, d=d);
+  arrHead = arrowHeadSquare(x[2], y[2], slope=slope, d=d, scale=scale);
   class(arrHead) = c("polygon", class(arrHead));
   ahead  = list(arrHead, lwd = h.lwd);
   ### ArrowTail

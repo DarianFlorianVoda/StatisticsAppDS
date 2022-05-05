@@ -86,7 +86,24 @@ stopifnot(round(Dsquare(h1, h1$x[2], h1$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
 stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
 stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
 
-##### Simple  ArrowHead Mixed ####
+### Test 3
+plot.base(ylim = c(0,100))
+x = c(0, 6); y = c(1, 80);
+d = -1; d.head = c(-3, 3);
+scale = 100/13;
+a1 = arrowSimple(x, y, d=d, d.head=d.head, lwd=2, scale=scale);
+a2 = arrowSimple(c(x[1], 5), c(y[1], y[1]), d=d, d.head=d.head, lwd=2, scale=scale);
+a3 = arrowSimple(c(x[1], x[1]), c(y[1], 50), d=d, d.head=d.head, lwd=2, scale=scale);
+# Head
+h1 = a1$Head[[1]]
+h2 = a2$Head[[1]]
+h3 = a3$Head[[1]]
+# - visual aids:
+lines(h1$x[c(1,3)], h1$y[c(1,3)], col="green")
+lines(h2$x[c(1,3)], h2$y[c(1,3)], col="green")
+lines(h3$x[c(1,3)], h3$y[c(1,3)], col="green")
+
+##### Simple ArrowHead Mixed ####
 plot.base()
 x = c(0, 6); y = c(1, 6);
 arrowSimple(x, y, d=-1, lwd=2);
