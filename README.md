@@ -1,4 +1,4 @@
-# Bachelor Thesis R Package: Diagram-Generator
+# Bachelor Thesis R Package: BioShapes
 # University
 West University Of Timișoara, Timiș County, Romania
 
