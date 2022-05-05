@@ -241,3 +241,4 @@ x = c(0, 6); y = c(1, 6);
 arrowSolidSquare(x, y, d=-2, lwd=2);
 abline(v=x[2], col="green");
 points(x[2], y[2], col="red")
+

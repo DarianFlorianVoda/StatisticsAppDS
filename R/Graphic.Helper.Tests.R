@@ -40,6 +40,7 @@ testReflection = function(p0, x, y) {
 
 testShiftPoint = function(p0, x, y, d=1, color="green") {
   p = shiftPoint(p0, x, y, d)
+  print(p)
   points(p0[1], p0[2])
   points(p, col=color)
 }
@@ -475,8 +476,8 @@ points(p, col="green")
 cat("Finished Subsection [Shift point]: Vertical line - part 3\n");
 
 ###### Ascending line ######
+# Line Start = (0, 1), End = (10, 5) ##initial
 
-# Line Start = (0, 1), End = (10, 5)
 plot.base()
 x = c(0, 10); y = c(1, 5);
 lines(x, y, lwd=2, col="red")
