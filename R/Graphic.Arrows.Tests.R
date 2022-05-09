@@ -187,10 +187,21 @@ plot.base()
 x = c(0, 6); y = c(1, 6);
 arrowInverted(x, y, lwd=2);
 
-#### Diamond ArrowHead ####
+##### Diamond ArrowHead #####
+
+# default join
 plot.base()
 x = c(0, 6); y = c(1, 6);
-arrowDiamond(x, y, d= 0.5, lwd=2);
+arrowDiamond(x, y, d=-1, lwd=2);
+arrowDiamond(c(x[1], 5), c(y[1], y[1]), d=-1, lwd=2);
+arrowDiamond(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2);
+
+# join through
+plot.base()
+x = c(0, 6); y = c(1, 6);
+arrowDiamond(x, y, d=-1, lwd=2, join=2);
+arrowDiamond(c(x[1], 5), c(y[1], y[1]), d=-1, lwd=2, join=2);
+arrowDiamond(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2, join=2);
 
 #### Simple  ArrowHead ####
 plot.base()
