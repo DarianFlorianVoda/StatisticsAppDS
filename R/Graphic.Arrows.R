@@ -157,19 +157,24 @@ arrowSquare = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col=
 # d = distance between each "> >";
 # dH = horizontal shift (shiftPoint)
 # dV = vertical shift (shiftLine) of each ">";
-arrowN = function(x, y, slope, n=1, lwd=1, d=0.25, h.lwd=lwd, d.head=c(-d, d), d.lines=0, col="red", scale=1) {
+arrowN = function(x, y, n=1, d=-0.5, lwd=1, h.lwd=lwd, d.head=c(-d, d), d.lines=0,
+                  col="red", scale=1, join=0) {
+  if(join > n) stop("Unsupported value for join!");
   slope = compute_slope(x, y);
-  ### ArrowTail
-  arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
   arrHead = arrowHeadN(x[2], y[2], slope=slope, n=n, d=d, dV=d.head, scale=scale);
-  arrHead = c(arrHead, arrowHeadN(x[2], y[2], slope=slope, n=n, d=d, dV=-d.head, scale=scale));
   arrHead$lwd = h.lwd;
+  ### ArrowTail
+  if(join == 0) {
+    join = 1;
+  }
+  x[2] = arrHead[[join]]$x[2];
+  y[2] = arrHead[[join]]$y[2];
+  arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Full Arrow
   lst = list(Arrow=arrow, Head=arrHead);
   class(lst) = c("arrow", "list");
   # Plot lines:
-  print("Finished")
   lines(lst, col=col);
   invisible(lst);
 }

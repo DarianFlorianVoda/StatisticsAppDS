@@ -149,12 +149,24 @@ arrowSquare(x, y, d=-1, lwd=2);
 arrowSquare(c(x[1], 5), c(y[1], y[1]), d=-1, lwd=2);
 arrowSquare(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2);
 
-##### Multiple-lined ArrowHead #####
+##### Multiple-Lined ArrowHead #####
+
+# default join:
+n = 5; d = 1;
 plot.base()
 x = c(0, 6); y = c(1, 6);
-arrowN(x, y, d=1, n=5, lwd=2);
-arrowN(c(x[1], 8), c(y[1], y[1]), n=5, d=1, lwd=2);
-arrowN(c(x[1], x[1]), c(y[1], 8), n=5, d=1, lwd=2);
+arrowN(x, y, n=n, d=d, lwd=2);
+arrowN(c(x[1], 8), c(y[1], y[1]), n=n, d=d, lwd=2);
+arrowN(c(x[1], x[1]), c(y[1], 8), n=n, d=d, lwd=2);
+
+# explicit join:
+n = 5; d = 0.5;
+join = n;
+plot.base()
+x = c(0, 6); y = c(1, 6);
+arrowN(x, y, n=n, d=d, lwd=2, join=join);
+arrowN(c(x[1], 8), c(y[1], y[1]), n=n, d=d, lwd=2, join=join);
+arrowN(c(x[1], x[1]), c(y[1], 8), n=n, d=d, lwd=2, join=join);
 
 ##### Double Lined Inverted ArrowHead #####
 plot.base()
