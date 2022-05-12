@@ -165,3 +165,15 @@ arrowHeadCircle = function(x, y, slope, r=0.5, scale=1) {
   return(lst)
 }
 
+# Triangle ArrowHead: ---|>
+arrowHeadTriangle = function(x, y, slope, d=-1, dV=c(-d, d), scale=1) {
+  p = if(d == 0) matrix(c(x, y), nrow=1, ncol=2)
+  else shiftPoint(c(x, y), slope=slope, d = d);
+  pV = shiftLine(p, slope=slope, d = dV, scale=scale);
+  arrHead = list(
+    x = c(pV[1,1], x, pV[2,1], pV[1,1]),
+    y = c(pV[1,2], y, pV[2,2], pV[1,2]));
+  attr(arrHead, "Mid") = p;
+  return(arrHead);
+}
+
