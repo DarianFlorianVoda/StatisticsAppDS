@@ -112,20 +112,6 @@ arrowSimple(c(x[1], 5), c(y[1], y[1]), d=-1, lwd=2);
 arrowSimple(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2);
 arrowSimple(x, y+2, d=-1.5, d.head=c(-0.5, 0.5), lwd=2);
 
-##### Inverted Head #####
-plot.base()
-x = c(0, 6); y = c(1, 6);
-arrowInverted(x, y, d=1, lwd=2);
-arrowInverted(c(x[1], 5), c(y[1], y[1]), d=1, lwd=2);
-arrowInverted(c(x[1], x[1]), c(y[1], 5), d=1, lwd=2);
-
-##### Diamond ArrowHead #####
-plot.base()
-x = c(0, 6); y = c(1, 6);
-arrowDiamond(x, y, d=-1, lwd=2);
-arrowDiamond(c(x[1], 5), c(y[1], y[1]), d=-1, lwd=2);
-arrowDiamond(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2);
-
 ##### Double lined ArrowHead #####
 
 # default join: join through
@@ -191,10 +177,21 @@ arrowSolidSquare(x, y, d=-1, lwd=2);
 arrowSolidSquare(c(x[1], 5), c(y[1], y[1]), d=-1, lwd=2);
 arrowSolidSquare(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2);
 
-#### Inverted ArrowHead ####
+##### Inverted Head #####
 plot.base()
 x = c(0, 6); y = c(1, 6);
-arrowInverted(x, y, lwd=2);
+arrowInverted(x, y, d=1, lwd=2);
+arrowInverted(c(x[1], 5), c(y[1], y[1]), d=1, lwd=2);
+arrowInverted(c(x[1], x[1]), c(y[1], 5), d=1, lwd=2);
+
+### Inhomogeneous Axes
+plot.base(ylim = c(0, 100))
+scale = - 100/13;
+d = 3;
+x = c(0, 6); y = c(1, 60);
+arrowInverted(x, y, d=d, lwd=2, scale=scale);
+arrowInverted(c(x[1], 5), c(y[1], y[1]), d=d, lwd=2, scale=scale);
+arrowInverted(c(x[1], x[1]), c(y[1], 50), d=d, lwd=2, scale=scale);
 
 ##### Diamond ArrowHead #####
 
