@@ -80,12 +80,13 @@ arrowHeadX = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
 
 # Double Lined ArrowHead: --->>
 # - a high-level helper function;
-arrowHeadDouble = function(x, y, slope, d=-1, dH=-d, dV=c(dH, -dH), scale=1) {
-  # Shift point along line:
-  arrHead = list(arrowHeadSimple(x, y, slope=slope, d = dH, dV = dV, scale=scale));
-  # Double Arrow
-  p2 = shiftPoint(c(x, y), slope=slope, d = - d);
-  arrHead2 = list(arrowHeadSimple(p2[1], p2[2], slope=slope, d = dH, dV = dV, scale=scale));
+arrowHeadDouble = function(x, y, slope, d=-1, dH=d, dV=c(dH, -dH), scale=1) {
+  # First Arrow:
+  arrHead = list(arrowHeadSimple(x, y, slope=slope, d = dH, dV=dV, scale=scale));
+  # Double Arrow:
+  # - firstly shift point:
+  p2 = shiftPoint(c(x, y), slope=slope, d=d);
+  arrHead2 = list(arrowHeadSimple(p2[1], p2[2], slope=slope, d = dH, dV=dV, scale=scale));
   arrHead  = c(arrHead, arrHead2);
   return(arrHead);
 }
