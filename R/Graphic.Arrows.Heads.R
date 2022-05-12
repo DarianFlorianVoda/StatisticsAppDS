@@ -108,10 +108,18 @@ arrowHeadN = function(x, y, slope, n=1, d = 0.5, dH = - d, dV=c(dH, -dH), scale=
 # T ArrowHead: ---|
 arrowHeadT = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
   p  = cbind(x, y);
+  if(length(dV) == 1) dV = c(0, dV);
   pV = shiftLine(p, slope=slope, d = dV, scale=scale);
   arrHead = list(
     x = c(pV[1,1], pV[2,1]),
     y = c(pV[1,2], pV[2,2]));
+  return(arrHead);
+}
+
+# Measurement ArrowHead: --->|
+arrowHeadMeasure = function(x, y, slope, d=-1, dV=c(d, -d), dT=dV, scale=1) {
+  arrHead = arrowHeadSimple(x, y, slope=slope, d=d, dV=dV, scale=scale);
+  arrHead = list(arrHead, arrowHeadT(x, y, slope=slope, dV=dT, scale=scale));
   return(arrHead);
 }
 

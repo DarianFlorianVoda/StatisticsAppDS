@@ -136,6 +136,23 @@ arrowT = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red"
   invisible(lst);
 }
 
+#### Arrow for Measurements ####
+arrowMeasure = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), dT=d.head, d.lines=0,
+                        h.lwd=lwd, col="red", scale=1, join=0) {
+  slope = compute_slope(x, y);
+  ### Head
+  arrHead = arrowHeadMeasure(x[2], y[2], slope=slope, d=d, dV = d.head, dT=dT, scale=scale);
+  arrHead$lwd = h.lwd;
+  ### ArrowTail
+  arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
+  ### Full Arrow
+  lst = list(Arrow=arrow, Head=arrHead);
+  class(lst) = c("arrow", "list");
+  # Plot lines:
+  lines(lst, col=col);
+  invisible(lst);
+}
+
 #### Arrow Square ####
 arrowSquare = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);

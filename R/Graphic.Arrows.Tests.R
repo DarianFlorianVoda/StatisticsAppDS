@@ -135,6 +135,21 @@ arrowT(x, y, d=-1, lwd=2);
 arrowT(c(x[1], 5), c(y[1], y[1]), d=-1, lwd=2);
 arrowT(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2);
 
+##### Measurement ArrowHead #####
+plot.base()
+x = c(0, 6); y = c(1, 6);
+arrowMeasure(x, y, d=-1, lwd=2);
+arrowMeasure(c(x[1], 5), c(y[1], y[1]), d=-1, lwd=2);
+arrowMeasure(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2);
+
+### one line 
+dT = c(-1); dV = c(-1,1) / 2;
+plot.base()
+x = c(0, 6); y = c(1, 6);
+arrowMeasure(x, y, d=-1, d.head=dV, dT=dT, lwd=2);
+arrowMeasure(c(x[1], 5), c(y[1], y[1]), d=-1, d.head=dV, dT=dT, lwd=2);
+arrowMeasure(c(x[1], x[1]), c(y[1], 5), d=-1, d.head=dV, dT=dT, lwd=2);
+
 ##### X Shape ArrowHead #####
 plot.base()
 x = c(0, 6); y = c(1, 6);
