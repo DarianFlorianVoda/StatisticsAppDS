@@ -127,11 +127,20 @@ arrowDiamond(c(x[1], 5), c(y[1], y[1]), d=-1, lwd=2);
 arrowDiamond(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2);
 
 ##### Double lined ArrowHead #####
+
+# default join: join through
 plot.base()
 x = c(0, 6); y = c(1, 6);
 arrowDouble(x, y, d=-1, lwd=2);
 arrowDouble(c(x[1], 5), c(y[1], y[1]), d=-1, lwd=2);
 arrowDouble(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2);
+
+# join with innermost ">"
+plot.base()
+x = c(0, 6); y = c(1, 6);
+arrowDouble(x, y, d=-1, lwd=2, join=1);
+arrowDouble(c(x[1], 5), c(y[1], y[1]), d=-1, lwd=2, join=1);
+arrowDouble(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2, join=1);
 
 ##### T Shape ArrowHead #####
 plot.base()

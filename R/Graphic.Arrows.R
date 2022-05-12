@@ -57,21 +57,28 @@ arrowSimple = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), d.lines=0, h.lwd=lwd
 }
 
 #### Double Lined Arrow ####
-arrowDouble = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1) {
+#### Double Lined Arrow ####
+arrowDouble = function(x, y, d=-1, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
+  if(join > 2) stop("Unsupported value for join!");
   slope = compute_slope(x, y);
-  ### ArrowTail
-  arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Head
   arrHead = arrowHeadDouble(x[2], y[2], slope=slope, d=d, dH=d.head, scale=scale);
   arrHead$lwd = h.lwd;
+  ### ArrowTail
+  if(join == 1) {
+    x[2] = arrHead[[2]]$x[2];
+    y[2] = arrHead[[2]]$y[2];
+  }
+  arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Full Arrow
   lst = list(Arrow=arrow, Head=arrHead);
   class(lst) = c("arrow", "list");
   # Plot lines:
-  print("Finished")
   lines(lst, col=col);
   invisible(lst);
 }
+
+
 
 #### Arrow Diamond ####
 arrowDiamond = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
