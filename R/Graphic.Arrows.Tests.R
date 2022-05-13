@@ -133,8 +133,7 @@ lines(h4$x[c(1,3)], h4$y[c(1,3)], col="green")
 stopifnot(round(Dsquare(h1, h1$x[2], h1$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
 stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
 stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
-#####ERROR here
-#stopifnot(round(Dsquare(h4, h4$x[2], h4$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
+stopifnot(round(Dsquare(h4, h4$x[2], h4$y[2]) - 2*(1.5)^2 - 2*(0.5)^2, 8) == 0)
 
 
 ### Test 2
@@ -163,8 +162,8 @@ stopifnot(round(Dsquare(h4, h4$x[2], h4$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
 ### Test 3
 plot.base(ylim = c(0,100))
 x = c(0, 6); y = c(1, 80);
-d = -1; d.head = c(-3, 3);
-scale = 100/13;
+d = -2; d.head = c(-3, 3);
+scale = (100/12)*2  #1.4;
 a1 = arrowSimple(x, y, d=d, d.head=d.head, lwd=2, scale=scale);
 a2 = arrowSimple(c(x[1], 5), c(y[1], y[1]), d=d, d.head=d.head, lwd=2, scale=scale);
 a3 = arrowSimple(c(x[1], x[1]), c(y[1], 50), d=d, d.head=d.head, lwd=2, scale=scale);
