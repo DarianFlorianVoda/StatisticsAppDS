@@ -207,7 +207,7 @@ arrowInverted(c(x[1], x[1]), c(y[1], 5), d=1, lwd=2);
 
 ### Inhomogeneous Axes
 plot.base(ylim = c(0, 100))
-scale = - 100/13;
+scale = - (100/12)*aspect_ratio_max;
 d = 3;
 x = c(0, 6); y = c(1, 60);
 arrowInverted(x, y, d=d, lwd=2, scale=scale);
