@@ -25,8 +25,8 @@
 ### Arrow Tail:
 arrowTail = function(x, y, d.lines, lwd=1, slope=NULL) {
   if(is.null(slope)) slope = compute_slope(x, y);
-  if(d.lines != 0) {
-    arrTail = shiftLine(x, y, d = c(d.lines, -d.lines), slope=slope);
+  if(any(d.lines != 0)) {
+    arrTail = shiftLine(x, y, d = d.lines, slope=slope);
   } else {
     arrTail = list(x=x, y=y);
   }
