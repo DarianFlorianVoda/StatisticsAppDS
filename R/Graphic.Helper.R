@@ -190,20 +190,20 @@ shiftLine = function(x, y, d=1, slope=NULL, scale=1) {
 
 # shift point p along line defined by (x, y);
 # d = distance;
-shiftPoint = function(p, x, y, d=1, slope=NULL) {
+shiftPoint = function(p, x, y, d=1, slope=NULL, scale=1) {
   if(is.null(slope)) {
     if(length(x) < 2 || length(y) < 2)
       stop("The base-line requires 2 points!");
     # TODO: handle if more than 2 points!
-    slope = compute_slope(x,y) # (y[[2]] - y[[1]]) / (x[[2]] - x[[1]]);
+    slope = compute_slope(x,y);
   }
   if(length(p) < 2) stop("Point needs both x & y coordinates!");
-  # if(x[1] == x[2]) {
+  # V line: if(x[1] == x[2]) {
   if(abs(slope) == Inf) {
     r = cbind(x = p[1], y = p[2] + d);
     return(r)
   }
-  slope.sqrt = 1 / sqrt(slope^2 + 1);
+  slope.sqrt = 1 / sqrt(slope^2 + scale^2);
   dx = d * slope.sqrt;
   dy = dx * slope;
   xsh = p[[1]] + dx;

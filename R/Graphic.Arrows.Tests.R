@@ -91,21 +91,25 @@ stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
 stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
 
 ### Test 3
+x = c(0, 4); y = c(1, 60);
+x2 = c(0, 6); y2 = c(1, 20);
+d = -2; d.head = c(-1/2, 1/2);
+scale = (100/12) * aspect_ratio_max;
 plot.base(ylim = c(0,100))
-x = c(0, 6); y = c(1, 80);
-d = -1; d.head = c(-3, 3);
-scale = 100/13;
 a1 = arrowSimple(x, y, d=d, d.head=d.head, lwd=2, scale=scale);
-a2 = arrowSimple(c(x[1], 5), c(y[1], y[1]), d=d, d.head=d.head, lwd=2, scale=scale);
-a3 = arrowSimple(c(x[1], x[1]), c(y[1], 50), d=d, d.head=d.head, lwd=2, scale=scale);
+a2 = arrowSimple(x2, y2, d=d, d.head=d.head, lwd=2, scale=scale);
+a3 = arrowSimple(c(x[1], 5), c(y[1], y[1]), d=d, d.head=d.head, lwd=2, scale=scale);
+a4 = arrowSimple(c(x[1], x[1]), c(y[1], 50), d=d, d.head=d.head, lwd=2, scale=scale);
 # Head
 h1 = a1$Head[[1]]
 h2 = a2$Head[[1]]
 h3 = a3$Head[[1]]
+h4 = a4$Head[[1]]
 # - visual aids:
 lines(h1$x[c(1,3)], h1$y[c(1,3)], col="green")
 lines(h2$x[c(1,3)], h2$y[c(1,3)], col="green")
 lines(h3$x[c(1,3)], h3$y[c(1,3)], col="green")
+lines(h4$x[c(1,3)], h4$y[c(1,3)], col="green")
 
 ##### Simple ArrowHead Mixed ####
 plot.base()
@@ -244,7 +248,7 @@ arrowMeasure(x, y, d=-1, lwd=2);
 arrowMeasure(c(x[1], 5), c(y[1], y[1]), d=-1, lwd=2);
 arrowMeasure(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2);
 
-### one line 
+### one line
 dT = c(-1); dV = c(-1,1) / 2;
 plot.base()
 x = c(0, 6); y = c(1, 6);

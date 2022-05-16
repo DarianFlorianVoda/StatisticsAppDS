@@ -24,7 +24,7 @@
 # (x, y) = tip of the ArrowHead;
 arrowHeadSimple = function(x, y, slope, d=-1, dV=c(-d, d), scale=1) {
   p = if(d == 0) matrix(c(x, y), nrow=1, ncol=2)
-  else shiftPoint(c(x, y), slope=slope, d = d);
+  else shiftPoint(c(x, y), slope=slope, d = d, scale=scale);
   pV = shiftLine(p, slope=slope, d = dV, scale=scale);
   arrHead = list(
     x = c(pV[1,1], x, pV[2,1]),
@@ -85,7 +85,7 @@ arrowHeadDouble = function(x, y, slope, d=-1, dH=d, dV=c(dH, -dH), scale=1) {
   arrHead = list(arrowHeadSimple(x, y, slope=slope, d = dH, dV=dV, scale=scale));
   # Double Arrow:
   # - firstly shift point:
-  p2 = shiftPoint(c(x, y), slope=slope, d=d);
+  p2 = shiftPoint(c(x, y), slope=slope, d=d, scale=scale);
   arrHead2 = list(arrowHeadSimple(p2[1], p2[2], slope=slope, d = dH, dV=dV, scale=scale));
   arrHead  = c(arrHead, arrHead2);
   return(arrHead);
@@ -98,7 +98,7 @@ arrowHeadN = function(x, y, slope, n=1, d = 0.5, dH = - d, dV=c(dH, -dH), scale=
   if(n == 1) return(arrHead);
   # Double Arrow
   for(id in seq(n-1)) {
-    p = shiftPoint(c(x, y), slope=slope, d = - id * d);
+    p = shiftPoint(c(x, y), slope=slope, d = - id * d, scale=scale);
     arrowhead = list(arrowHeadSimple(p[1], p[2], slope=slope, d = dH, dV = dV, scale=scale));
     arrHead  = c(arrHead, arrowhead);
   }
@@ -129,7 +129,7 @@ arrowHeadSquare = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
   d2 = if(length(d) == 1) 2*d else sum(d);
   # TODO: more than 2 values for dV;
   pB1 = c(x[1], y[1]);
-  pB2 = shiftPoint(c(x[1], y[1]), d=d, slope=slope);
+  pB2 = shiftPoint(c(x[1], y[1]), d=d, slope=slope, scale=scale);
   p1 = shiftLine(pB1, d=dV, slope=slope, scale=scale);
   p2 = shiftLine(pB2, d=dV, slope=slope, scale=scale);
   arrHead = list(
@@ -143,7 +143,7 @@ arrowHeadDoubleInverted = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
   # Shift point along line:
   dH = abs(dV[1]);
   # Head: 2nd "<" of "<<"
-  p2 = shiftPoint(c(x, y), slope=slope, d = - dH);
+  p2 = shiftPoint(c(x, y), slope=slope, d = - dH, scale=scale);
   arrHead = list(arrowHeadSimple(p2[1], p2[2], slope=slope, d = dH, scale=scale));
   # Head: 1st "<" of "<<"
   p2 = shiftPoint(c(x, y), slope=slope, d = - d - dH);
@@ -156,8 +156,8 @@ arrowHeadDoubleInverted = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
 
 # Circle ArrowHead ---O
 arrowHeadCircle = function(x, y, slope, r=0.5, scale=1) {
-  center = shiftPoint(c(x, y), slope = slope, d = -r)
-  startP = shiftPoint(c(x, y), slope = slope, d = -2*r)
+  center = shiftPoint(c(x, y), slope = slope, d = -r, scale=scale)
+  startP = shiftPoint(c(x, y), slope = slope, d = -2*r, scale=scale)
   lst = list(r=r, center=center);
   attr(lst, "class") = c("circle", class(lst));
   lst = list(lst);
@@ -168,7 +168,7 @@ arrowHeadCircle = function(x, y, slope, r=0.5, scale=1) {
 # Triangle ArrowHead: ---|>
 arrowHeadTriangle = function(x, y, slope, d=-1, dV=c(-d, d), scale=1) {
   p = if(d == 0) matrix(c(x, y), nrow=1, ncol=2)
-  else shiftPoint(c(x, y), slope=slope, d = d);
+  else shiftPoint(c(x, y), slope=slope, d = d, scale=scale);
   pV = shiftLine(p, slope=slope, d = dV, scale=scale);
   arrHead = list(
     x = c(pV[1,1], x, pV[2,1], pV[1,1]),
