@@ -57,7 +57,6 @@ arrowSimple = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), d.lines=0, h.lwd=lwd
 }
 
 #### Double Lined Arrow ####
-#### Double Lined Arrow ####
 arrowDouble = function(x, y, d=-1, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
   if(join > 2) stop("Unsupported value for join!");
   slope = compute_slope(x, y);
@@ -217,26 +216,23 @@ arrowDoubleInverted = function(x, y, d=0.25, lwd=1, d.head=c(-d, d), d.lines=0, 
 }
 
 
-### Other:
-arrowInverted = function(x, y, lwd=1, d=1, d.head=c(-d,d), d.lines=0, h.lwd=lwd, col="red", scale=1) {
+### Other: ---<
+arrowInverted = function(x, y, d=1, lwd=1, d.head=c(-d,d), d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
   slope = compute_slope(x, y);
-  xylist = function(x, y) list(list(x=x, y=y));
-  ### Full Arrow
-  arrow = lines(x, y, lwd=lwd, col=col);
-  p = shiftPoint(c(x[2], y[2]), slope=slope, d = d)
-  pV = shiftLine(p, slope=slope, d=d.head, scale=scale);
-
   ### Head
+  p = shiftPoint(c(x[2], y[2]), slope=slope, d = d, scale=scale)
+  pV = shiftLine(p, slope=slope, d=d.head, scale=scale);
   ahead = lines(c(pV[1,1], x[2], pV[2,1]),
-                c(pV[1,2], y[2], pV[2,2]), lwd=h.lwd, col=col)
-  # Putting them into the list
+                c(pV[1,2], y[2], pV[2,2]), lwd=h.lwd, col=col);
+  ### Arrow Tail
+  arrow = lines(x, y, lwd=lwd, col=col);
+  ### Full Arrow
   lst = list(Arrow=arrow, Head=ahead);
   class(lst) = c("arrow");
 
   # Plot lines:
-  print("Finished")
   lines(lst, col=col);
-  invisible(); # TODO
+  invisible(lst);
 }
 
 #### Arrow Circle
