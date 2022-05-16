@@ -149,7 +149,6 @@ shiftLine = function(x, y, d=1, slope=NULL, scale=1) {
   }
   ### Vertical Line
   if(abs(slope) == Inf) {
-    d = d / scale;
     if(length(d) == 1) {
       r = data.frame(x = x + d, y = y);
     } else {
@@ -162,6 +161,7 @@ shiftLine = function(x, y, d=1, slope=NULL, scale=1) {
   }
   ### Horizontal Line
   if(slope == 0) {
+    d = d * scale;
     if(length(d) == 1) {
       r = data.frame(x = x, y = y + d);
     } else {
@@ -174,7 +174,7 @@ shiftLine = function(x, y, d=1, slope=NULL, scale=1) {
   }
   ### Oblique Line
   sl.orto = - 1 / slope;
-  sl2 = sqrt(sl.orto^2 + 1);
+  sl2 = sqrt(sl.orto^2 + 1/scale^2);
   sl.orto = sl.orto * scale;
   # shift Start- & End-points:
   shift.f = function(x, y, id) {
