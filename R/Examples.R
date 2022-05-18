@@ -93,6 +93,40 @@ arrowInvH(x, y, lwd=2);
 ### Ex 3:
 arrowDH(x, y*2 - 2, d = 0.3, lwd=2, col="blue");
 
+#### All Arrows ####
+
+all_arrows = function(){
+  # Plot
+  plot.base()
+  
+  # Simple ArrowHead
+  
+  x = c(-1, -1); y = c(8, 10);
+  d=-0.5;
+  d.head=c(-0.5,0.5)
+  a1 = arrowSimple(x, y, d=d, d.head=d.head, lwd=2); 
+  
+  # Double ArrowHead
+  x = c(1, 1); y = c(8, 10);
+  d=0.3;
+  d.head=-0.5
+  a2 = arrowDouble(x, y, d=d, d.head=d.head, lwd=2);
+  
+  # Inverted ArrowHead
+  x = c(3, 3); y = c(8, 10);
+  d=0.3;
+  d.head=c(-0.25,0.25)
+  a3 = arrowInverted(x, y, d=d, d.head=d.head, lwd=2);
+}
+
+# Inverted ArrowHead
+plot.base()
+x = c(3, 3); y = c(8, 10);
+d=0.3;
+d.head=c(-0.25,0.25)
+a3 = arrowInverted(x, y, d=d, d.head=d.head, lwd=2);
+
+
 #### Banded lines ####
 plot.base()
 lineBanded(c(0,5), c(1, 8), lwd=2.5)
