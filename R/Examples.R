@@ -81,6 +81,100 @@ sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col=
 
 #### Arrows ####
 
+all_arrows = function(){
+  # Plot
+  plot.base()
+  text(4, 10,
+       "Arrows with different ArrowHeads")
+  # Simple ArrowHead
+  x = c(-1, -1); y = c(7, 9);
+  d=-0.5;
+  d.head=c(-0.5,0.5)
+  a1 = arrowSimple(x, y, d=d, d.head=d.head, lwd=2);
+  text(-1, 6.7,
+       "Simple", cex = 0.75);
+
+  # Double ArrowHead
+  x = c(1, 1); y = c(7, 9);
+  d=0.3;
+  d.head=-0.5
+  a2 = arrowDouble(x, y, d=d, d.head=d.head, lwd=2);
+  text(1, 6.7,
+       "Double", cex = 0.75);
+
+  # Inverted ArrowHead
+  x = c(3, 3); y = c(7, 9);
+  d=0.5;
+  d.head=c(-0.5,0.5)
+  a3 = arrowInverted(x, y, d=d, d.head=d.head, lwd=2);
+  text(3, 6.7,
+       "Inverted", cex = 0.75);
+
+  # Diamond ArrowHead
+  x = c(5, 5); y = c(7, 8);
+  d.head=0.5;
+  d=0.5;
+  arrowDiamond(x, y, d=d, d.head=d.head, lwd=2, join=0);
+  text(5, 6.7,
+       "Diamond", cex = 0.75);
+
+  # T Shape ArrowHead
+  x = c(7, 7); y = c(7, 9);
+  arrowT(x, y, d=-1, lwd=2);
+  text(7, 6.7,
+       "T Shape", cex = 0.75);
+
+  # Measurement ArrowHead
+  x = c(9.5, 9.5); y = c(7, 9);
+  arrowMeasure(x, y, d=-1, lwd=2);
+  text(9.5, 6.7,
+       "Measurement", cex = 0.70);
+
+  # X Shape ArrowHead
+  x = c(-1, -1); y = c(3, 5);
+  arrowX(x, y, d=0.5, lwd=2);
+  text(-1, 2.7,
+       "X Shape", cex = 0.70);
+
+  # Square Shape ArrowHead
+  x = c(1, 1); y = c(3, 5);
+  arrowSquare(x, y, d=0.5, lwd=2);
+  text(1, 2.7,
+       "Square Shape", cex = 0.70);
+
+  # Multiple-Lined ArrowHead
+  n = 3; d = 0.5;
+  x = c(3.5, 3.5); y = c(3, 5);
+  arrowN(x, y, n=n, d=d, lwd=2);
+  text(3.5, 2.7,
+       "Multiple-Lined", cex = 0.70);
+
+  # Double Lined Inverted ArrowHead
+  x = c(6.5, 6.5); y = c(3, 5);
+  arrowDoubleInverted(x, y, d=-0.5, lwd=2);
+  text(6.5, 2.7,
+       "Double-Lined Inverted", cex = 0.70);
+
+  # Solid Circle ArrowHead #####
+  x = c(9.5, 9.5); y = c(3, 5);
+  arrowCircle(x, y, r=0.5, lwd=2);
+  text(9.5, 2.7,
+       "Solid Circle", cex = 0.70);
+
+  # Solid Square ArrowHead
+  x = c(-1, -1); y = c(-1, 1);
+  arrowSolidSquare(x, y, d=-0.5, lwd=2);
+  text(-1, -1.3,
+       "Solid Square", cex = 0.70);
+
+  # Triangle ArrowHead
+  x = c(1, 1); y = c(-1, 1);
+  d = -0.5;
+  a1 = arrowTriangle(x, y, d=d, lwd=2);
+  text(1, -1.3,
+       "Triangle", cex = 0.70);
+}
+
 ### Ex 1:
 plot.base()
 x = c(0,10); y = c(1, 5);
@@ -95,36 +189,7 @@ arrowDH(x, y*2 - 2, d = 0.3, lwd=2, col="blue");
 
 #### All Arrows ####
 
-all_arrows = function(){
-  # Plot
-  plot.base()
-  
-  # Simple ArrowHead
-  
-  x = c(-1, -1); y = c(8, 10);
-  d=-0.5;
-  d.head=c(-0.5,0.5)
-  a1 = arrowSimple(x, y, d=d, d.head=d.head, lwd=2); 
-  
-  # Double ArrowHead
-  x = c(1, 1); y = c(8, 10);
-  d=0.3;
-  d.head=-0.5
-  a2 = arrowDouble(x, y, d=d, d.head=d.head, lwd=2);
-  
-  # Inverted ArrowHead
-  x = c(3, 3); y = c(8, 10);
-  d=0.3;
-  d.head=c(-0.25,0.25)
-  a3 = arrowInverted(x, y, d=d, d.head=d.head, lwd=2);
-}
-
-# Inverted ArrowHead
-plot.base()
-x = c(3, 3); y = c(8, 10);
-d=0.3;
-d.head=c(-0.25,0.25)
-a3 = arrowInverted(x, y, d=d, d.head=d.head, lwd=2);
+all_arrows()
 
 
 #### Banded lines ####
