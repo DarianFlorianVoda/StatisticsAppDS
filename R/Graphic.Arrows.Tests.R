@@ -49,7 +49,7 @@ arrow = function(x, y, type = "Simple", d=1, lwd=1, ...) {
 
 ##### Simple  ArrowHead ####
 
-### Test 1
+###### Test 1 ######
 x = c(0, 6); y = c(1, 6);
 d = -1;
 plot.base()
@@ -71,7 +71,7 @@ stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
 stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
 
 
-### Test 2
+###### Test 2 ######
 # - narrow ArrowHead;
 x = c(0, 6); y = c(1, 6) + 1;
 d=-1.5; d.head = c(-0.5, 0.5);
@@ -92,7 +92,7 @@ stopifnot(round(Dsquare(h1, h1$x[2], h1$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
 stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
 stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
 
-### Test 3
+###### Test 3 ######
 x = c(0, 4); y = c(1, 60);
 x2 = c(0, 6); y2 = c(1, 20);
 d = -2; d.head = c(-1/2, 1/2);
@@ -116,7 +116,7 @@ lines(h4$x[c(1,3)], h4$y[c(1,3)], col="green")
 ##### Simple ArrowHead: Mixed ####
 # - comparison between different dV (d.head argument);
 
-### Test 1
+###### Test 1 ######
 x = c(0, 6); y = c(1, 6);
 d = -1; d2 = -1.5;
 plot.base()
@@ -142,7 +142,7 @@ stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
 stopifnot(round(Dsquare(h4, h4$x[2], h4$y[2]) - 2*d2^2 - 2*(0.5)^2, 8) == 0)
 
 
-### Test 2
+###### Test 2 ######
 plot.base()
 x = c(0, 6); y = c(1, 6) + 1;
 d=-1.5; d.head = c(-0.5, 0.5);
@@ -165,7 +165,7 @@ stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
 stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
 stopifnot(round(Dsquare(h4, h4$x[2], h4$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
 
-### Test 3
+###### Test 3 ######
 plot.base(ylim = c(0,100))
 x = c(0, 6); y = c(1, 80);
 d = -2; d.head = c(-3, 3);
@@ -187,14 +187,192 @@ lines(h4$x[c(1,3)], h4$y[c(1,3)], col="green")
 
 ##### Double lined ArrowHead #####
 
-# default join: join through
-plot.base()
-x = c(0, 6); y = c(1, 6);
-arrowDouble(x, y, d=-1, lwd=2);
-arrowDouble(c(x[1], 5), c(y[1], y[1]), d=-1, lwd=2);
-arrowDouble(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2);
+###### default join: join through #####
+# - comparison between different dV (d.head argument);
 
-# join with innermost ">"
+###### Test 1 ######
+x = c(0, 6); y = c(1, 6);
+d = -1; d2 = -1.5;
+plot.base()
+a1 = arrowDouble(x, y, d=d, lwd=2);
+a2 = arrowDouble(c(x[1], 5), c(y[1], y[1]), d=d, lwd=2);
+a3 = arrowDouble(c(x[1], x[1]), c(y[1], 5), d=d, lwd=2);
+# Head
+h1 = a1$Head[[1]]
+h2 = a1$Head[[2]]
+
+h3 = a2$Head[[1]]
+h4 = a2$Head[[2]]
+
+h5 = a3$Head[[1]]
+h6 = a3$Head[[2]]
+# - visual aids:
+lines(h1$x[c(1,3)], h1$y[c(1,3)], col="green")
+lines(h2$x[c(1,3)], h2$y[c(1,3)], col="green")
+
+lines(h3$x[c(1,3)], h3$y[c(1,3)], col="green")
+lines(h4$x[c(1,3)], h4$y[c(1,3)], col="green")
+
+lines(h5$x[c(1,3)], h5$y[c(1,3)], col="green")
+lines(h6$x[c(1,3)], h6$y[c(1,3)], col="green")
+# Total length = (d^2 + dV[1]^2) + (d^2 + dV[2]^2)
+stopifnot(round(Dsquare(h1, h1$x[2], h1$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
+stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
+stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
+
+
+###### Test 2 ######
+plot.base()
+x = c(0, 6); y = c(1, 6) + 1;
+d=-1.5; d.head = -1.5;
+a1 = arrowDouble(x, y, d=d, d.head=d.head, lwd=2);
+a2 = arrowDouble(c(x[1], 8), c(y[1], y[1]), d=d, d.head=d.head, lwd=2);
+a3 = arrowDouble(c(x[1], x[1]), c(y[1], 8), d=d, d.head=d.head, lwd=2);
+# Head
+h1 = a1$Head[[1]]
+h2 = a1$Head[[2]]
+
+h3 = a2$Head[[1]]
+h4 = a2$Head[[2]]
+
+h5 = a3$Head[[1]]
+h6 = a3$Head[[2]]
+# - visual aids:
+lines(h1$x[c(1,3)], h1$y[c(1,3)], col="green")
+lines(h2$x[c(1,3)], h2$y[c(1,3)], col="green")
+
+lines(h3$x[c(1,3)], h3$y[c(1,3)], col="green")
+lines(h4$x[c(1,3)], h4$y[c(1,3)], col="green")
+
+lines(h5$x[c(1,3)], h5$y[c(1,3)], col="green")
+lines(h6$x[c(1,3)], h6$y[c(1,3)], col="green")
+
+
+###### TODO #######
+stopifnot(round(Dsquare(h1, h1$x[2], h1$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
+stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
+stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
+
+###### Test 3 ######
+plot.base(ylim = c(0,100))
+x = c(0, 6); y = c(1, 80);
+d = -2; d.head = -3;
+scale = (100/12)*aspect_ratio_max  #1.4;
+a1 = arrowDouble(x, y, d=d, d.head=d.head, lwd=2, scale=scale);
+a2 = arrowDouble(c(x[1], 5), c(y[1], y[1]), d=d, d.head=d.head, lwd=2, scale=scale);
+a3 = arrowDouble(c(x[1], x[1]), c(y[1], 50), d=d, d.head=d.head, lwd=2, scale=scale);
+# Head
+h1 = a1$Head[[1]]
+h2 = a1$Head[[2]]
+
+h3 = a2$Head[[1]]
+h4 = a2$Head[[2]]
+
+h5 = a3$Head[[1]]
+h6 = a3$Head[[2]]
+# - visual aids:
+lines(h1$x[c(1,3)], h1$y[c(1,3)], col="green")
+lines(h2$x[c(1,3)], h2$y[c(1,3)], col="green")
+
+lines(h3$x[c(1,3)], h3$y[c(1,3)], col="green")
+lines(h4$x[c(1,3)], h4$y[c(1,3)], col="green")
+
+lines(h5$x[c(1,3)], h5$y[c(1,3)], col="green")
+lines(h6$x[c(1,3)], h6$y[c(1,3)], col="green")
+
+###### join with innermost ">" #####
+###### Test 1 ######
+x = c(0, 6); y = c(1, 6);
+d = -1; d2 = -1.5;
+plot.base()
+a1 = arrowDouble(x, y, d=d, lwd=2, join=1);
+a2 = arrowDouble(c(x[1], 5), c(y[1], y[1]), d=d, lwd=2, join=1);
+a3 = arrowDouble(c(x[1], x[1]), c(y[1], 5), d=d, lwd=2, join=1);
+# Head
+h1 = a1$Head[[1]]
+h2 = a1$Head[[2]]
+
+h3 = a2$Head[[1]]
+h4 = a2$Head[[2]]
+
+h5 = a3$Head[[1]]
+h6 = a3$Head[[2]]
+# - visual aids:
+lines(h1$x[c(1,3)], h1$y[c(1,3)], col="green")
+lines(h2$x[c(1,3)], h2$y[c(1,3)], col="green")
+
+lines(h3$x[c(1,3)], h3$y[c(1,3)], col="green")
+lines(h4$x[c(1,3)], h4$y[c(1,3)], col="green")
+
+lines(h5$x[c(1,3)], h5$y[c(1,3)], col="green")
+lines(h6$x[c(1,3)], h6$y[c(1,3)], col="green")
+# Total length = (d^2 + dV[1]^2) + (d^2 + dV[2]^2)
+stopifnot(round(Dsquare(h1, h1$x[2], h1$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
+stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
+stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
+
+
+###### Test 2 ######
+plot.base()
+x = c(0, 6); y = c(1, 6) + 1;
+d=-1.5; d.head = -1.5;
+a1 = arrowDouble(x, y, d=d, d.head=d.head, lwd=2, join=1);
+a2 = arrowDouble(c(x[1], 8), c(y[1], y[1]), d=d, d.head=d.head, lwd=2, join=1);
+a3 = arrowDouble(c(x[1], x[1]), c(y[1], 8), d=d, d.head=d.head, lwd=2, join=1);
+# Head
+h1 = a1$Head[[1]]
+h2 = a1$Head[[2]]
+
+h3 = a2$Head[[1]]
+h4 = a2$Head[[2]]
+
+h5 = a3$Head[[1]]
+h6 = a3$Head[[2]]
+# - visual aids:
+lines(h1$x[c(1,3)], h1$y[c(1,3)], col="green")
+lines(h2$x[c(1,3)], h2$y[c(1,3)], col="green")
+
+lines(h3$x[c(1,3)], h3$y[c(1,3)], col="green")
+lines(h4$x[c(1,3)], h4$y[c(1,3)], col="green")
+
+lines(h5$x[c(1,3)], h5$y[c(1,3)], col="green")
+lines(h6$x[c(1,3)], h6$y[c(1,3)], col="green")
+
+
+###### TODO #######
+stopifnot(round(Dsquare(h1, h1$x[2], h1$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
+stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
+stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
+
+###### Test 3 ######
+plot.base(ylim = c(0,100))
+x = c(0, 6); y = c(1, 80);
+d = -2; d.head = -3;
+scale = (100/12)*aspect_ratio_max  #1.4;
+a1 = arrowDouble(x, y, d=d, d.head=d.head, lwd=2, scale=scale, join=1);
+a2 = arrowDouble(c(x[1], 5), c(y[1], y[1]), d=d, d.head=d.head, lwd=2, scale=scale, join=1);
+a3 = arrowDouble(c(x[1], x[1]), c(y[1], 50), d=d, d.head=d.head, lwd=2, scale=scale, join=1);
+# Head
+h1 = a1$Head[[1]]
+h2 = a1$Head[[2]]
+
+h3 = a2$Head[[1]]
+h4 = a2$Head[[2]]
+
+h5 = a3$Head[[1]]
+h6 = a3$Head[[2]]
+# - visual aids:
+lines(h1$x[c(1,3)], h1$y[c(1,3)], col="green")
+lines(h2$x[c(1,3)], h2$y[c(1,3)], col="green")
+
+lines(h3$x[c(1,3)], h3$y[c(1,3)], col="green")
+lines(h4$x[c(1,3)], h4$y[c(1,3)], col="green")
+
+lines(h5$x[c(1,3)], h5$y[c(1,3)], col="green")
+lines(h6$x[c(1,3)], h6$y[c(1,3)], col="green")
+
+
+
 plot.base()
 x = c(0, 6); y = c(1, 6);
 arrowDouble(x, y, d=-1, lwd=2, join=1);
