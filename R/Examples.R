@@ -111,9 +111,9 @@ all_arrows = function(){
        "Inverted", cex = 0.75);
 
   # Diamond ArrowHead
-  x = c(5, 5); y = c(7, 8);
+  x = c(5, 5); y = c(7, 9);
   d.head=0.5;
-  d=0.5;
+  d=-0.5;
   arrowDiamond(x, y, d=d, d.head=d.head, lwd=2, join=0);
   text(5, 6.7,
        "Diamond", cex = 0.75);
@@ -174,6 +174,7 @@ all_arrows = function(){
   text(1, -1.3,
        "Triangle", cex = 0.70);
 }
+all_arrows()
 
 ### Ex 1:
 plot.base()

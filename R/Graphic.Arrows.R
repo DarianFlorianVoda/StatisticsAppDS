@@ -22,6 +22,29 @@
 
 ### Helper Functions
 
+### Arrow function:
+arrow = function(x, y, type = "Simple", d=1, lwd=1, ...) {
+  call = match.call();
+  idType = match("type", names(call));
+  if(is.na(idType)) {
+    type = "Simple";
+  } else {
+    types = c("Simple", "Double", "Diamond",
+              "Square", "Inverted", "T", "X", "N",
+              "DoubleInverted", "Circle", "SolidSquare"); # de completat
+    type = call[[idType]];
+    type = pmatch(type, types);
+    if(is.na(type)) stop("Invalid type!");
+    call = call[ - idType];
+    type = types[type];
+  }
+  # Function name:
+  type = paste0("arrow", type);
+  type = as.symbol(type);
+  call[[1]] = type;
+  eval(call)
+}
+
 ### Arrow Tail:
 arrowTail = function(x, y, d.lines, lwd=1, slope=NULL) {
   if(is.null(slope)) slope = compute_slope(x, y);
@@ -57,11 +80,12 @@ arrowSimple = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), d.lines=0, h.lwd=lwd
 }
 
 #### Double Lined Arrow ####
-arrowDouble = function(x, y, d=-1, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
+arrowDouble = function(x, y, d=-1, lwd=1, d.head=-1, dV=c(-d.head, d.head), d.lines=0,
+                       h.lwd=lwd, col="red", scale=1, join=0) {
   if(join > 2) stop("Unsupported value for join!");
   slope = compute_slope(x, y);
   ### Head
-  arrHead = arrowHeadDouble(x[2], y[2], slope=slope, d=d, dH=d.head, scale=scale);
+  arrHead = arrowHeadDouble(x[2], y[2], slope=slope, d=d, dH=d.head, dV=dV, scale=scale);
   arrHead$lwd = h.lwd;
   ### ArrowTail
   if(join == 1) {
@@ -217,14 +241,17 @@ arrowDoubleInverted = function(x, y, d=0.25, lwd=1, d.head=c(-d, d), d.lines=0, 
 
 
 ### Other: ---<
-arrowInverted = function(x, y, d=1, lwd=1, d.head=c(-d,d), d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
+arrowInverted = function(x, y, d=1, lwd=1, d.head=c(-d,d),
+                         d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
   slope = compute_slope(x, y);
   ### Head
-  p = shiftPoint(c(x[2], y[2]), slope=slope, d = d, scale=scale)
-  pV = shiftLine(p, slope=slope, d=d.head, scale=scale);
-  ahead = lines(c(pV[1,1], x[2], pV[2,1]),
-                c(pV[1,2], y[2], pV[2,2]), lwd=h.lwd, col=col);
+  p = shiftPoint(c(x[2], y[2]), slope=slope, d = -d, scale=scale)
+  pV = shiftLine(c(x[2], y[2]), slope=slope, d=d.head, scale=scale);
+  ahead = lines(c(pV[1,1], p[1], pV[2,1]),
+                c(pV[1,2], p[2], pV[2,2]), lwd=h.lwd, col=col);
   ### Arrow Tail
+  x[2] = p[1];
+  y[2] = p[2];
   arrow = lines(x, y, lwd=lwd, col=col);
   ### Full Arrow
   lst = list(Arrow=arrow, Head=ahead);

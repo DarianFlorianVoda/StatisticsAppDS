@@ -23,27 +23,13 @@ Dsquare = function(xy, x0, y0) {
   sum((xy$x - x0)^2, (xy$y - y0)^2)
 }
 
-arrow = function(x, y, type = "Simple", d=1, lwd=1, ...) {
-  call = match.call();
-  idType = match("type", names(call));
-  if(is.na(idType)) {
-    type = "Simple";
-  } else {
-    types = c("Simple", "Double", "Diamond",
-              "Square", "Inverted", "T", "X", "N",
-              "DoubleInverted", "Circle", "SolidSquare"); # de completat
-    type = call[[idType]];
-    type = pmatch(type, types);
-    if(is.na(type)) stop("Invalid type!");
-    call = call[ - idType];
-    type = types[type];
-  }
-  # Function name:
-  type = paste0("arrow", type);
-  type = as.symbol(type);
-  call[[1]] = type;
-  eval(call)
+testArrow = function(h, d, dV=c(-d, d)){
+  stopifnot(round(Dsquare(h, h$x[2], h$y[2]) - 2*d^2 - sum(dV^2), 8) == 0)
 }
+
+
+
+
 
 #### Diagonal, H & V Tests ####
 
@@ -61,14 +47,14 @@ a3 = arrowSimple(c(x[1], x[1]), c(y[1], 5), d=d, lwd=2);
 h1 = a1$Head[[1]]
 h2 = a2$Head[[1]]
 h3 = a3$Head[[1]]
-h5 = a5$Head[[1]]
 # - visual aids:
 lines(h1$x[c(1,3)], h1$y[c(1,3)], col="green")
 lines(h2$x[c(1,3)], h2$y[c(1,3)], col="green")
 lines(h3$x[c(1,3)], h3$y[c(1,3)], col="green")
-stopifnot(round(Dsquare(h1, h1$x[2], h1$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
-stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
-stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
+
+testArrow(h=h1, d=d)
+testArrow(h=h2, d=d)
+testArrow(h=h3, d=d)
 
 
 ###### Test 2 ######
@@ -88,9 +74,10 @@ lines(h1$x[c(1,3)], h1$y[c(1,3)], col="green")
 lines(h2$x[c(1,3)], h2$y[c(1,3)], col="green")
 lines(h3$x[c(1,3)], h3$y[c(1,3)], col="green")
 # Total length = (d^2 + dV[1]^2) + (d^2 + dV[2]^2)
-stopifnot(round(Dsquare(h1, h1$x[2], h1$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
-stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
-stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
+testArrow(h=h1, d=d, dV=d.head)
+testArrow(h=h2, d=d, dV=d.head)
+testArrow(h=h3, d=d, dV=d.head)
+
 
 ###### Test 3 ######
 x = c(0, 4); y = c(1, 60);
@@ -222,12 +209,14 @@ stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
 
 
 ###### Test 2 ######
-plot.base()
+###### de modificat la tot double ######
 x = c(0, 6); y = c(1, 6) + 1;
-d=-1.5; d.head = -1.5;
-a1 = arrowDouble(x, y, d=d, d.head=d.head, lwd=2);
-a2 = arrowDouble(c(x[1], 8), c(y[1], y[1]), d=d, d.head=d.head, lwd=2);
-a3 = arrowDouble(c(x[1], x[1]), c(y[1], 8), d=d, d.head=d.head, lwd=2);
+d=-0.5; dV = c(-1.5,1.5);
+d.head = -1.5;
+plot.base()
+a1 = arrowDouble(x, y, d=d, d.head=d.head, dV=dV, lwd=2);
+a2 = arrowDouble(c(x[1], 8), c(y[1], y[1]), d=d, dV=dV, d.head=d.head, lwd=2);
+a3 = arrowDouble(c(x[1], x[1]), c(y[1], 8), d=d, dV=dV, d.head=d.head, lwd=2);
 # Head
 h1 = a1$Head[[1]]
 h2 = a1$Head[[2]]
@@ -247,11 +236,9 @@ lines(h4$x[c(1,3)], h4$y[c(1,3)], col="green")
 lines(h5$x[c(1,3)], h5$y[c(1,3)], col="green")
 lines(h6$x[c(1,3)], h6$y[c(1,3)], col="green")
 
-
-###### TODO #######
-stopifnot(round(Dsquare(h1, h1$x[2], h1$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
-stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
-stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
+stopifnot(round(Dsquare(h1, h1$x[2], h1$y[2]) - 2*d.head^2 - sum(dV^2), 8) == 0)
+stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d.head^2 - sum(dV^2), 8) == 0)
+stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d.head^2 - sum(dV^2), 8) == 0)
 
 ###### Test 3 ######
 plot.base(ylim = c(0,100))
@@ -315,8 +302,8 @@ stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - 2*d^2, 8) == 0)
 ###### Test 2 ######
 plot.base()
 x = c(0, 6); y = c(1, 6) + 1;
-d=-1.5; d.head = -1.5;
-a1 = arrowDouble(x, y, d=d, d.head=d.head, lwd=2, join=1);
+d=-1.5; d.head = -1.5; dV = c(-1.5,1.5);
+a1 = arrowDouble(x, y, d=d, d.head=d.head, dV=dV, lwd=2, join=1);
 a2 = arrowDouble(c(x[1], 8), c(y[1], y[1]), d=d, d.head=d.head, lwd=2, join=1);
 a3 = arrowDouble(c(x[1], x[1]), c(y[1], 8), d=d, d.head=d.head, lwd=2, join=1);
 # Head
@@ -338,11 +325,9 @@ lines(h4$x[c(1,3)], h4$y[c(1,3)], col="green")
 lines(h5$x[c(1,3)], h5$y[c(1,3)], col="green")
 lines(h6$x[c(1,3)], h6$y[c(1,3)], col="green")
 
-
-###### TODO #######
-stopifnot(round(Dsquare(h1, h1$x[2], h1$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
-stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
-stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d^2 - sum(d.head^2), 8) == 0)
+stopifnot(round(Dsquare(h1, h1$x[2], h1$y[2]) - 2*d.head^2 - sum(dV^2), 8) == 0)
+stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 2*d.head^2 - sum(dV^2), 8) == 0)
+stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 2*d.head^2 - sum(dV^2), 8) == 0)
 
 ###### Test 3 ######
 plot.base(ylim = c(0,100))
@@ -370,14 +355,6 @@ lines(h4$x[c(1,3)], h4$y[c(1,3)], col="green")
 
 lines(h5$x[c(1,3)], h5$y[c(1,3)], col="green")
 lines(h6$x[c(1,3)], h6$y[c(1,3)], col="green")
-
-
-
-plot.base()
-x = c(0, 6); y = c(1, 6);
-arrowDouble(x, y, d=-1, lwd=2, join=1);
-arrowDouble(c(x[1], 5), c(y[1], y[1]), d=-1, lwd=2, join=1);
-arrowDouble(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2, join=1);
 
 ##### Inverted Head #####
 plot.base()
