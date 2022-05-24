@@ -242,6 +242,12 @@ solveCircleIntersection = function(mid1, mid2, r1, r2, digits=4, debug=TRUE) {
   return(sol);
 }
 
+### Bio-Shapes
+lines.bioshape = function(x, lwd=NULL, col=1, ...) {
+  lines.object.base(x, lwd=lwd, col=col, ...)
+  invisible();
+}
+
 
 #######################
 

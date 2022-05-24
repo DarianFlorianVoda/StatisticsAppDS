@@ -137,3 +137,29 @@ plot.base(xlim=c(-10,10), ylim=c(-10,10))
 lst = liposomes(c(30, 17), r=0.5, phi=c(0, pi/34), d=0.2)
 testLiposome(lst)
 
+
+### Helix / DNA
+
+### Ex 1a:
+lst1 = helix(c(1,1), c(8,3))
+lst2 = helix(c(1,1), c(8,3), phi=-pi/2)
+plot.base()
+lines(lst1)
+lines(lst2)
+
+### Ex 1b:
+dy = 3; n = 2.5;
+lst1 = helix(c(1, 1 + dy), c(8, 3 + dy), n=n)
+lst2 = helix(c(1, 1 + dy), c(8, 3 + dy), n=n, phi=-pi/2)
+# plot.base()
+lines(lst1)
+lines(lst2)
+
+
+### Ex 3:
+lst1 = helix(c(1,1), c(7,9))
+lst2 = helix(c(1,1), c(7,9), phi=-pi/2)
+plot.base()
+lines(lst1, col="red", lwd=2)
+lines(lst2, col="red", lwd=2)
+
