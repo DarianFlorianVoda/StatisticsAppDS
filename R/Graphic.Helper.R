@@ -56,19 +56,12 @@ lines.list = function(x, y, lwd=NULL, ...) {
 ### Base function
 lines.object.base = function(x, lwd, col=1, ...) {
   # do NOT overwrite user-value;
-
   if(is.null(lwd)) {
     lwd = if(is.null(x$lwd)) 1 else x$lwd;
   }
   x$lwd = NULL;
   if(length(x) == 1 && inherits(x[[1]], "data.frame")) {
     x = split(x[[1]][, c("x", "y")], x[[1]]$id);
-  }
-  basef = function(lst, ...) {
-    if(inherits(lst, "circle")) {
-      shape::plotellipse(rx = lst$r, ry = lst$r, mid = lst$center,
-                         col=col, lwd=lwd, ...);
-    } else lines(lst$x, lst$y, lwd=lwd, col=col, ...);
   }
   basef = function(lst, ...) {
     if(inherits(lst, "circle")) {
