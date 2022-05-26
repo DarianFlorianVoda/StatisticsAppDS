@@ -10,10 +10,10 @@ source("Graphic.Objects.R");
 source("Graphic.Chemistry.R");
 
 #### Tests ####
-source("Graphic.Arrows.Tests.R")
-source("Graphic.Helper.Tests.R")
-source("Graphic.Objects.Tests.R")
-source("Graphic.Chemistry.Tests.R")
+source("Tests/Graphic.Arrows.Tests.R")
+source("Tests/Graphic.Helper.Tests.R")
+source("Tests/Graphic.Objects.Tests.R")
+source("Tests/Graphic.Chemistry.Tests.R")
 
 #### Examples #####
 source("Examples.R")
