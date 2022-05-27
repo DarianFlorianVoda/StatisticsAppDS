@@ -27,6 +27,7 @@
 # - shift;
 # - plot;
 
+#' @export
 compute_slope = function(x, y) {
   if(length(x) < 2 || length(y) < 2) {
     stop("The base-line requires 2 points!");
@@ -44,6 +45,7 @@ compute_slope = function(x, y) {
 
 
 ### Plot:
+#' @export
 lines.list = function(x, y, lwd=NULL, ...) {
   sapply(x, function(lst) {
     lwd = if(is.null(lwd)) {
@@ -54,6 +56,7 @@ lines.list = function(x, y, lwd=NULL, ...) {
 }
 
 ### Base function
+#' @export
 lines.object.base = function(x, lwd, col=1, ...) {
   # do NOT overwrite user-value;
   if(is.null(lwd)) {
@@ -78,6 +81,7 @@ lines.object.base = function(x, lwd, col=1, ...) {
 }
 
 ### list(Tail=list(...), Head=list(...))
+#' @export
 lines.arrow = function(x, lwd=NULL, col=1, ...) {
   ### ArrowTail
   arrow = x[[1]];
@@ -90,13 +94,22 @@ lines.arrow = function(x, lwd=NULL, col=1, ...) {
 }
 
 ### Chemistry
+#' @export
 lines.chemistry = function(x, lwd=NULL, col=1, ...) {
+  lines.object.base(x, lwd=lwd, col=col, ...)
+  invisible();
+}
+
+### Bio-Shapes
+#' @export
+lines.bioshape = function(x, lwd=NULL, col=1, ...) {
   lines.object.base(x, lwd=lwd, col=col, ...)
   invisible();
 }
 
 ### Reflect Point across line
 # p = c(x, y) # the point to reflect;
+#' @export
 reflect = function(x, y, p, slope=NULL) {
   if(is.null(slope)) {
     if(length(x) < 2 || length(y) < 2)
@@ -128,6 +141,7 @@ reflect = function(x, y, p, slope=NULL) {
 
 ### Shift Line
 # d = distance to shift (translate);
+#' @export
 shiftLine = function(x, y, d=1, slope=NULL, scale=1) {
   if(is.null(slope)) {
     if(length(x) < 2 || length(y) < 2)
@@ -183,6 +197,7 @@ shiftLine = function(x, y, d=1, slope=NULL, scale=1) {
 
 # shift point p along line defined by (x, y);
 # d = distance;
+#' @export
 shiftPoint = function(p, x, y, d=1, slope=NULL, scale=1) {
   if(is.null(slope)) {
     if(length(x) < 2 || length(y) < 2)
@@ -205,7 +220,7 @@ shiftPoint = function(p, x, y, d=1, slope=NULL, scale=1) {
 }
 
 #### Helper Functions for Circles ####
-
+#' @export
 solveCircleIntersection = function(mid1, mid2, r1, r2, digits=4, debug=TRUE) {
   xp = mid1[[1]]; yp = mid1[[2]];
   xc = mid2[[1]]; yc = mid2[[2]];
@@ -233,12 +248,6 @@ solveCircleIntersection = function(mid1, mid2, r1, r2, digits=4, debug=TRUE) {
   y = y / div;
   sol = data.frame(x=x, y=y);
   return(sol);
-}
-
-### Bio-Shapes
-lines.bioshape = function(x, lwd=NULL, col=1, ...) {
-  lines.object.base(x, lwd=lwd, col=col, ...)
-  invisible();
 }
 
 

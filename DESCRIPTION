@@ -1,12 +1,13 @@
-Package: Diagram.Generator
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Package: BioShapes
+Title: Methods to Generate Biological Shapes
+Version: 0.0.1
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Darian", "Voda", "darian.voda00@e-uvt.ro", role = c("aut", "cre")),
+    person("Leonard", "Mada", "leo.mada@syonic.eu", role = c("aut")),
+    person("Daniela", "Zaharie", "daniela.zaharie@e-uvt.ro", role=c("ctb"))
+Imports: shape
+Description: Methods to generate and draw various simple shapes and biological shapes, e.g. liposomes, viral particles, helix strands.
+License: `use_gpl3_license()`
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2

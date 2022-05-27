@@ -23,6 +23,7 @@
 ### Helper Functions
 
 ### Arrow function:
+#' @export
 arrow = function(x, y, type = "Simple", d=1, lwd=1, ...) {
   call = match.call();
   idType = match("type", names(call));
@@ -46,6 +47,7 @@ arrow = function(x, y, type = "Simple", d=1, lwd=1, ...) {
 }
 
 ### Arrow Tail:
+#' @export
 arrowTail = function(x, y, d.lines, lwd=1, slope=NULL) {
   if(is.null(slope)) slope = compute_slope(x, y);
   if(any(d.lines != 0)) {
@@ -64,6 +66,7 @@ arrowTail = function(x, y, d.lines, lwd=1, slope=NULL) {
 
 
 #### Arrow Simple ####
+#' @export
 arrowSimple = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### ArrowTail
@@ -80,6 +83,7 @@ arrowSimple = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), d.lines=0, h.lwd=lwd
 }
 
 #### Double Lined Arrow ####
+#' @export
 arrowDouble = function(x, y, d=-1, lwd=1, d.head=-1, dV=c(-d.head, d.head), d.lines=0,
                        h.lwd=lwd, col="red", scale=1, join=0) {
   if(join > 2) stop("Unsupported value for join!");
@@ -104,6 +108,7 @@ arrowDouble = function(x, y, d=-1, lwd=1, d.head=-1, dV=c(-d.head, d.head), d.li
 
 
 #### Arrow Diamond ####
+#' @export
 arrowDiamond = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
   if(join > 2) stop("Unsupported value for join!");
   slope = compute_slope(x, y);
@@ -124,6 +129,7 @@ arrowDiamond = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col
 }
 
 #### Arrow X ####
+#' @export
 arrowX = function(x, y, d=0.5, lwd=1, d.head=c(-d, d), d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### Head
@@ -144,6 +150,7 @@ arrowX = function(x, y, d=0.5, lwd=1, d.head=c(-d, d), d.lines=0, h.lwd=lwd, col
 }
 
 #### Arrow T ####
+#' @export
 arrowT = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### ArrowTail
@@ -160,6 +167,7 @@ arrowT = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red"
 }
 
 #### Arrow for Measurements ####
+#' @export
 arrowMeasure = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), dT=d.head, d.lines=0,
                         h.lwd=lwd, col="red", scale=1, join=0) {
   slope = compute_slope(x, y);
@@ -177,6 +185,7 @@ arrowMeasure = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), dT=d.head, d.lines=
 }
 
 #### Arrow Square ####
+#' @export
 arrowSquare = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### Head
@@ -197,6 +206,7 @@ arrowSquare = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col=
 # d = distance between each "> >";
 # dH = horizontal shift (shiftPoint)
 # dV = vertical shift (shiftLine) of each ">";
+#' @export
 arrowN = function(x, y, n=1, d=-0.5, lwd=1, h.lwd=lwd, d.head=c(-d, d), d.lines=0,
                   col="red", scale=1, join=0) {
   if(join > n) stop("Unsupported value for join!");
@@ -220,6 +230,7 @@ arrowN = function(x, y, n=1, d=-0.5, lwd=1, h.lwd=lwd, d.head=c(-d, d), d.lines=
 }
 
 # Double Lined Inverted Head
+#' @export
 arrowDoubleInverted = function(x, y, d=0.25, lwd=1, d.head=c(-d, d), d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### Head
@@ -241,6 +252,7 @@ arrowDoubleInverted = function(x, y, d=0.25, lwd=1, d.head=c(-d, d), d.lines=0, 
 
 
 ### Other: ---<
+#' @export
 arrowInverted = function(x, y, d=1, lwd=1, d.head=c(-d,d),
                          d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
   slope = compute_slope(x, y);
@@ -263,6 +275,7 @@ arrowInverted = function(x, y, d=1, lwd=1, d.head=c(-d,d),
 }
 
 #### Arrow Circle
+#' @export
 arrowCircle = function(x, y, r=0.5, lwd=1, d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### Head
@@ -283,6 +296,7 @@ arrowCircle = function(x, y, r=0.5, lwd=1, d.lines=0, h.lwd=lwd, col="red", scal
 }
 
 #### Arrow Solid Square
+#' @export
 arrowSolidSquare = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### Head
@@ -301,6 +315,7 @@ arrowSolidSquare = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd,
 }
 
 #### Arrow Triangle ####
+#' @export
 arrowTriangle = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), d.lines=0,
                          h.lwd=lwd, col="red", scale=1, join=0) {
   if(join > 2) stop("Unsupported value for join!");
@@ -322,24 +337,11 @@ arrowTriangle = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), d.lines=0,
   invisible(lst);
 }
 
-
-### Test:
-plot.base = function(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2)) {
-  mar = 0.25 + c(2,2,0,0); # TODO:
-  par.old = par(mar = mar);
-  plot.new()
-  plot.window(xlim=xlim, ylim=ylim)
-  if( ! is.null(axt)) {
-    lapply(axt, function(a) axis(a));
-  }
-  invisible(par.old);
-}
-
-
 ### Generate complex lines
 
 ### Complex Lines:
 # - just a simple Example;
+# TODO: correct function
 lineBanded = function(x, y, w=0.1, delta=0.25, lwd=1.5, lty=1, n=NULL, col="black", slope=NULL) {
   if(is.null(slope)) {
     slope = compute_slope(x, y);
