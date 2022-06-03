@@ -19,6 +19,7 @@
 ### External Libraries: shape
 
 
+# TODO: move to another file (Objects.R)
 testFilledCircle = function(xy, r, R=NULL, lim=NULL, col="#B0B032", line=TRUE, add=FALSE, ...) {
   x = xy$x; y = xy$y;
   if(missing(r)) {
@@ -161,4 +162,31 @@ lst1 = helix(c(1,1 + 5), c(7,9))
 lst2 = helix(c(1,1 + 5), c(7,9), phi=-pi/2)
 lines(lst1, col="red", lwd=2)
 lines(lst2, col="red", lwd=2)
+
+
+#### Spirals / Coils ####
+
+### Ex 1:
+p1 = c(1,1); p2 = c(2,8); dx = c(2.5,0);
+lst1 = spirals(p1, p2)
+lst2 = spirals(p1 + dx, p2 + dx)
+plot.base()
+lines(lst1)
+lines(lst2)
+
+### Ex 2:
+p1 = c(1,1); p2 = c(2,8); dx = c(3,0);
+lst1 = spirals(p1, p2)
+lst2 = spirals(p2 + dx, p1 + dx)
+plot.base()
+lines(lst1)
+lines(lst2)
+
+### Ex 3: Vertical
+p1 = c(1,1); p2 = c(p1[1],8); dx = c(2.5,0);
+lst1 = spirals(p1, p2)
+lst2 = spirals(p2 + dx, p1 + dx)
+plot.base()
+lines(lst1)
+lines(lst2)
 

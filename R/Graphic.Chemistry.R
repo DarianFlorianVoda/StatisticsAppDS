@@ -1,6 +1,7 @@
 #### poly-cyclic chemical molecules ####
 # numbers = dimension of cycle;
 # separators: type of junction between cycles;
+#' @export
 parseCycles = function(x, r=1, d2=0.0625) {
   reg = "(?<=[0-9])(?=[^0-9])|(?<=[^0-9])(?=[0-9])";
   cyc = strsplit(x, reg, perl=TRUE);
@@ -69,7 +70,7 @@ parseCycles = function(x, r=1, d2=0.0625) {
 }
 
 #### Simple Ligands ####
-
+#' @export
 ligandArrow = function(x, y, slope=Inf, solid=TRUE, d=0.75, w= 0.125 * d) {
   pxy = if(missing(y)) x else c(x, y);
   if(slope < 0) d = -d;

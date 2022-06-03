@@ -24,6 +24,7 @@
 
 # r = radius;
 # phi = rotation (counter-clockwise);
+#' @export
 pointsCircle = function(n, r, center = c(0,0), phi=0) {
   x = r * cos(seq(0, n-1) * 2*pi/n + phi) + center[1];
   y = r * sin(seq(0, n-1) * 2*pi/n + phi) + center[2];
@@ -34,6 +35,7 @@ pointsCircle = function(n, r, center = c(0,0), phi=0) {
 
 
 #### Tangent circles forming a large circle ####
+#' @export
 circlesOnCircle = function(n, r, center = c(0,0), phi=0) {
   R  = r / sin(pi/n);
   xy = pointsCircle(n, r=R, center=center, phi=phi);
@@ -43,6 +45,7 @@ circlesOnCircle = function(n, r, center = c(0,0), phi=0) {
 }
 
 ##### Outside a large circle of given radius #####
+#' @export
 circlesOutsideFixedCircle = function(n, r, center = c(0,0), phi=0) {
   r1 = r / (1/sin(pi/n) - 1);
   R1 = r + r1;
@@ -55,6 +58,7 @@ circlesOutsideFixedCircle = function(n, r, center = c(0,0), phi=0) {
 #### Tangent circles ####
 
 ##### Forming large circle of given radius #####
+#' @export
 circlesOnFixedCircle = function(n, r, center = c(0,0), phi=0) {
   r1 = r * sin(pi/n);
   xy = pointsCircle(n, r=r, center=center, phi=phi);
@@ -64,6 +68,7 @@ circlesOnFixedCircle = function(n, r, center = c(0,0), phi=0) {
 }
 
 ##### Inside a large circle of given radius #####
+#' @export
 circlesInFixedCircle = function(n, r, center = c(0,0), phi=0) {
   r1 = r / (1 + 1/sin(pi/n));
   R  = r - r1;
@@ -74,6 +79,7 @@ circlesInFixedCircle = function(n, r, center = c(0,0), phi=0) {
 }
 
 #### Cell-object resembling a smooth muscle cell ####
+#' @export
 cellSmooth = function(x, y, r=1, slope=NULL, lwd=2, N=128, phi=pi) {
   if(is.null(slope)) slope = compute_slope(x, y);
   d = sqrt((x[1] - x[2])^2 + (y[1] - y[2])^2);
@@ -94,6 +100,7 @@ cellSmooth = function(x, y, r=1, slope=NULL, lwd=2, N=128, phi=pi) {
 }
 
 #### Liposomes ####
+#' @export
 liposomes = function(n, r, center=c(0, 0), phi=c(0, 0), d=0, ...){
   C1 = circlesOnCircle(n=n[1], r=r, center=center, phi=phi[1])
   C2 = circlesOnCircle(n=n[2], r=r, center=center, phi=phi[2])
@@ -130,6 +137,7 @@ liposomes = function(n, r, center=c(0, 0), phi=c(0, 0), d=0, ...){
 # N = number of points to draw curve;
 # A = amplitude;
 # phi = phase shift of sinusoid;
+#' @export
 helix = function(p1, p2, n=3, A=1, phi=0, N=128, slope=NULL) {
   if(is.null(slope)) {
     x = c(p1[1], p2[1]);
@@ -151,6 +159,50 @@ helix = function(p1, p2, n=3, A=1, phi=0, N=128, slope=NULL) {
   y  = A*sin(t + phi);
   dx = (x - slope*y) * sdiv; # + p1[1];
   dy = (slope*x + y) * sdiv; # + p1[2];
+  lst = list(x = p1[1] + dx, y = p1[2] + dy);
+  lst = list(lst);
+  class(lst) = c("bioshape", class(lst));
+  return(lst);
+}
+
+#' @export
+spirals = function(p1, p2, n=5.5, A=1, phi=0, N=128, slope=NULL) {
+  if(is.null(slope)) {
+    x = c(p1[1], p2[1]);
+    y = c(p1[2], p2[2]);
+    slope = compute_slope(x, y);
+    l = sqrt((p1[1]- p2[1])^2 + (p1[2]- p2[2])^2);
+  } else {
+    if(length(p2) > 1) stop("Provide either: length and slope, or the 2 endpoints!")
+    l = p2;
+  }
+  #
+  n = 2*n*pi;
+  ninv = 1 / n;
+  v = l * ninv;
+  t = seq(0, n, length.out=N);
+  # Rotation matrix: by column
+  # rotm = matrix(sdiv * c(1, s, -s, 1), ncol=2, nrow=2);
+  if(slope == -Inf || (slope != Inf && p1[2] > p2[1])){
+    v = - v;
+  } else { phi = phi + pi; }
+  x  = v*t;
+  y  = A*sin(t + phi);
+  xc = x + cos(t + phi);
+  #
+  if(abs(slope) == Inf) {
+    sgn = sign(slope);
+    dx  = y;
+    dy  = xc;
+    lst = list(x = p1[1] + dx, y = p1[2] + dy);
+    lst = list(lst);
+    class(lst) = c("bioshape", class(lst));
+    return(lst);
+  }
+  sdiv = 1 / sqrt(slope^2 + 1);
+  #
+  dx = (xc - slope*y) * sdiv; # + p1[1];
+  dy = (slope*xc + y) * sdiv; # + p1[2];
   lst = list(x = p1[1] + dx, y = p1[2] + dy);
   lst = list(lst);
   class(lst) = c("bioshape", class(lst));

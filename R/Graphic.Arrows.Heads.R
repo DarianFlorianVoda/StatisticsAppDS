@@ -22,6 +22,7 @@
 
 ### Simple ArrowHead: --->
 # (x, y) = tip of the ArrowHead;
+#' @export
 arrowHeadSimple = function(x, y, slope, d=-1, dV=c(-d, d), scale=1) {
   p = if(d == 0) matrix(c(x, y), nrow=1, ncol=2)
   else shiftPoint(c(x, y), slope=slope, d = d, scale=scale);
@@ -33,6 +34,7 @@ arrowHeadSimple = function(x, y, slope, d=-1, dV=c(-d, d), scale=1) {
 }
 
 # Diamond ArrowHead: ---<>
+#' @export
 arrowHeadDiamond = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
   if(length(d) > 2) stop("Only 2 values are supported for d!");
   d1 = d[[1]];
@@ -47,6 +49,7 @@ arrowHeadDiamond = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
 }
 
 # X ArrowHead: ---X
+#' @export
 arrowHeadX = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
   if(length(d) > 2) stop("Only 2 values are supported for d!");
   d2 = if(length(d) == 1) 2*d else sum(d);
@@ -80,6 +83,7 @@ arrowHeadX = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
 
 # Double Lined ArrowHead: --->>
 # - a high-level helper function;
+#' @export
 arrowHeadDouble = function(x, y, slope, d=-1, dH=d, dV=c(dH, -dH), scale=1) {
   # First Arrow:
   arrHead = list(arrowHeadSimple(x, y, slope=slope, d = dH, dV=dV, scale=scale));
@@ -92,6 +96,7 @@ arrowHeadDouble = function(x, y, slope, d=-1, dH=d, dV=c(dH, -dH), scale=1) {
 }
 
 # N-Lined ArrowHead: --->>...> (n times)
+#' @export
 arrowHeadN = function(x, y, slope, n=1, d = 0.5, dH = - d, dV=c(dH, -dH), scale=1) {
   # Shift point along line:
   arrHead = list(arrowHeadSimple(x, y, slope=slope, d = dH, dV = dV, scale=scale));
@@ -106,6 +111,7 @@ arrowHeadN = function(x, y, slope, n=1, d = 0.5, dH = - d, dV=c(dH, -dH), scale=
 }
 
 # T ArrowHead: ---|
+#' @export
 arrowHeadT = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
   p  = cbind(x, y);
   if(length(dV) == 1) dV = c(0, dV);
@@ -117,6 +123,7 @@ arrowHeadT = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
 }
 
 # Measurement ArrowHead: --->|
+#' @export
 arrowHeadMeasure = function(x, y, slope, d=-1, dV=c(d, -d), dT=dV, scale=1) {
   arrHead = arrowHeadSimple(x, y, slope=slope, d=d, dV=dV, scale=scale);
   arrHead = list(arrHead, arrowHeadT(x, y, slope=slope, dV=dT, scale=scale));
@@ -124,6 +131,7 @@ arrowHeadMeasure = function(x, y, slope, d=-1, dV=c(d, -d), dT=dV, scale=1) {
 }
 
 # Square ArrowHead: |_|
+#' @export
 arrowHeadSquare = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
   if(length(d) > 2) stop("Only 2 values are supported for d!");
   d2 = if(length(d) == 1) 2*d else sum(d);
@@ -139,6 +147,7 @@ arrowHeadSquare = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
 }
 
 # Double Lined Inverted ArrowHead: ---<<
+#' @export
 arrowHeadDoubleInverted = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
   # Shift point along line:
   dH = abs(dV[1]);
@@ -155,6 +164,7 @@ arrowHeadDoubleInverted = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
 }
 
 # Circle ArrowHead ---O
+#' @export
 arrowHeadCircle = function(x, y, slope, r=0.5, scale=1) {
   center = shiftPoint(c(x, y), slope = slope, d = -r, scale=scale)
   startP = shiftPoint(c(x, y), slope = slope, d = -2*r, scale=scale)
@@ -166,6 +176,7 @@ arrowHeadCircle = function(x, y, slope, r=0.5, scale=1) {
 }
 
 # Triangle ArrowHead: ---|>
+#' @export
 arrowHeadTriangle = function(x, y, slope, d=-1, dV=c(-d, d), scale=1) {
   p = if(d == 0) matrix(c(x, y), nrow=1, ncol=2)
   else shiftPoint(c(x, y), slope=slope, d = d, scale=scale);
