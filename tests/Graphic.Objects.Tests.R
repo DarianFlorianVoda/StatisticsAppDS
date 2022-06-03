@@ -157,9 +157,8 @@ lines(lst2)
 
 
 ### Ex 3:
-lst1 = helix(c(1,1), c(7,9))
-lst2 = helix(c(1,1), c(7,9), phi=-pi/2)
-plot.base()
+lst1 = helix(c(1,1 + 5), c(7,9))
+lst2 = helix(c(1,1 + 5), c(7,9), phi=-pi/2)
 lines(lst1, col="red", lwd=2)
 lines(lst2, col="red", lwd=2)
 

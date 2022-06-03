@@ -30,16 +30,6 @@
 # Testing various origins
 
 ### Test:
-plot.base = function(xlim=c(-2,10), ylim=c(-2,10), axt=c(1,2)) {
-  mar = 0.25 + c(2,2,0,0); # TODO:
-  par.old = par(mar = mar);
-  plot.new()
-  plot.window(xlim=xlim, ylim=ylim)
-  if( ! is.null(axt)) {
-    lapply(axt, function(a) axis(a));
-  }
-  invisible(par.old);
-}
 
 testReflection = function(p0, x, y) {
   p = reflect(x, y, p0)
