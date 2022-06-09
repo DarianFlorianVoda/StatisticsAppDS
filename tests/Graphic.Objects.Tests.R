@@ -142,26 +142,49 @@ testLiposome(lst)
 ### Helix / DNA
 
 ### Ex 1a:
-lst1 = helix(c(1,1), c(8,3))
-lst2 = helix(c(1,1), c(8,3), phi=-pi/2)
+p1 = c(1,1); p2 = c(8,3);
+lst1 = helix(p1, p2)
+lst2 = helix(p1, p2, phi=-pi/2)
 plot.base()
 lines(lst1)
 lines(lst2)
+# visual aids
+abline(v = p1[1], col="green")
+abline(v = p2[1], col="green")
 
-### Ex 1b:
-dy = 3; n = 2.5;
-lst1 = helix(c(1, 1 + dy), c(8, 3 + dy), n=n)
-lst2 = helix(c(1, 1 + dy), c(8, 3 + dy), n=n, phi=-pi/2)
+### Ex 1b: Shifted version of helices
+dy = c(0, 3); n = 2.5;
+lst1 = helix(p1 + dy, p2 + dy, n=n)
+lst2 = helix(p1 + dy, p2 + dy, n=n, phi=-pi/2)
 # plot.base()
 lines(lst1)
 lines(lst2)
 
-
-### Ex 3:
-lst1 = helix(c(1,1 + 5), c(7,9))
-lst2 = helix(c(1,1 + 5), c(7,9), phi=-pi/2)
-lines(lst1, col="red", lwd=2)
+### Ex 1c: Reversed direction
+dy = 5;
+lst1 = helix(c(1,1 + dy), c(7,9))
+lst2 = helix(c(7,9), c(1,1 + dy), phi=-pi/2)
+lines(lst1, col="blue", lwd=2)
 lines(lst2, col="red", lwd=2)
+
+
+### Ex 2: Vertical Object
+p1 = c(1,1); p2 = c(p1[1], 8);
+lst1 = helix(p1, p2)
+lst2 = helix(p1, p2, phi=-pi/2)
+plot.base()
+lines(lst1)
+lines(lst2)
+# visual aids:
+abline(h = p1[2], col="green")
+abline(h = p2[2], col="green")
+
+# reversed direction:
+dx = c(4, 0)
+lst1 = helix(p1 + dx, p2 + dx)
+lst2 = helix(p2 + dx, p1 + dx, phi=-pi/2)
+lines(lst1, col="blue")
+lines(lst2, col="red")
 
 
 #### Spirals / Coils ####
