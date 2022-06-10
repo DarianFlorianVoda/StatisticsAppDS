@@ -148,15 +148,15 @@ arrowHeadSquare = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
 
 # Double Lined Inverted ArrowHead: ---<<
 #' @export
-arrowHeadDoubleInverted = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
+arrowHeadDoubleInverted = function(x, y, slope, d=-1, dH=d, dV=c(d, -d), scale=1) {
   # Shift point along line:
-  dH = abs(dV[1]);
+  # dH = abs(dV[1]);
   # Head: 2nd "<" of "<<"
-  p2 = shiftPoint(c(x, y), slope=slope, d = - dH, scale=scale);
-  arrHead = list(arrowHeadSimple(p2[1], p2[2], slope=slope, d = dH, scale=scale));
+  p2 = shiftPoint(c(x, y), slope=slope, d = dH, scale=scale);
+  arrHead = list(arrowHeadSimple(p2[1], p2[2], slope=slope, d = -dH, scale=scale));
   # Head: 1st "<" of "<<"
-  p2 = shiftPoint(c(x, y), slope=slope, d = - d - dH);
-  arrHead2 = list(arrowHeadSimple(p2[1], p2[2], slope=slope, d = dH, scale=scale));
+  p2 = shiftPoint(c(x, y), slope=slope, d = d + dH);
+  arrHead2 = list(arrowHeadSimple(p2[1], p2[2], slope=slope, d = -dH, scale=scale));
   arrHead  = c(arrHead, arrHead2);
   midpoint = p2;
   attr(arrHead, "Mid") = midpoint;

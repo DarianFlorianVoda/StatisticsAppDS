@@ -18,6 +18,5 @@ devtools::test()
 devtools::check()
 
 
-
 install.packages("testthat")
 install.packages("Rtools")

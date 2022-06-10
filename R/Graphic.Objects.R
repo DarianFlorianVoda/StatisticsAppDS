@@ -36,6 +36,7 @@ testFilledCircle = function(xy, r=NULL, R=NULL, lim=NULL, line=TRUE,
     if(is.null(lim)) {
       R0  = attr(xy, "R");
       lim = R0 + r + 1;
+      lim = c(-lim, lim);
     } else if(length(lim) == 1) {
       lim = c(-lim, lim);
       mid = c(0, 0); # remove center offset;

@@ -231,7 +231,7 @@ arrowN = function(x, y, n=1, d=-0.5, lwd=1, h.lwd=lwd, d.head=c(-d, d), d.lines=
 
 # Double Lined Inverted Head
 #' @export
-arrowDoubleInverted = function(x, y, d=0.25, lwd=1, d.head=c(-d, d), d.lines=0, h.lwd=lwd, col="red", scale=1) {
+arrowDoubleInverted = function(x, y, d=-0.25, lwd=1, d.head=c(-d, d), d.lines=0, h.lwd=lwd, col="red", scale=1) {
   slope = compute_slope(x, y);
   ### Head
   arrHead = arrowHeadDoubleInverted(x[2], y[2], slope=slope, d=d, dV=d.head, scale=scale);

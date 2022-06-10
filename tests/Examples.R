@@ -96,7 +96,7 @@ all_arrows = function(){
 
   # Double ArrowHead
   x = c(1, 1); y = c(7, 9);
-  d=0.3;
+  d = -0.3;
   d.head=-0.5
   a2 = arrowDouble(x, y, d=d, d.head=d.head, lwd=2);
   text(1, 6.7,
@@ -129,6 +129,8 @@ all_arrows = function(){
   arrowMeasure(x, y, d=-1, lwd=2);
   text(9.5, 6.7,
        "Measurement", cex = 0.70);
+  
+  abline(h=9, col="green")
 
   # X Shape ArrowHead
   x = c(-1, -1); y = c(3, 5);
@@ -151,7 +153,7 @@ all_arrows = function(){
 
   # Double Lined Inverted ArrowHead
   x = c(6.5, 6.5); y = c(3, 5);
-  arrowDoubleInverted(x, y, d=-0.5, lwd=2);
+  arrowDoubleInverted(x, y, d=-0.3, lwd=2);
   text(6.5, 2.7,
        "Double-Lined Inverted", cex = 0.70);
 
@@ -160,6 +162,8 @@ all_arrows = function(){
   arrowCircle(x, y, r=0.5, lwd=2);
   text(9.5, 2.7,
        "Solid Circle", cex = 0.70);
+  
+  abline(h=5, col="green")
 
   # Solid Square ArrowHead
   x = c(-1, -1); y = c(-1, 1);
@@ -173,8 +177,12 @@ all_arrows = function(){
   a1 = arrowTriangle(x, y, d=d, lwd=2);
   text(1, -1.3,
        "Triangle", cex = 0.70);
+  
+  abline(h=1, col="green")
 }
 all_arrows()
+
+
 
 ### Ex 1:
 plot.base()
