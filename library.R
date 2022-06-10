@@ -15,6 +15,9 @@ gitcreds::gitcreds_set('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')
 
 devtools::load_all()
 devtools::test()
+devtools::check()
+
 
 
 install.packages("testthat")
+install.packages("Rtools")

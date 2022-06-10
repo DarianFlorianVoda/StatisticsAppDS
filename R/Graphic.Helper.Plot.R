@@ -94,3 +94,29 @@ lines.bioshape = function(x, lwd=NULL, col=1, ...) {
 }
 
 
+### Circles
+# fill = fill colour;
+# col  = colour of circle borders;
+# col.line = colour of extra circle of radius R;
+#' @export
+lines.circles = function(x, R, fill="#B0B032", col=NULL, col.line="green", line=TRUE, ...) {
+  xy = x;
+  r = attr(xy, "r");
+  if(is.null(r)) stop("Missing r!");
+  x = xy$x; y = xy$y;
+  n = length(x);
+  if(length(r) < n) r = rep(r, n %/% length(r));
+  #
+  for(id in seq(n)) {
+    if(is.null(fill)) {
+      shape::filledcircle(r1=r[id], r2=0, mid = c(x[id], y[id]), ...)
+    } else {
+      shape::filledcircle(r1=r[id], r2=0, mid = c(x[id], y[id]), col=fill, ...);
+    }
+  }
+  if(line) {
+    R = if(is.null(R)) attr(xy, "R") else R;
+    center = attr(xy, "center");
+    shape::plotcircle(r=R, mid=center, lcol=col.line, col=NULL);
+  }
+}

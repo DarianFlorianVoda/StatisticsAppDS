@@ -18,6 +18,39 @@
 
 ### Functions to Generate Objects
 
+
+### Plot Objects formed from circles;
+# - convenience function;
+#' @export
+testFilledCircle = function(xy, r=NULL, R=NULL, lim=NULL, line=TRUE,
+                            col="#B0B032", col.line="green", add=FALSE, ...) {
+  if(is.null(r)) {
+    r = attr(xy, "r");
+    if(is.null(r)) stop("Missing r!")
+  } else {
+    attr(xy, "r") = r;
+  }
+  if( ! add) {
+    x = xy$x; y = xy$y;
+    mid = attr(xy, "center");
+    if(is.null(lim)) {
+      R0  = attr(xy, "R");
+      lim = R0 + r + 1;
+    } else if(length(lim) == 1) {
+      lim = c(-lim, lim);
+      mid = c(0, 0); # remove center offset;
+    } else {
+      mid = c(0, 0); # remove center offset;
+    }
+    plot(x, y, xlim = lim + mid[1], ylim = lim + mid[2]);
+  }
+  pin = mean(par("pin")) + 0.25;
+  par.old = par(pin = c(pin, pin));
+  lines.circles(xy, R=R, line=line, fill=col, col.line=col.line, ...)
+  par(par.old);
+}
+
+
 #####################
 
 ### Helper Functions
@@ -30,6 +63,7 @@ pointsCircle = function(n, r, center = c(0,0), phi=0) {
   y = r * sin(seq(0, n-1) * 2*pi/n + phi) + center[2];
   lst = list(x=x, y=y);
   attr(lst, "R") = r;
+  attr(lst, "center") = center;
   return(lst);
 }
 
@@ -78,26 +112,8 @@ circlesInFixedCircle = function(n, r, center = c(0,0), phi=0) {
   return(xy);
 }
 
-#### Cell-object resembling a smooth muscle cell ####
-#' @export
-cellSmooth = function(x, y, r=1, slope=NULL, lwd=2, N=128, phi=pi) {
-  if(is.null(slope)) slope = compute_slope(x, y);
-  d = sqrt((x[1] - x[2])^2 + (y[1] - y[2])^2);
-  dx = d / N;
-  pL = seq(0, d, by=dx);
-  pp = shiftPoint(c(x[1], y[1]), d=pL, slope=slope);
-  pL = pL + x[1];
-  px = pp[,1] - x[1]; px = px * pi / max(abs(px));
-  # Margin 1:
-  pS = r * sin(px) + pp[,2];
-  lst = list(x = pL, y = pS);
-  # Margin 2:
-  pS = r * sin(px + phi) + pp[,2];
-  lst = list(lst, list(x = pL, y = pS));
-  #
-  lst$lwd = lwd;
-  return(lst)
-}
+
+###################
 
 #### Liposomes ####
 #' @export
@@ -122,15 +138,15 @@ liposomes = function(n, r, center=c(0, 0), phi=c(0, 0), d=0, ...){
   }
   l1 = lapply(seq(n[1]), fn, p1, center, d2)
   l2 = lapply(seq(n[2]), fn, p2, center, -d2)
-
+  
   l1 = do.call(rbind, l1)
   l2 = do.call(rbind, l2)
-
+  
   l2$id = l2$id + nrow(l1)
   l = rbind(l1, l2)
-
+  
   return(list(C1=C1, C2=C2, l=l))
-
+  
 }
 
 # n = number of loops;
@@ -164,7 +180,7 @@ helix = function(p1, p2, n=3, A=1, phi=0, N=128, slope=NULL) {
     return(lst);
   }
   sdiv = 1 / sqrt(slope^2 + 1);
-  if(p1[2] > p2[2]) { x = -x; }
+  if(p1[2] > p2[2] && slope > 0) { x = -x; }
   # Rotation matrix: by column
   # rotm = matrix(sdiv * c(1, s, -s, 1), ncol=2, nrow=2);
   dx = (x - slope*y) * sdiv; # + p1[1];
@@ -219,3 +235,47 @@ spirals = function(p1, p2, n=5.5, A=1, phi=0, N=128, slope=NULL) {
   return(lst);
 }
 
+
+###########################
+
+#### Cell-like Objects ####
+
+#### Cells resembling a smooth muscle cell ####
+#' @export
+cellSmooth = function(x, y, r=1, slope=NULL, lwd=1, N=128, phi=pi) {
+  if(is.null(slope)) slope = compute_slope(x, y);
+  d = sqrt((x[1] - x[2])^2 + (y[1] - y[2])^2);
+  dx = d / N;
+  pL = seq(0, d, by=dx);
+  pp = shiftPoint(c(x[1], y[1]), d=pL, slope=slope);
+  pL = pL + x[1];
+  px = pp[,1] - x[1]; px = px * pi / max(abs(px));
+  # Margin 1:
+  pS = r * sin(px) + pp[,2];
+  lst = list(x = pL, y = pS);
+  # Margin 2:
+  pS = r * sin(px + phi) + pp[,2];
+  lst = list(lst, list(x = pL, y = pS));
+  #
+  lst$lwd = lwd;
+  return(lst)
+}
+
+
+#### brush-Border Cells ####
+# p1 = Base of Cell, Point 1;
+#' @export
+cellBrushBorder = function(p1, w, h, n=6.5, A=1, slope=0, lwd=1, N=128, phi=0) {
+  # Cell:
+  p11 = p1;
+  p12 = shiftPoint(p1,  d=w, slope=slope);
+  p21 = shiftLine( p1,  d=h, slope=slope);
+  p21 = unlist(p21);
+  p22 = shiftPoint(p21, d=w, slope=slope);
+  # Brush-Border:
+  brush = helix(p21, p22, n=n, A=A, phi=phi, N=N);
+  brush[[1]]$x = c(brush[[1]]$x, p22[1], p12[1], p11[1], p21[1], brush[[1]]$x[[1]]);
+  brush[[1]]$y = c(brush[[1]]$y, p22[2], p12[2], p11[2], p21[2], brush[[1]]$y[[1]]);
+  brush$lwd = lwd;
+  return(brush);
+}

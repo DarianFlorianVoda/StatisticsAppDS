@@ -198,7 +198,7 @@ cat("\nStarting: Double-Lined ArrowHead\n")
 
 ###### Test 1 ######
 x = c(0, 6); y = c(1, 6);
-d = -1; dV = c(-0.5, 0.5);
+d = -1; dV = c(-1.5,1.5);
 plot.base()
 a1 = arrowDouble(x, y, d=d, dV=dV, lwd=2);
 a2 = arrowDouble(c(x[1], 5), c(y[1], y[1]), d=d, dV=dV, lwd=2);
