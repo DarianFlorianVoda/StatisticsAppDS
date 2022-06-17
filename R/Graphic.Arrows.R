@@ -112,7 +112,7 @@ arrowDouble = function(x, y, d=-0.5, lwd=1, d.head=-1, dV=c(-d.head, d.head), d.
 #### Arrow T ####
 #' @export
 arrowT = function(x, y, d=0.2, lwd=1, d.head=c(d, -d), d.lines=0, h.lwd=lwd,
-                  col="red", scale=1, join=0) {
+                  col="red", scale=1, join=0, lty=1) {
   slope = compute_slope(x, y);
   ### Head
   if(is.list(d.head)) {
@@ -130,7 +130,7 @@ arrowT = function(x, y, d=0.2, lwd=1, d.head=c(d, -d), d.lines=0, h.lwd=lwd,
   lst = list(Arrow=arrow, Head=ahead);
   class(lst) = c("arrow", "list");
   # Plot lines:
-  lines(lst, col=col);
+  lines(lst, col=col, lty=lty);
   invisible(lst);
 }
 

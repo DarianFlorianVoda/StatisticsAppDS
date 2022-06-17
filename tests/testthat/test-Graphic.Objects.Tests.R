@@ -219,3 +219,4 @@ lst2 = spirals(p2 + dx, p1 + dx)
 plot.base()
 lines(lst1)
 lines(lst2)
+

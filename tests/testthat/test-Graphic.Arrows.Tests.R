@@ -427,6 +427,15 @@ arrowT(c(x[1], 5), c(y[1], y[1]), d.head=d.head, lwd=2);
 arrowT(c(x[1], x[1]), c(y[1], 5), d.head=d.head, lwd=2);
 
 
+### Discontinuous T
+x = c(0, 6); y = c(1, 6);
+d.head = list(c(0.2, 0.7), c(-0.2, -0.7))
+plot.base()
+arrowT(x, y, d.head=d.head, lwd=2, lty=2);
+arrowT(c(x[1], 5), c(y[1], y[1]), d.head=d.head, lwd=2, lty=2);
+arrowT(c(x[1], x[1]), c(y[1], 5), d.head=d.head, lwd=2, lty=2);
+
+
 ##### Measurement ArrowHead #####
 x = c(0, 6); y = c(1, 6);
 plot.base()

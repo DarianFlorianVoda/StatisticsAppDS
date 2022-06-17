@@ -72,10 +72,10 @@ lines.object.base = function(x, lwd, col=1, fill=NULL, ...) {
 
 ### list(Tail=list(...), Head=list(...))
 #' @export
-lines.arrow = function(x, lwd=NULL, col=1, ...) {
+lines.arrow = function(x, lwd=NULL, col=1, lty=1, ...) {
   ### ArrowTail
   arrow = x[[1]];
-  lines.object.base(arrow, lwd=lwd, col=col, ...)
+  lines.object.base(arrow, lwd=lwd, col=col, lty=lty, ...)
   ### ArrowHead
   ahead = x[[2]];
   lines.object.base(ahead, lwd=lwd, col=col, ...);
