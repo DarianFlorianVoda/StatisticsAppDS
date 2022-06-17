@@ -48,39 +48,6 @@ arrowHeadDiamond = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
   return(arrHead);
 }
 
-# X ArrowHead: ---X
-#' @export
-arrowHeadX = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
-  if(length(d) > 2) stop("Only 2 values are supported for d!");
-  d2 = if(length(d) == 1) 2*d else sum(d);
-  # TODO: more than 2 values for dV;
-  pB1 = c(x[1], y[1]);
-  pB2 = shiftPoint(c(x[1], y[1]), d=d2, slope=slope);
-  p1 = shiftLine(pB1, d=dV, slope=slope, scale=scale);
-  p2 = shiftLine(pB2, d=dV, slope=slope, scale=scale);
-  if(length(d) == 1) {
-    # TODO: one pass;
-    midpointX = (p1$x[2]+p2$x[1])/2;
-    midpointY = (p1$y[2]+p2$y[1])/2;
-    arrHead = list(
-      x = c(p1$x[2], p2$x[1], midpointX, p2$x[2], p1$x[1]),
-      y = c(p1$y[2], p2$y[1], midpointY, p2$y[2], p1$y[1]));
-  } else {
-    pM = shiftPoint(c(x[1], y[1]), d=d[1], slope=slope);
-    midpointX = pM[1];
-    midpointY = pM[2];
-    arrHead = data.frame(
-      x = c(p1$x[1], midpointX, p1$x[2], p2$x[1], midpointX, p2$x[2]),
-      y = c(p1$y[1], midpointY, p1$y[2], p2$y[1], midpointY, p2$y[2]),
-      id = c(1,1,1, 2,2,2));
-  }
-  arrHead = list(
-    x = c(p1$x[2], p2$x[1], midpointX, p2$x[2], p1$x[1]),
-    y = c(p1$y[2], p2$y[1], midpointY, p2$y[2], p1$y[1]));
-  attr(arrHead, "Mid") = c(midpointX, midpointY)
-  return(arrHead);
-}
-
 # Double Lined ArrowHead: --->>
 # - a high-level helper function;
 #' @export
@@ -110,6 +77,28 @@ arrowHeadN = function(x, y, slope, n=1, d = 0.5, dH = - d, dV=c(dH, -dH), scale=
   return(arrHead);
 }
 
+### Double Lined Inverted ArrowHead: ---<<
+# dH = abs(d) ensures always inverted!
+#' @export
+arrowHeadDoubleInverted = function(x, y, slope, d=-1, dH=abs(d), dV=c(d, -d), scale=1) {
+  # Shift point along line:
+  # dH = abs(dV[1]);
+  # Head: 2nd "<" of "<<"
+  dHneg = - dH;
+  d2 = if(d <= 0) dHneg else d;
+  pV = shiftPoint(c(x, y), slope=slope, d = d2, scale=scale);
+  arrHead  = list(arrowHeadSimple(pV[1], pV[2], slope=slope, d = dH, scale=scale));
+  midpoint = list(pV);
+  # Head: 1st "<" of "<<"
+  d2 = if(d <= 0) (d + dHneg) else 0;
+  pV = shiftPoint(c(x, y), slope=slope, d = d2);
+  arrHead2 = list(arrowHeadSimple(pV[1], pV[2], slope=slope, d = dH, scale=scale));
+  arrHead  = c(arrHead, arrHead2);
+  midpoint = c(list(pV), midpoint);
+  attr(arrHead, "Mid") = midpoint;
+  return(arrHead);
+}
+
 # T ArrowHead: ---|
 #' @export
 arrowHeadT = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
@@ -122,7 +111,7 @@ arrowHeadT = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
   return(arrHead);
 }
 
-# Measurement ArrowHead: --->|
+### Measurement ArrowHead: --->|
 #' @export
 arrowHeadMeasure = function(x, y, slope, d=-1, dV=c(d, -d), dT=dV, scale=1) {
   arrHead = arrowHeadSimple(x, y, slope=slope, d=d, dV=dV, scale=scale);
@@ -130,11 +119,40 @@ arrowHeadMeasure = function(x, y, slope, d=-1, dV=c(d, -d), dT=dV, scale=1) {
   return(arrHead);
 }
 
-# Square ArrowHead: |_|
+# X ArrowHead: ---X
 #' @export
-arrowHeadSquare = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
+arrowHeadX = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
   if(length(d) > 2) stop("Only 2 values are supported for d!");
   d2 = if(length(d) == 1) 2*d else sum(d);
+  # TODO: 1 value & more than 2 values for dV;
+  pB1 = c(x[1], y[1]);
+  pB2 = shiftPoint(pB1, d=d2, slope=slope);
+  p1 = shiftLine(pB1, d=dV, slope=slope, scale=scale);
+  p2 = shiftLine(pB2, d=dV, slope=slope, scale=scale);
+  if(length(d) == 1) {
+    midpointX = (p1$x[2]+p2$x[1])/2;
+    midpointY = (p1$y[2]+p2$y[1])/2;
+    arrHead = data.frame(
+      x = c(p1$x[2], p2$x[1], p2$x[2], p1$x[1]),
+      y = c(p1$y[2], p2$y[1], p2$y[2], p1$y[1]),
+      id = c(1,1, 2,2));
+  } else {
+    pM = shiftPoint(c(x[1], y[1]), d=d[1], slope=slope);
+    midpointX = pM[1];
+    midpointY = pM[2];
+    arrHead = data.frame(
+      x = c(p1$x[1], midpointX, p1$x[2], p2$x[1], midpointX, p2$x[2]),
+      y = c(p1$y[1], midpointY, p1$y[2], p2$y[1], midpointY, p2$y[2]),
+      id = c(1,1,1, 2,2,2));
+  }
+  attr(arrHead, "Mid") = c(midpointX, midpointY);
+  return(arrHead);
+}
+
+### Square ArrowHead: |_|
+#' @export
+arrowHeadSquare = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
+  if(length(d) > 1) stop("Only 1 value is supported for d!");
   # TODO: more than 2 values for dV;
   pB1 = c(x[1], y[1]);
   pB2 = shiftPoint(c(x[1], y[1]), d=d, slope=slope, scale=scale);
@@ -143,22 +161,7 @@ arrowHeadSquare = function(x, y, slope, d=-1, dV=c(d, -d), scale=1) {
   arrHead = list(
     x = c(p1$x[2], p1$x[1], p2$x[1],  p2$x[2], p1$x[2]),
     y = c(p1$y[2], p1$y[1], p2$y[1],  p2$y[2], p1$y[2]));
-  return(arrHead);
-}
-
-# Double Lined Inverted ArrowHead: ---<<
-#' @export
-arrowHeadDoubleInverted = function(x, y, slope, d=-1, dH=d, dV=c(d, -d), scale=1) {
-  # Shift point along line:
-  # dH = abs(dV[1]);
-  # Head: 2nd "<" of "<<"
-  p2 = shiftPoint(c(x, y), slope=slope, d = dH, scale=scale);
-  arrHead = list(arrowHeadSimple(p2[1], p2[2], slope=slope, d = -dH, scale=scale));
-  # Head: 1st "<" of "<<"
-  p2 = shiftPoint(c(x, y), slope=slope, d = d + dH);
-  arrHead2 = list(arrowHeadSimple(p2[1], p2[2], slope=slope, d = -dH, scale=scale));
-  arrHead  = c(arrHead, arrHead2);
-  midpoint = p2;
+  midpoint = pB2;
   attr(arrHead, "Mid") = midpoint;
   return(arrHead);
 }
@@ -171,7 +174,7 @@ arrowHeadCircle = function(x, y, slope, r=0.5, scale=1) {
   lst = list(r=r, center=center);
   attr(lst, "class") = c("circle", class(lst));
   lst = list(lst);
-  attr(lst, "start") = startP;
+  attr(lst, "start") = list(startP, center);
   return(lst)
 }
 
@@ -187,4 +190,3 @@ arrowHeadTriangle = function(x, y, slope, d=-1, dV=c(-d, d), scale=1) {
   attr(arrHead, "Mid") = p;
   return(arrHead);
 }
-

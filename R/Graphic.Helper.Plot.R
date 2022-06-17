@@ -43,23 +43,27 @@ lines.list = function(x, y, lwd=NULL, ...) {
 
 ### Base function
 #' @export
-lines.object.base = function(x, lwd, col=1, ...) {
+lines.object.base = function(x, lwd, col=1, fill=NULL, ...) {
   # do NOT overwrite user-value;
   if(is.null(lwd)) {
     lwd = if(is.null(x$lwd)) 1 else x$lwd;
   }
   x$lwd = NULL;
+  # List with a data.frame:
   if(length(x) == 1 && inherits(x[[1]], "data.frame")) {
     x = split(x[[1]][, c("x", "y")], x[[1]]$id);
   }
+  # Actual components:
   basef = function(lst, ...) {
     if(inherits(lst, "circle")) {
+      if(is.null(fill)) fill = lst$fill;
       shape::plotellipse(rx = lst$r, ry = lst$r, mid = lst$center,
-                         col=col, lwd=lwd, ...);
+                         lcol=col, col=fill, lwd=lwd, ...);
     } else if(inherits(lst, "polygon")) {
+      if(is.null(fill)) fill = lst$fill;
       col0 = lst$col;
       col  = if(is.null(col0)) col else col0;
-      polygon(lst$x, lst$y, col=col);
+      polygon(lst$x, lst$y, col=fill, border=col, ...);
     } else lines(lst$x, lst$y, lwd=lwd, col=col, ...);
   }
   lapply(x, basef, ...);

@@ -66,13 +66,16 @@ arrowTail = function(x, y, d.lines, lwd=1, slope=NULL) {
 
 
 #### Arrow Simple ####
+# - for consistency: join = 0;
 #' @export
-arrowSimple = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), d.lines=0, h.lwd=lwd, col="red", scale=1) {
+arrowSimple = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), d.lines=0,
+                       h.lwd=lwd, col="red", scale=1, join=0) {
   slope = compute_slope(x, y);
+  ### Head
+  ahead = list(arrowHeadSimple(x[2], y[2], slope=slope, d=d, dV = d.head, scale=scale),
+               lwd = h.lwd);
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
-  ### Head
-  ahead  = list(arrowHeadSimple(x[2], y[2], slope=slope, d=d, dV = d.head, scale=scale), lwd = h.lwd);
   ### Full Arrow
   lst = list(Arrow=arrow, Head=ahead);
   class(lst) = c("arrow", "list");
@@ -84,7 +87,7 @@ arrowSimple = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), d.lines=0, h.lwd=lwd
 
 #### Double Lined Arrow ####
 #' @export
-arrowDouble = function(x, y, d=-1, lwd=1, d.head=-1, dV=c(-d.head, d.head), d.lines=0,
+arrowDouble = function(x, y, d=-0.5, lwd=1, d.head=-1, dV=c(-d.head, d.head), d.lines=0,
                        h.lwd=lwd, col="red", scale=1, join=0) {
   if(join > 2) stop("Unsupported value for join!");
   slope = compute_slope(x, y);
@@ -106,62 +109,27 @@ arrowDouble = function(x, y, d=-1, lwd=1, d.head=-1, dV=c(-d.head, d.head), d.li
 }
 
 
-
-#### Arrow Diamond ####
-#' @export
-arrowDiamond = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
-  if(join > 2) stop("Unsupported value for join!");
-  slope = compute_slope(x, y);
-  ### Head
-  ahead  = list(arrowHeadDiamond(x[2], y[2], slope=slope, d=d, scale=scale), lwd = h.lwd);
-  ### ArrowTail
-  if(join == 0 || join == 1) {
-    x[2] = ahead[[1]]$x[2];
-    y[2] = ahead[[1]]$y[2];
-  }
-  arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
-  ### Full Arrow
-  lst = list(Arrow=arrow, Head=ahead);
-  class(lst) = c("arrow", "list");
-  # Plot lines:
-  lines(lst, col=col);
-  invisible(lst);
-}
-
-#### Arrow X ####
-#' @export
-arrowX = function(x, y, d=0.5, lwd=1, d.head=c(-d, d), d.lines=0, h.lwd=lwd, col="red", scale=1) {
-  slope = compute_slope(x, y);
-  ### Head
-  arrHead = arrowHeadX(x[2], y[2], slope=slope, d = - d, dV = d.head, scale=scale);
-  ahead  = list(arrHead, lwd = h.lwd);
-  midpoint = attr(arrHead, "Mid")
-  ### ArrowTail
-  x[2] = midpoint[1]
-  y[2] = midpoint[2]
-  arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
-  ### Full Arrow
-  lst = list(Arrow=arrow, Head=ahead);
-  class(lst) = c("arrow", "list");
-  # Plot lines:
-  print("Finished")
-  lines(lst, col=col);
-  invisible(lst);
-}
-
 #### Arrow T ####
 #' @export
-arrowT = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1) {
+arrowT = function(x, y, d=0.2, lwd=1, d.head=c(d, -d), d.lines=0, h.lwd=lwd,
+                  col="red", scale=1, join=0) {
   slope = compute_slope(x, y);
+  ### Head
+  if(is.list(d.head)) {
+    ahead = lapply(seq(length(d.head)), function(id) {
+      arrowHeadT(x[2], y[2], slope=slope, dV=d.head[[id]], scale=scale)
+    });
+    ahead$lwd = h.lwd;
+  } else {
+    ahead = list(arrowHeadT(x[2], y[2], slope=slope, dV=d.head, scale=scale),
+                 lwd = h.lwd);
+  }
   ### ArrowTail
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
-  ### Head
-  ahead  = list(arrowHeadT(x[2], y[2], slope=slope, d=d, scale=scale), lwd = h.lwd);
   ### Full Arrow
   lst = list(Arrow=arrow, Head=ahead);
   class(lst) = c("arrow", "list");
   # Plot lines:
-  print("Finished")
   lines(lst, col=col);
   invisible(lst);
 }
@@ -180,24 +148,6 @@ arrowMeasure = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), dT=d.head, d.lines=
   lst = list(Arrow=arrow, Head=arrHead);
   class(lst) = c("arrow", "list");
   # Plot lines:
-  lines(lst, col=col);
-  invisible(lst);
-}
-
-#### Arrow Square ####
-#' @export
-arrowSquare = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1) {
-  slope = compute_slope(x, y);
-  ### Head
-  arrHead = arrowHeadSquare(x[2], y[2], slope=slope, d=d, scale=scale);
-  ahead  = list(arrHead, lwd = h.lwd);
-  ### ArrowTail
-  arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
-  ### Full Arrow
-  lst = list(Arrow=arrow, Head=ahead);
-  class(lst) = c("arrow", "list");
-  # Plot lines:
-  print("Finished")
   lines(lst, col=col);
   invisible(lst);
 }
@@ -229,15 +179,23 @@ arrowN = function(x, y, n=1, d=-0.5, lwd=1, h.lwd=lwd, d.head=c(-d, d), d.lines=
   invisible(lst);
 }
 
-# Double Lined Inverted Head
+### Double Lined Inverted Head
+# dH = abs(d) ensures always inverted!
 #' @export
-arrowDoubleInverted = function(x, y, d=-0.25, lwd=1, d.head=c(-d, d), d.lines=0, h.lwd=lwd, col="red", scale=1) {
+arrowDoubleInverted = function(x, y, d=-0.25, lwd=1, dH=abs(d), d.head=c(-d, d), d.lines=0,
+                               h.lwd=lwd, col="red", scale=1, join=0) {
+  if(join > 2) stop("Unsupported value for join!");
   slope = compute_slope(x, y);
   ### Head
-  arrHead = arrowHeadDoubleInverted(x[2], y[2], slope=slope, d=d, dV=d.head, scale=scale);
+  arrHead = arrowHeadDoubleInverted(x[2], y[2], slope=slope, d=d, dH=dH, dV=d.head, scale=scale);
   midpoint = attr(arrHead, "Mid")
   arrHead$lwd = h.lwd;
   ### ArrowTail
+  if(join <= 1) {
+    midpoint = midpoint[[2]];
+  } else {
+    midpoint = midpoint[[1]];
+  }
   x[2] = midpoint[1]
   y[2] = midpoint[2]
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
@@ -245,7 +203,6 @@ arrowDoubleInverted = function(x, y, d=-0.25, lwd=1, d.head=c(-d, d), d.lines=0,
   lst = list(Arrow=arrow, Head=arrHead);
   class(lst) = c("arrow", "list");
   # Plot lines:
-  print("Finished")
   lines(lst, col=col);
   invisible(lst);
 }
@@ -268,51 +225,137 @@ arrowInverted = function(x, y, d=1, lwd=1, d.head=c(-d,d),
   ### Full Arrow
   lst = list(Arrow=arrow, Head=ahead);
   class(lst) = c("arrow");
-
+  
   # Plot lines:
   lines(lst, col=col);
   invisible(lst);
 }
 
+
+#### Arrow Diamond ####
+#' @export
+arrowDiamond = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
+  if(join > 2) stop("Unsupported value for join!");
+  slope = compute_slope(x, y);
+  ### Head
+  ahead  = list(arrowHeadDiamond(x[2], y[2], slope=slope, d=d, scale=scale), lwd = h.lwd);
+  ### ArrowTail
+  if(join == 0 || join == 1) {
+    x[2] = ahead[[1]]$x[2];
+    y[2] = ahead[[1]]$y[2];
+  }
+  arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
+  ### Full Arrow
+  lst = list(Arrow=arrow, Head=ahead);
+  class(lst) = c("arrow", "list");
+  # Plot lines:
+  lines(lst, col=col);
+  invisible(lst);
+}
+
+#### Arrow X ####
+# - for consistency: join = 0;
+#' @export
+arrowX = function(x, y, d=0.5, lwd=1, d.head=c(-d, d), d.lines=0,
+                  h.lwd=lwd, col="red", scale=1, join=0) {
+  slope = compute_slope(x, y);
+  ### Head
+  arrHead = arrowHeadX(x[2], y[2], slope=slope, d = - d, dV = d.head, scale=scale);
+  ahead   = list(arrHead, lwd = h.lwd);
+  midpoint = attr(arrHead, "Mid")
+  ### ArrowTail
+  x[2] = midpoint[1]
+  y[2] = midpoint[2]
+  arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
+  ### Full Arrow
+  lst = list(Arrow=arrow, Head=ahead);
+  class(lst) = c("arrow", "list");
+  # Plot lines:
+  lines(lst, col=col);
+  invisible(lst);
+}
+
+
 #### Arrow Circle
 #' @export
-arrowCircle = function(x, y, r=0.5, lwd=1, d.lines=0, h.lwd=lwd, col="red", scale=1) {
+arrowCircle = function(x, y, r=0.5, lwd=1, d.lines=0,
+                       h.lwd=lwd, col="red", fill=NULL, scale=1, join=0) {
+  if(join > 3) stop("Unsupported value for join!");
   slope = compute_slope(x, y);
   ### Head
   arrHead = arrowHeadCircle(x[2], y[2], slope=slope, r=r, scale=scale);
-  start = attr(arrHead, "start")
+  mid = attr(arrHead, "start")
   arrHead$lwd = h.lwd;
+  arrHead[[1]]$fill = fill;
   ### ArrowTail
-  x[2] = start[1]
-  y[2] = start[2]
+  if(join < 3) {
+    mid = if(join == 2) mid[[2]] else mid[[1]];
+    x[2] = mid[1];
+    y[2] = mid[2];
+  }
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Full Arrow
   lst = list(Arrow=arrow, Head=arrHead);
   class(lst) = c("arrow", "list");
   # Plot lines:
-  print("Finished")
+  lines(lst, col=col);
+  invisible(lst);
+}
+
+
+#### Arrow Square ####
+# default: fill = NULL;
+#' @export
+arrowSquare = function(x, y, d=-0.5, lwd=1, d.head=c(d, -d)/2, d.lines=0,
+                       h.lwd=lwd, col="red", fill=NULL, scale=1, join=0) {
+  if(join > 2) stop("Unsupported value for join!");
+  slope = compute_slope(x, y);
+  ### Head
+  arrHead = arrowHeadSquare(x[2], y[2], slope=slope, d=d, dV=d.head, scale=scale);
+  if( ! is.null(fill)) {
+    arrHead$fill = fill;
+    class(arrHead) = c("polygon", class(arrHead));
+  }
+  ahead   = list(arrHead, lwd = h.lwd);
+  ### ArrowTail
+  if((join < 2 && d <= 0) || (join == 2 && d > 0)) {
+    mid  = attr(arrHead, "Mid");
+    x[2] = mid[1]; y[2] = mid[2];
+  }
+  arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
+  ### Full Arrow
+  lst = list(Arrow=arrow, Head=ahead);
+  class(lst) = c("arrow", "list");
+  # Plot lines:
   lines(lst, col=col);
   invisible(lst);
 }
 
 #### Arrow Solid Square
 #' @export
-arrowSolidSquare = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1) {
+arrowSolidSquare = function(x, y, d=-0.5, lwd=1, d.head=c(d, -d)/2, d.lines=0,
+                            h.lwd=lwd, col="red", fill=col, scale=1, join=0) {
+  if(join > 2) stop("Unsupported value for join!");
   slope = compute_slope(x, y);
   ### Head
-  arrHead = arrowHeadSquare(x[2], y[2], slope=slope, d=d, scale=scale);
+  arrHead = arrowHeadSquare(x[2], y[2], slope=slope, d=d, dV=d.head, scale=scale);
+  arrHead$fill = fill;
   class(arrHead) = c("polygon", class(arrHead));
-  ahead  = list(arrHead, lwd = h.lwd);
+  ahead = list(arrHead, lwd = h.lwd);
   ### ArrowTail
+  if(join < 2) {
+    mid  = attr(arrHead, "Mid");
+    x[2] = mid[1]; y[2] = mid[2];
+  }
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Full Arrow
   lst = list(Arrow=arrow, Head=ahead);
   class(lst) = c("arrow", "list");
   # Plot lines:
-  print("Finished")
   lines(lst, col=col);
   invisible(lst);
 }
+
 
 #### Arrow Triangle ####
 #' @export
@@ -365,4 +408,3 @@ lineBanded = function(x, y, w=0.1, delta=0.25, lwd=1.5, lty=1, n=NULL, col="blac
   }
   invisible(cbind(xup, xdn, yup, ydn));
 }
-
