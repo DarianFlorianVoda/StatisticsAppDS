@@ -136,6 +136,7 @@ shiftLine = function(x, y, d=1, slope=NULL, scale=1) {
 
 # shift point p along line defined by (x, y);
 # d = distance;
+# TODO: Scale reference Ox
 #' @export
 shiftPoint = function(p, x, y, d=1, slope=NULL, scale=1) {
   if(is.null(slope)) {
