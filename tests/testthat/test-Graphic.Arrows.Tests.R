@@ -581,3 +581,21 @@ h3 = a3$Head[[1]]
 stopifnot(round(Dsquare(h1, h1$x[2], h1$y[2]) - 6*d^2, 8) == 0)
 stopifnot(round(Dsquare(h2, h2$x[2], h2$y[2]) - 6*d^2, 8) == 0)
 stopifnot(round(Dsquare(h3, h3$x[2], h3$y[2]) - 6*d^2, 8) == 0)
+
+
+###########################
+
+#### Square-Wave Arrow ####
+x = c(1,5); y = c(1,7);
+plot.base()
+arrowSquareWave(x, y, n=5)
+arrowSquareWave(x + c(0, 4), y - c(0, 3), n=6, col="red")
+
+# No. of Teeth: Variations
+x = c(-1, 8); y = c(0, 0);
+dy = 2.5;
+plot.base()
+arrowSquareWave(x, y, n=5)
+arrowSquareWave(x, y + 1*dy, n=6)
+arrowSquareWave(x, y + 2*dy, n=7)
+arrowSquareWave(x, y + 3*dy, n=8)

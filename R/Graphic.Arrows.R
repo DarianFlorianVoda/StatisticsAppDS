@@ -225,7 +225,7 @@ arrowInverted = function(x, y, d=1, lwd=1, d.head=c(-d,d),
   ### Full Arrow
   lst = list(Arrow=arrow, Head=ahead);
   class(lst) = c("arrow");
-  
+
   # Plot lines:
   lines(lst, col=col);
   invisible(lst);
@@ -379,6 +379,57 @@ arrowTriangle = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), d.lines=0,
   lines(lst, col=col);
   invisible(lst);
 }
+
+### Arrow: Tail = Square Wave
+#' @export
+arrowSquareWave = function(x, y, n, d=-0.5, dV=c(-1,1), d.head=c(-d,d),
+                           col=1, lwd=1, h.lwd=lwd, scale=1, join=0) {
+  if(join > 2) stop("Unsupported value for join!");
+  slope = compute_slope(x, y);
+  ### Head
+  ahead = list(arrowHeadSimple(x[2], y[2], slope=slope, d=d, dV=d.head, scale=scale),
+               lwd = h.lwd);
+  ### ArrowTail
+  l = shiftLine(x, y, d=dV, slope=slope, scale=scale);
+  # Split lines:
+  p1 = c(x[1], y[1]);
+  p2 = c(x[2], y[2]);
+  # l0 = split.line(p1, p2, n+1);
+  l1 = l[l$id == 1, c("x", "y")];
+  l1 = split.line(l1[,1], l1[,2], n+1);
+  l2 = l[l$id == 2, c("x", "y")];
+  l2 = split.line(l2[,1], l2[,2], n+1);
+  # Join lines:
+  join.lines = function(l, l1, l2) {
+    pos = length(l1) - 1; # before last
+    mid = (l1[pos] + l2[pos]) / 2;
+    if(n %% 2 == 1) {
+      l1 = head(l1, -1);
+      l2 = c(tail(head(l2, -2), -1), mid, mid);
+    } else {
+      l1 = head(l1, -2);
+      l2 = c(tail(head(l2, -1), -1));
+    }
+    l1 = matrix(l1, nrow=2);
+    l2 = matrix(l2, nrow=2);
+    lt = rbind(l1, l2);
+    lt = c(as.vector(lt));
+    if(n %% 2 == 0) lt = c(lt, mid);
+    lt = c(l[1], lt, l[2]);
+  }
+  x = join.lines(x, l1$x, l2$x);
+  y = join.lines(y, l1$y, l2$y);
+  arrow = list(list(x=x, y=y), lwd=lwd);
+  ### Full Arrow
+  lst = list(Arrow=arrow, Head=ahead);
+  class(lst) = c("arrow", "list");
+  # Plot lines:
+  lines(lst, col=col);
+  invisible(lst);
+}
+
+
+
 
 ### Generate complex lines
 
