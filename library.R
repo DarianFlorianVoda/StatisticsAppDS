@@ -17,6 +17,24 @@ devtools::load_all()
 devtools::test()
 devtools::check()
 
+# Useful commands:
+devtools::use_r() # creates an .R file in R folder
+devtools::use_test() # creates an test file in tests folder
+devtools::document() # conversion
+
+devtools::update_packages("devtools")
+
+## Now do Code > Insert roxygen skeleton
+
+devtools::use_readme_md()
+build_readme() # it takes care to render with the most current version of your package
+
+devtools::dev_sitrep()
+
+install.packages("available")
+remove.packages("rlang")
+devtools::install_github("tidyverse/tidyverse")
+available::available("BioShapes")
 
 install.packages("testthat")
 install.packages("Rtools")
