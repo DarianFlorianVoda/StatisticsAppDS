@@ -36,5 +36,7 @@ remove.packages("rlang")
 devtools::install_github("tidyverse/tidyverse")
 available::available("BioShapes")
 
+citation() # cite R (default) or some package
+
 install.packages("testthat")
 install.packages("Rtools")
