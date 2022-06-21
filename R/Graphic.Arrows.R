@@ -207,29 +207,35 @@ arrowDoubleInverted = function(x, y, d=-0.25, lwd=1, dH=abs(d), d.head=c(-d, d),
   invisible(lst);
 }
 
-
 ### Other: ---<
 #' @export
-arrowInverted = function(x, y, d=1, lwd=1, d.head=c(-d,d),
-                         d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
-  slope = compute_slope(x, y);
-  ### Head
-  p = shiftPoint(c(x[2], y[2]), slope=slope, d = -d, scale=scale)
-  pV = shiftLine(c(x[2], y[2]), slope=slope, d=d.head, scale=scale);
-  ahead = lines(c(pV[1,1], p[1], pV[2,1]),
-                c(pV[1,2], p[2], pV[2,2]), lwd=h.lwd, col=col);
-  ### Arrow Tail
-  x[2] = p[1];
-  y[2] = p[2];
-  arrow = lines(x, y, lwd=lwd, col=col);
-  ### Full Arrow
-  lst = list(Arrow=arrow, Head=ahead);
-  class(lst) = c("arrow");
-
-  # Plot lines:
-  lines(lst, col=col);
-  invisible(lst);
+arrowInverted = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), d.lines=0,
+                       h.lwd=lwd, col="red", scale=1, join=0){
+  arrowSimple(x=x, y=y, d=-d, lwd=lwd, d.head=d.head, d.lines=d.lines,
+              h.lwd=h.lwd, col=col, scale=scale, join=join)
 }
+
+
+# arrowInverted2 = function(x, y, d=1, lwd=1, d.head=c(-d,d),
+#                          d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
+#   slope = compute_slope(x, y);
+#   ### Head
+#   p = shiftPoint(c(x[2], y[2]), slope=slope, d = -d, scale=scale)
+#   pV = shiftLine(c(x[2], y[2]), slope=slope, d=d.head, scale=scale);
+#   ahead = lines(c(pV[1,1], p[1], pV[2,1]),
+#                 c(pV[1,2], p[2], pV[2,2]), lwd=h.lwd, col=col);
+#   ### Arrow Tail
+#   x[2] = p[1];
+#   y[2] = p[2];
+#   arrow = lines(x, y, lwd=lwd, col=col);
+#   ### Full Arrow
+#   lst = list(Arrow=arrow, Head=ahead);
+#   class(lst) = c("arrow");
+#
+#   # Plot lines:
+#   lines(lst, col=col);
+#   invisible(lst);
+# }
 
 
 #### Arrow Diamond ####
