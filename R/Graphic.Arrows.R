@@ -111,7 +111,7 @@ arrowDouble = function(x, y, d=-0.5, lwd=1, d.head=-1, dV=c(-d.head, d.head), d.
 
 #### Arrow T ####
 #' @export
-arrowT = function(x, y, d=0.2, lwd=1, d.head=c(d, -d), d.lines=0, h.lwd=lwd,
+arrowT = function(x, y, d=0.2, lwd=1, d.head=c(-d, d), d.lines=0, h.lwd=lwd,
                   col="red", scale=1, join=0, lty=1) {
   slope = compute_slope(x, y);
   ### Head
