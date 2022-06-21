@@ -167,12 +167,12 @@ testArrow(h=h4, d=d, dV=d.head)
 ###### Test 3 ######
 x = c(0, 6); y = c(1, 20);
 d = -2; d.head = c(-0.75, 0.75);
-scale = (100/12) * aspect_ratio_max;
+# scale = (100/12) * aspect_ratio;
 plot.base(ylim = c(0,100))
-a1 = arrowSimple(x, y, d=d, d.head=d.head, lwd=2, scale=scale);
-a2 = arrowSimple(c(x[1], 5), c(y[1], y[1]), d=d, d.head=d.head, lwd=2, scale=scale);
-a3 = arrowSimple(c(x[1], x[1]), c(y[1], 50), d=d, d.head=d.head, lwd=2, scale=scale);
-a4 = arrowSimple(c(x[1]+1, x[1]+2), c(y[1]+20, 60), d=d, d.head=d.head, lwd=2, scale=scale);
+a1 = arrowSimple(x, y, d=d, d.head=d.head, lwd=2);
+a2 = arrowSimple(c(x[1], 5), c(y[1], y[1]), d=d, d.head=d.head, lwd=2);
+a3 = arrowSimple(c(x[1], x[1]), c(y[1], 50), d=d, d.head=d.head, lwd=2);
+a4 = arrowSimple(c(x[1]+1, x[1]+2), c(y[1]+20, 60), d=d, d.head=d.head, lwd=2);
 # Head
 h1 = a1$Head[[1]]
 h2 = a2$Head[[1]]
@@ -181,9 +181,7 @@ h4 = a4$Head[[1]]
 # - visual aids:
 linesAid(h1, h2, h3, h4)
 
-####### TODO ########
-cat("Test 3\n")
-cat(" ===> TODO!\n")
+cat("Test 3: only visual\n")
 # testArrow(h=h1, d=d, dV=d.head)
 # testArrow(h=h2, d=d, dV=d.head)
 # testArrow(h=h3, d=d, dV=d.head)
@@ -352,13 +350,84 @@ cat("Test 3: only visual\n")
 ##### Inverted Head #####
 x = c(0, 6); y = c(1, 6);
 plot.base()
-arrowInverted(x, y, d=1, lwd=2);
-arrowInverted(c(x[1], 5), c(y[1], y[1]), d=1, lwd=2);
-arrowInverted(c(x[1], x[1]), c(y[1], 5), d=1, lwd=2);
+d = -1
+arrowInverted(x, y, d=d, lwd=2);
+arrowInverted(c(x[1], 5), c(y[1], y[1]), d=d, lwd=2);
+arrowInverted(c(x[1], x[1]), c(y[1], 5), d=d, lwd=2);
+
+###### Test 1 ######
+x = c(0, 6); y = c(1, 6);
+d = -1;
+plot.base()
+a1 = arrowInverted(x, y, d=d, lwd=2);
+a2 = arrowInverted(c(x[1], 5), c(y[1], y[1]), d=d, lwd=2);
+a3 = arrowInverted(c(x[1], x[1]), c(y[1], 5), d=d, lwd=2);
+
+
+x = c(0, 6); y = c(1, 6);
+d = -1;
+plot.base()
+a1 = arrowInverted(x, y, d=d, lwd=2);
+a2 = arrowInverted(c(x[1], 5), c(y[1], y[1]), d=d, lwd=2);
+a3 = arrowInverted(c(x[1], x[1]), c(y[1], 5), d=d, lwd=2);
+# Head
+h1 = a1$Head[[1]]
+
+h2 = a2$Head[[1]]
+
+h3 = a3$Head[[1]]
+# - visual aids:
+linesAid(h1, h2, h3)
+# Total length = (d^2 + dV[1]^2) + (d^2 + dV[2]^2)
+cat("Test 1\n")
+testArrow(h=h1, d=d)
+testArrow(h=h2, d=d)
+testArrow(h=h3, d=d)
+
+
+###### Test 2 ######
+x = c(0, 6); y = c(1, 6) + 1;
+d = -1.5; d.head = c(-d-1, d+1);
+plot.base()
+a1 = arrowInverted(x, y, d=d, lwd=2, d.head=d.head);
+a2 = arrowInverted(c(x[1], 8), c(y[1], y[1]), d=d, d.head=d.head, lwd=2);
+a3 = arrowInverted(c(x[1], x[1]), c(y[1], 8), d=d, d.head=d.head, lwd=2);
+# Head
+h1 = a1$Head[[1]]
+
+h2 = a2$Head[[1]]
+
+h3 = a3$Head[[1]]
+# - visual aids:
+linesAid(h1, h2, h3)
+cat("Test 2\n")
+testArrow(h=h1, d=d, dV=d.head)
+testArrow(h=h2, d=d, dV=d.head)
+testArrow(h=h3, d=d, dV=d.head)
+
+
+###### Test 3 ######
+x = c(0, 6); y = c(1, 80);
+d = -2; d.head = c(-d-3, d+3);
+scale = (100/12)*aspect_ratio_max
+plot.base(ylim = c(-50,100))
+a1 = arrowInverted(x, y, d=d, d.head=d.head, lwd=2, scale=scale);
+a2 = arrowInverted(c(x[1], 5), c(y[1], y[1]), d=d, d.head=d.head, lwd=2, scale=scale);
+a3 = arrowInverted(c(x[1], x[1]), c(y[1], 50), d=d, d.head=d.head, lwd=2, scale=scale);
+# Head
+h1 = a1$Head[[1]]
+
+h2 = a2$Head[[1]]
+
+h3 = a3$Head[[1]]
+# - visual aids:
+linesAid(h1, h2, h3)
+
+cat("Test 3: only visual\n")
 
 # Inhomogeneous Axes
 scale = - (100/12)*aspect_ratio_max;
-d = 3;
+d = -3;
 x = c(0, 6); y = c(1, 60);
 plot.base(ylim = c(0, 100))
 arrowInverted(x, y, d=d, lwd=2, scale=scale);
