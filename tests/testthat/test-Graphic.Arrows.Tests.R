@@ -350,14 +350,14 @@ cat("Test 3: only visual\n")
 ##### Inverted Head #####
 x = c(0, 6); y = c(1, 6);
 plot.base()
-d = -1
+d = 1
 arrowInverted(x, y, d=d, lwd=2);
 arrowInverted(c(x[1], 5), c(y[1], y[1]), d=d, lwd=2);
 arrowInverted(c(x[1], x[1]), c(y[1], 5), d=d, lwd=2);
 
 ###### Test 1 ######
 x = c(0, 6); y = c(1, 6);
-d = -1;
+d = 1;
 plot.base()
 a1 = arrowInverted(x, y, d=d, lwd=2);
 a2 = arrowInverted(c(x[1], 5), c(y[1], y[1]), d=d, lwd=2);
@@ -375,7 +375,6 @@ cat("Test 1\n")
 testArrow(h=h1, d=d)
 testArrow(h=h2, d=d)
 testArrow(h=h3, d=d)
-
 
 ###### Test 2 ######
 x = c(0, 6); y = c(1, 6) + 1;
@@ -610,12 +609,12 @@ testArrow(h=h6, d=d)
 
 ###### Test 2 ######
 x = c(0, 6); y = c(1, 6) + 1;
-d=-0.35;
-d.head = c(-d+7,d-7);
+d=-1.75; dH=2.5
+d.head = c(-dH+0.5,dH-0.5);
 plot.base()
-a1 = arrowDoubleInverted(x, y, d=d, d.head=d.head, lwd=2);
-a2 = arrowDoubleInverted(c(x[1], 8), c(y[1], y[1]), d=d, d.head=d.head, lwd=2);
-a3 = arrowDoubleInverted(c(x[1], x[1]), c(y[1], 8), d=d, d.head=d.head, lwd=2);
+a1 = arrowDoubleInverted(x, y, d=d, dH=dH, d.head=d.head, lwd=2);
+a2 = arrowDoubleInverted(c(x[1], 8), c(y[1], y[1]), d=d, dH=dH, d.head=d.head, lwd=2);
+a3 = arrowDoubleInverted(c(x[1], x[1]), c(y[1], 8), d=d, dH=dH, d.head=d.head, lwd=2);
 # Head
 h1 = a1$Head[[1]]
 h2 = a1$Head[[2]]

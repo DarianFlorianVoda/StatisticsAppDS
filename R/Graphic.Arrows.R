@@ -182,7 +182,7 @@ arrowN = function(x, y, n=1, d=-0.5, lwd=1, h.lwd=lwd, d.head=c(-d, d), d.lines=
 ### Double Lined Inverted Head
 # dH = abs(d) ensures always inverted!
 #' @export
-arrowDoubleInverted = function(x, y, d=-0.25, lwd=1, dH=abs(d), d.head=c(-d, d), d.lines=0,
+arrowDoubleInverted = function(x, y, d=-0.25, lwd=1, dH=0.5, d.head=c(-dH, dH), d.lines=0,
                                h.lwd=lwd, col="red", scale=1, join=0) {
   if(join > 2) stop("Unsupported value for join!");
   slope = compute_slope(x, y);
@@ -209,33 +209,28 @@ arrowDoubleInverted = function(x, y, d=-0.25, lwd=1, dH=abs(d), d.head=c(-d, d),
 
 ### Other: ---<
 #' @export
-arrowInverted = function(x, y, d=-0.5, lwd=1, d.head=c(-d,d), d.lines=0,
-                       h.lwd=lwd, col="red", scale=1, join=0){
-  arrowSimple(x=x, y=y, d=-d, lwd=lwd, d.head=d.head, d.lines=d.lines,
-              h.lwd=h.lwd, col=col, scale=scale, join=join)
+### TODO: correct/fix sublists value $Head / $Arrow
+arrowInverted = function(x, y, d=1, lwd=1, d.head=c(-d,d),
+                         d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
+  slope = compute_slope(x, y);
+  ### Head
+  p = shiftPoint(c(x[2], y[2]), slope=slope, d = -d, scale=scale)
+  pV = shiftLine(c(x[2], y[2]), slope=slope, d=d.head, scale=scale);
+  ahead = list(x = c(pV[1,1], p[1], pV[2,1]),
+               y = c(pV[1,2], p[2], pV[2,2]));
+  ahead = list(ahead, lwd=h.lwd);
+  ### Arrow Tail
+  x[2] = p[1];
+  y[2] = p[2];
+  arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
+  ### Full Arrow
+  lst = list(Arrow=arrow, Head=ahead);
+  class(lst) = c("arrow", "list");
+
+  # Plot lines:
+  lines(lst, col=col);
+  invisible(lst);
 }
-
-
-# arrowInverted2 = function(x, y, d=1, lwd=1, d.head=c(-d,d),
-#                          d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
-#   slope = compute_slope(x, y);
-#   ### Head
-#   p = shiftPoint(c(x[2], y[2]), slope=slope, d = -d, scale=scale)
-#   pV = shiftLine(c(x[2], y[2]), slope=slope, d=d.head, scale=scale);
-#   ahead = lines(c(pV[1,1], p[1], pV[2,1]),
-#                 c(pV[1,2], p[2], pV[2,2]), lwd=h.lwd, col=col);
-#   ### Arrow Tail
-#   x[2] = p[1];
-#   y[2] = p[2];
-#   arrow = lines(x, y, lwd=lwd, col=col);
-#   ### Full Arrow
-#   lst = list(Arrow=arrow, Head=ahead);
-#   class(lst) = c("arrow");
-#
-#   # Plot lines:
-#   lines(lst, col=col);
-#   invisible(lst);
-# }
 
 
 #### Arrow Diamond ####

@@ -79,20 +79,21 @@ arrowHeadN = function(x, y, slope, n=1, d = 0.5, dH = - d, dV=c(dH, -dH), scale=
 
 ### Double Lined Inverted ArrowHead: ---<<
 # dH = abs(d) ensures always inverted!
+# dH = width, dV = height
 #' @export
-arrowHeadDoubleInverted = function(x, y, slope, d=-1, dH=abs(d), dV=c(d, -d), scale=1) {
+arrowHeadDoubleInverted = function(x, y, slope, d=-1, dH=0.5, dV=c(-dH, dH), scale=1) {
   # Shift point along line:
-  # dH = abs(dV[1]);
+  dH = abs(dH);
   # Head: 2nd "<" of "<<"
   dHneg = - dH;
   d2 = if(d <= 0) dHneg else d;
   pV = shiftPoint(c(x, y), slope=slope, d = d2, scale=scale);
-  arrHead  = list(arrowHeadSimple(pV[1], pV[2], slope=slope, d = dH, scale=scale));
+  arrHead  = list(arrowHeadSimple(pV[1], pV[2], slope=slope, d = dH, dV=dV, scale=scale));
   midpoint = list(pV);
   # Head: 1st "<" of "<<"
   d2 = if(d <= 0) (d + dHneg) else 0;
   pV = shiftPoint(c(x, y), slope=slope, d = d2);
-  arrHead2 = list(arrowHeadSimple(pV[1], pV[2], slope=slope, d = dH, scale=scale));
+  arrHead2 = list(arrowHeadSimple(pV[1], pV[2], slope=slope, d = dH, dV=dV, scale=scale));
   arrHead  = c(arrHead, arrHead2);
   midpoint = c(list(pV), midpoint);
   attr(arrHead, "Mid") = midpoint;
