@@ -79,6 +79,78 @@ sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col=
 #sl.o = - 1 / slope;
 #(sl.o^2 + 1)*x.sh^2 - 2*x1*(sl.o^2 + 1)*x.sh + x1^2*(sl.o^2 + 1) - d^2 # = 0
 
+
+#### Objects ####
+
+
+all_objects = function(){
+
+  # Plot
+  plot.base(xlim=c(-1,10), ylim=c(-1,10))
+
+  ### Row 1:
+
+  ### Liposome
+  testLiposome = function(lst, col="#48B000", col.line=1){
+    testFilledCircle(lst[[1]], line = FALSE, add = TRUE, col=col)
+    testFilledCircle(lst[[2]], line = FALSE, add = TRUE, col=col)
+    lines.object.base(lst[3], lwd=1, col=col.line)
+  }
+
+  y = c(7, 9); yt = 6.7;
+  lst = liposomes(c(30, 17), r=0.15, phi=c(0, pi/34), d=0.1, center=c(0.5, 8))
+  testLiposome(lst)
+  text(0.5, 6,
+       "Liposome")
+
+
+  ### Brush-Border Cell
+  p1 = c(3, 6.5)
+  cell = cellBrushBorder(p1, w=2, h=2)
+  lines(cell)
+  text(4, 6,
+       "Brush-Border Cell")
+
+  ### Smooth Muscles / Connective Tissue
+  lst = cellSmooth(c(6, 9), c(8, 9), r=0.3)
+  lines.object.base(lst, lwd=2)
+
+  lst = cellSmooth(c(6, 9), c(6.5, 8), r=0.4)
+  lines.object.base(lst, lwd=2)
+
+  text(7.5, 6,
+       "Smooth Muscles")
+
+
+  ### Row 2:
+
+  ### Ex 2: Vertical Object
+  p1 = c(2.5,0.5); p2 = c(p1[1], 5);
+  lst1 = helix(p1, p2)
+  lst2 = helix(p1, p2, phi=-pi/2)
+  #plot.base()
+  lines(lst1, col="blue", lwd=2)
+  lines(lst2, col="red", lwd=2)
+
+  text(2.5, 0,
+       "Helix/DNA")
+
+  ### Ex 3: Vertical
+  p1 = c(5.5,1.5); p2 = c(p1[1],4); dx = c(2.25,0);
+  lst1 = spirals(p1, p2)
+  lst2 = spirals(p2 + dx, p1 + dx)
+  #plot.base()
+  lines(lst1, col="purple", lwd=2)
+  lines(lst2, col="orange", lwd=2)
+
+  text(6.5, 0,
+       "Spirals/Coils")
+
+
+}
+all_objects()
+
+
 #### Arrows ####
 
 all_arrows = function(){
