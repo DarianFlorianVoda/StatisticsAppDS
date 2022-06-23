@@ -126,8 +126,8 @@ liposomes = function(n, r, center=c(0, 0), phi=c(0, 0), d=0, ...){
   R1 = R1 - r
   R2 = R2 + r
   d2 = (R1-R2-d)/2
-  p1 = pointsCircle(n=n[1], r=R1, phi=phi[1])
-  p2 = pointsCircle(n=n[2], r=R2, phi=phi[2])
+  p1 = pointsCircle(n=n[1], r=R1, phi=phi[1], center=center)
+  p2 = pointsCircle(n=n[2], r=R2, phi=phi[2], center=center)
   fn = function(id, p1, p2, d){
     p1 = c(p1$x[id], p1$y[id])
     slope = compute_slope(x=c(p1[1], p2[1]), y=c(p1[2], p2[2]))
@@ -139,15 +139,15 @@ liposomes = function(n, r, center=c(0, 0), phi=c(0, 0), d=0, ...){
   }
   l1 = lapply(seq(n[1]), fn, p1, center, d2)
   l2 = lapply(seq(n[2]), fn, p2, center, -d2)
-  
+
   l1 = do.call(rbind, l1)
   l2 = do.call(rbind, l2)
-  
+
   l2$id = l2$id + nrow(l1)
   l = rbind(l1, l2)
-  
+
   return(list(C1=C1, C2=C2, l=l))
-  
+
 }
 
 # n = number of loops;
