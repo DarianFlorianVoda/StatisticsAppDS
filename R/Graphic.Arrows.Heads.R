@@ -71,10 +71,10 @@ arrowHeadInverted = function(x, y, slope, d=-1, dV=c(-d, d), scale=1) {
   else shiftPoint(pV, slope=slope, d=d, scale=scale);
   #
   if(d <= 0) {
-    pA = shiftLine(pV, slope=slope, d=d.head, scale=scale);
+    pA = shiftLine(pV, slope=slope, d=dV, scale=scale);
     pV = p;
   } else {
-    pA = shiftLine(p[1,], slope=slope, d=d.head, scale=scale);
+    pA = shiftLine(p[1,], slope=slope, d=dV, scale=scale);
   }
   arrHead = list(
     x = c(pA[1,1], pV[1], pA[2,1]),
