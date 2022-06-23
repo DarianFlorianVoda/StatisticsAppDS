@@ -17,7 +17,7 @@
 
 aspect_ratio = 1.4
 aspect_ratio_max = 2.0
-# aspect_ratio_max = 1.1
+# aspect_ratio_max = 1.0
 
 #### Helper Functions ####
 
@@ -770,7 +770,7 @@ testArrow(h=h3, d=d)
 ###### Test 2 ######
 # - narrow ArrowHead;
 x = c(0, 6); y = c(1, 6) + 1;
-d=-0.5; d.head = c(-0.5, 0.5);
+d=-0.5; d.head = c(-1.5, 1.5);
 plot.base()
 a1 = arrowDiamond(x, y, d=d, d.head=d.head, lwd=2);
 a2 = arrowDiamond(c(x[1], 5), c(y[1], y[1]), d=d, d.head=d.head, lwd=2);
@@ -888,13 +888,6 @@ arrowT(x, y, d.head=d.head, lwd=2);
 arrowT(c(x[1], 5), c(y[1], y[1]), d.head=d.head, lwd=2);
 arrowT(c(x[1], x[1]), c(y[1], 5), d.head=d.head, lwd=2);
 
-x = c(0, 6); y = c(1, 6);
-plot.base()
-arrowT(x, y, d=-1, lwd=2);
-arrowT(c(x[1], 5), c(y[1], y[1]), d=-1, lwd=2);
-arrowT(c(x[1], x[1]), c(y[1], 5), d=-1, lwd=2);
-
-
 ###### Test 1 ######
 x = c(0, 6); y = c(1, 6);
 d.head = list(c(0.2, 0.7), c(-0.2, -0.7))
@@ -983,17 +976,17 @@ a3 = arrowMeasure(c(x[1], x[1]), c(y[1], 5), d=d, lwd=2);
 # Head
 h1 = a1$Head[[1]]
 h4 = a1$Head[[2]]
-h5 = c()
+h5 = list()
 h5$x = c(h4$x, h1$x)
 h5$y = c(h4$y, h1$y)
 
-h7 = c()
+h7 = list()
 h2 = a2$Head[[1]]
 h6 = a2$Head[[2]]
 h7$x = c(h6$x, h2$x)
 h7$y = c(h6$y, h2$y)
 
-h9 = c()
+h9 = list()
 h3 = a3$Head[[1]]
 h8 = a3$Head[[2]]
 h9$x = c(h8$x, h3$x)
@@ -1198,8 +1191,9 @@ h2 = a2$Head[[1]]
 
 h3 = a3$Head[[1]]
 # - visual aids:
-linesAid(h1, h2, h3, id=c(1,2))
-
+points(x[2], y[2], col="green", lwd=2)
+points(x[1], 5, col="green", lwd=2)
+points(5, y[1], col="green", lwd=2)
 # Total length = (d^2 + dV[1]^2) + (d^2 + dV[2]^2)
 cat("Test 1\n")
 testArrow(h=h1, d=d)
@@ -1294,7 +1288,7 @@ testArrow(h=h3, d=d)
 
 ###### Test 2 ######
 x = c(0, 6); y = c(1, 6) + 1;
-d = -1.4; d.head = c(-d-1.5, d+1.5);
+d = -2; d.head = c(-d-2.5, d+2.5);
 plot.base()
 a1 = arrowSquare(x, y, d=d, lwd=2, d.head=d.head);
 a2 = arrowSquare(c(x[1], 8), c(y[1], y[1]), d=d, d.head=d.head, lwd=2);

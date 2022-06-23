@@ -62,6 +62,26 @@ arrowHeadDouble = function(x, y, slope, d=-1, dH=d, dV=c(dH, -dH), scale=1) {
   return(arrHead);
 }
 
+### Inverted ArrowHead: ---<
+# (x, y) = potential tip of the ArrowHead (when d <= 0);
+#' @export
+arrowHeadInverted = function(x, y, slope, d=-1, dV=c(-d, d), scale=1) {
+  pV = c(x, y);
+  p  = if(d == 0) matrix(pV, nrow=1, ncol=2)
+  else shiftPoint(pV, slope=slope, d=d, scale=scale);
+  #
+  if(d <= 0) {
+    pA = shiftLine(pV, slope=slope, d=d.head, scale=scale);
+    pV = p;
+  } else {
+    pA = shiftLine(p[1,], slope=slope, d=d.head, scale=scale);
+  }
+  arrHead = list(
+    x = c(pA[1,1], pV[1], pA[2,1]),
+    y = c(pA[1,2], pV[2], pA[2,2]));
+  return(arrHead);
+}
+
 # N-Lined ArrowHead: --->>...> (n times)
 #' @export
 arrowHeadN = function(x, y, slope, n=1, d = 0.5, dH = - d, dV=c(dH, -dH), scale=1) {

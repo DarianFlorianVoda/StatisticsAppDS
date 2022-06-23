@@ -207,24 +207,23 @@ arrowDoubleInverted = function(x, y, d=-0.25, lwd=1, dH=0.5, d.head=c(-dH, dH), 
   invisible(lst);
 }
 
-### Other: ---<
+### Inverted Head: ---<
 #' @export
-### TODO: correct/fix sublists value $Head / $Arrow
-arrowInverted = function(x, y, d=1, lwd=1, d.head=c(-d,d),
+arrowInverted = function(x, y, d=-1, lwd=1, d.head=c(-d,d),
                          d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
   slope = compute_slope(x, y);
   ### Head
-  p = shiftPoint(c(x[2], y[2]), slope=slope, d = -d, scale=scale)
-  pV = shiftLine(c(x[2], y[2]), slope=slope, d=d.head, scale=scale);
-  ahead = list(x = c(pV[1,1], p[1], pV[2,1]),
-               y = c(pV[1,2], p[2], pV[2,2]));
-  ahead = list(ahead, lwd=h.lwd);
+  arrHead = arrowHeadInverted(x[2], y[2], slope=slope, d=d, dV=d.head, scale=scale);
+  arrHead = list(arrHead, lwd=h.lwd);
   ### Arrow Tail
-  x[2] = p[1];
-  y[2] = p[2];
+  if(d <= 0) {
+    p = arrHead[[1]];
+    x[2] = p$x[[2]];
+    y[2] = p$y[[2]];
+  }
   arrow = arrowTail(x, y, d.lines=d.lines, lwd=lwd, slope=slope);
   ### Full Arrow
-  lst = list(Arrow=arrow, Head=ahead);
+  lst = list(Arrow=arrow, Head=arrHead);
   class(lst) = c("arrow", "list");
 
   # Plot lines:
@@ -239,7 +238,7 @@ arrowDiamond = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col
   if(join > 2) stop("Unsupported value for join!");
   slope = compute_slope(x, y);
   ### Head
-  ahead  = list(arrowHeadDiamond(x[2], y[2], slope=slope, d=d, scale=scale), lwd = h.lwd);
+  ahead  = list(arrowHeadDiamond(x[2], y[2], slope=slope, d=d, dV=d.head, scale=scale), lwd = h.lwd);
   ### ArrowTail
   if(join == 0 || join == 1) {
     x[2] = ahead[[1]]$x[2];
