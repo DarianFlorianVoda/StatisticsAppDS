@@ -400,7 +400,7 @@ testArrow(h=h3, d=d, dV=d.head)
 ###### Test 3 ######
 x = c(0, 6); y = c(1, 80);
 d = -2; d.head = c(-d-3, d+3);
-scale = (100/12)*aspect_ratio_max
+scale = (150/12)*aspect_ratio_max
 plot.base(ylim = c(-50,100))
 a1 = arrowInverted(x, y, d=d, d.head=d.head, lwd=2, scale=scale);
 a2 = arrowInverted(c(x[1], 5), c(y[1], y[1]), d=d, d.head=d.head, lwd=2, scale=scale);
