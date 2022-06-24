@@ -107,6 +107,7 @@ arrowHeadDoubleInverted = function(x, y, slope, d=-1, dH=0.5, dV=c(-dH, dH), sca
   # Head: 2nd "<" of "<<"
   dHneg = - dH;
   d2 = if(d <= 0) dHneg else d;
+  # TODO: verify sign of scale
   pV = shiftPoint(c(x, y), slope=slope, d = d2, scale=scale);
   arrHead  = list(arrowHeadSimple(pV[1], pV[2], slope=slope, d = dH, dV=dV, scale=scale));
   midpoint = list(pV);

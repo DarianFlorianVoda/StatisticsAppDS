@@ -100,3 +100,4 @@ h4 = a4$Head[[1]]
 # - visual aids:
 linesAid(h1, h2, h3, h4)
 cat("Test 3: only visual\n\n")
+

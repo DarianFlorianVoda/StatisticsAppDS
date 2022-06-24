@@ -46,8 +46,6 @@ h3 = a3$Head[[1]]
 # - visual aids:
 linesAid(h1, h2, h3)
 linesAid(h1, h2, h3, id=c(2,4))
-linesAid(h1, h2, h3, id=c(1,4))
-linesAid(h1, h2, h3, id=c(2,3))
 
 # Total length = (d^2 + dV[1]^2) + (d^2 + dV[2]^2)
 cat("Test 1\n")

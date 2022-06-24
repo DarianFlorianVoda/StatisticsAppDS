@@ -39,12 +39,9 @@ a2 = arrowT(c(x[1], 5), c(y[1], y[1]), d=d, lwd=2);
 a3 = arrowT(c(x[1], x[1]), c(y[1], 5), d=d, lwd=2);
 # Head
 h1 = a1$Head[[1]]
-
 h2 = a2$Head[[1]]
-
 h3 = a3$Head[[1]]
-# - visual aids:
-linesAid(h1, h2, h3, id=c(1,2))
+
 # Total length = (d^2 + dV[1]^2) + (d^2 + dV[2]^2)
 cat("Test 1\n")
 testArrow(h=h1, d=d)
@@ -62,12 +59,9 @@ a2 = arrowT(c(x[1], 8), c(y[1], y[1]), d=d, d.head=d.head, lwd=2);
 a3 = arrowT(c(x[1], x[1]), c(y[1], 8), d=d, d.head=d.head, lwd=2);
 # Head
 h1 = a1$Head[[1]]
-
 h2 = a2$Head[[1]]
-
 h3 = a3$Head[[1]]
-# - visual aids:
-linesAid(h1, h2, h3, id=c(1,2))
+
 cat("Test 2\n")
 testArrow(h=h1, d=d, dV=d.head)
 testArrow(h=h2, d=d, dV=d.head)
