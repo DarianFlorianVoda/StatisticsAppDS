@@ -234,7 +234,7 @@ arrowInverted = function(x, y, d=-1, lwd=1, d.head=c(-d,d),
 
 #### Arrow Diamond ####
 #' @export
-arrowDiamond = function(x, y, d=0.2, lwd=1, d.head=-1, d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
+arrowDiamond = function(x, y, d=0.2, lwd=1, d.head=c(-1, 1), d.lines=0, h.lwd=lwd, col="red", scale=1, join=0) {
   if(join > 2) stop("Unsupported value for join!");
   slope = compute_slope(x, y);
   ### Head
