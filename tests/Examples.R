@@ -276,6 +276,37 @@ all_arrows = function(){
 all_arrows()
 
 
+#### Liposome Measured ####
+
+measure_liposome = function() {
+
+  # Liposome
+  testLiposome = function(lst, col="#48B000", col.line=1){
+    testFilledCircle(lst[[1]], line = FALSE, add = TRUE, col=col)
+    testFilledCircle(lst[[2]], line = FALSE, add = TRUE, col=col)
+    lines.object.base(lst[3], lwd=1, col=col.line)
+  }
+  plot.base(xlim=c(-10,10), ylim=c(-10,10))
+  lst = liposomes(c(30, 17), r=0.5, phi=c(0, pi/34), d=0.2)
+  testLiposome(lst)
+  text(0, -6.5,
+       "Liposome")
+
+  # Measurement arrow r1
+  x = c(6,6); y = c(-5, 5);
+  measure(x, y, lwd=2)
+  text(7, 0, srt=-90,
+       "r=4.78")
+
+  # Measurement arrow r2
+  x = c(-2,2); y = c(0, 0);
+  measure(x, y, lwd=2, d=c(-0.5, 0.5))
+  text(0, 1,
+       "r=2.72")
+}
+
+measure_liposome()
+
 
 ### Ex 1:
 plot.base()
