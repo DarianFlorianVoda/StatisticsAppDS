@@ -308,6 +308,42 @@ measure_liposome = function() {
 measure_liposome()
 
 
+#### Description of a liposome ####
+definition_liposome = function(){
+  # Liposome
+  testLiposome = function(lst, col="#48B000", col.line=1){
+    testFilledCircle(lst[[1]], line = FALSE, add = TRUE, col=col)
+    testFilledCircle(lst[[2]], line = FALSE, add = TRUE, col=col)
+    lines.object.base(lst[3], lwd=1, col=col.line)
+  }
+  plot.base(xlim=c(-10,10), ylim=c(-10,10))
+  lst = liposomes(c(30, 17), r=0.5, phi=c(0, pi/34), d=0.2)
+  testLiposome(lst)
+  text(0, -6.5,
+       "Liposome")
+
+
+  # Left arrow
+  a1 = arrowSimple(x=c(-2.7,-5), y=c(-4.6,-8), d=1, lwd=2);
+  text(-5.5, -9,
+       "Insert text")
+
+  # Right arrow
+  a2 = arrowSimple(x=c(3,5), y=c(-1,-7), d=-1, lwd=2);
+  text(5, -8,
+       "Insert text")
+
+  # Upper arrow
+  a3 = arrowSimple(x=c(0.08,1), y=c(3.5,8), d=-1, lwd=2);
+  text(1, 9,
+       "Insert text")
+
+
+}
+
+definition_liposome()
+
+
 ### Ex 1:
 plot.base()
 x = c(0,10); y = c(1, 5);
