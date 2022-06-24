@@ -341,8 +341,8 @@ definition_liposome = function(){
 
 }
 
-definition_liposome()
 
+definition_liposome()
 
 ### Ex 1:
 plot.base()
