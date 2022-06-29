@@ -263,13 +263,13 @@ all_arrows = function(){
   text(1, yt,
        "Triangle", cex = 0.70);
 
-  # Solid Circle ArrowHead #####
+  # Solid Circle ArrowHead
   x = c(3, 3);
   arrowCircle(x, y, r=0.5, lwd=2, fill="#FFB0A0");
   text(3, yt,
        "Solid Circle", cex = 0.70);
 
-  # Simple Circle ArrowHead #####
+  # Simple Circle ArrowHead
   x = c(5, 5);
   arrowCircle(x, y, r=0.5, lwd=2);
   text(5, yt,
@@ -348,11 +348,11 @@ definition_liposome(
   c("Outer lipid layer", "Inner lipid layer", "Lipid bilayer"))
 
 
-####################
 
-#### All Arrows ####
-
-all_arrows()
+### Arrows with Enzymes ####
+plot.base()
+enzymeReaction()
+enzymeReaction(y = 6, lbl = c("A2", "B2", "Enz2", "Inhibitor 2"))
 
 
 #### Banded lines ####

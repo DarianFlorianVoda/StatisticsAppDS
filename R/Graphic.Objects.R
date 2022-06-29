@@ -280,3 +280,33 @@ cellBrushBorder = function(p1, w, h, n=6.5, A=1, slope=0, lwd=1, N=128, phi=0) {
   brush$lwd = lwd;
   return(brush);
 }
+
+### Example Enzyme ####
+#' @export
+enzymeReaction = function(x = c(2,5), y = c(1,1),
+                          lbl = c("A", "B", "Enzyme", "Inhibitor"),
+                          col = c("black", "black", "black", "red", "red"),
+                          dx=1, dy=c(0.1, 0.1, 0.5), dI=c(2, 0.75, 2.4), dH=0.5,
+                          lwd=c(1, 2), scale=1) {
+  if(length(y) == 1) y = c(y, y);
+  slope = compute_slope(x, y);
+  l1 = shiftLine(x, y, d = dy[[1]], slope=slope, scale=scale);
+  l2 = shiftLine(rev(x), rev(y), d = - dy[[2]], slope=slope, scale=scale);
+  #
+  arrowSimple(l1$x, l1$y, d = -dH, d.head=c(0, 0.5), col=col[[1]], lwd=lwd[[1]]);
+  arrowSimple(l2$x, l2$y, d = dH, d.head=c(0, - 0.5), col=col[[1]], lwd=lwd[[1]]);
+  text(x[1] - dx, y[1], lbl[[1]], col=col[[2]]);
+  text(x[2] + dx, y[2], lbl[[2]], col=col[[2]]);
+  # Enzyme
+  midx = sum(x)/2;
+  midy = sum(y)/2;
+  mid  = shiftLine(midx, midy, d = dy[[3]], slope=slope);
+  text(mid$x, mid$y, lbl[[3]], col=col[[3]]);
+  # Inhibitor
+  if(length(lbl) > 3) {
+    slopeT = -1/slope;
+    pI = shiftPoint(c(midx, midy), d=dI, slope=slopeT, scale=scale);
+    arrowT(pI[1:2, 1], pI[1:2, 2], col=col[[4]], lwd=lwd[[2]]);
+    text(pI[3,1], pI[3,2], lbl[[4]], col=col[[5]]);
+  }
+}
