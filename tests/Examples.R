@@ -15,6 +15,8 @@
 #
 # GitHub: https://github.com/DarianFlorianVoda/Diagram-Generator
 
+
+##########################
 #### Helper Functions ####
 
 ### Example 1:
@@ -80,8 +82,8 @@ sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col=
 #(sl.o^2 + 1)*x.sh^2 - 2*x1*(sl.o^2 + 1)*x.sh + x1^2*(sl.o^2 + 1) - d^2 # = 0
 
 
+#################
 #### Objects ####
-
 
 all_objects = function(){
 
@@ -181,7 +183,7 @@ all_arrows = function(){
 
   # Inverted ArrowHead
   x = c(3, 3);
-  d=0.5;
+  d = -0.5;
   d.head=c(-0.5,0.5)
   a3 = arrowInverted(x, y, d=d, d.head=d.head, lwd=2);
   text(3, yt,
@@ -189,8 +191,8 @@ all_arrows = function(){
 
   # Diamond ArrowHead
   x = c(5, 5);
-  d.head=0.5;
-  d=-0.5;
+  d.head = c(-0.5, 0.5);
+  d = -0.5;
   arrowDiamond(x, y, d=d, d.head=d.head, lwd=2, join=0);
   text(5, yt,
        "Diamond", cex = 0.75);
@@ -226,7 +228,7 @@ all_arrows = function(){
 
   # Square Flag
   x = c(3, 3);
-  arrowSquare(x, y, d=-0.5, d.head=c(0, - 2*d), lwd=2);
+  arrowSquare(x, y, d=-0.5, d.head=c(0, 2*d), lwd=2);
   text(3.5, yt,
        "Square Flag", cex = 0.70);
 
@@ -273,6 +275,7 @@ all_arrows = function(){
   text(5, yt,
        "Simple Circle", cex = 0.70);
 }
+
 all_arrows()
 
 
@@ -309,52 +312,43 @@ measure_liposome()
 
 
 #### Description of a liposome ####
-definition_liposome = function(){
+# d = Dimensions of ArrowHead;
+definition_liposome = function(lbl = "Insert text", title = "Liposome",
+                               lwd=2, d=-0.4, n = c(30, 17)) {
+  if(length(lbl) == 1) lbl = rep(lbl, 3);
   # Liposome
   testLiposome = function(lst, col="#48B000", col.line=1){
     testFilledCircle(lst[[1]], line = FALSE, add = TRUE, col=col)
     testFilledCircle(lst[[2]], line = FALSE, add = TRUE, col=col)
     lines.object.base(lst[3], lwd=1, col=col.line)
   }
-  plot.base(xlim=c(-10,10), ylim=c(-10,10))
-  lst = liposomes(c(30, 17), r=0.5, phi=c(0, pi/34), d=0.2)
+  lst = liposomes(n, r=0.5, phi=c(0, pi/(2*n[[2]])), d=0.2)
   testLiposome(lst)
-  text(0, -6.5,
-       "Liposome")
 
+  # Title
+  if( ! is.null(title)) text(0, -6.5, title);
 
   # Left arrow
-  a1 = arrowSimple(x=c(-2.7,-5), y=c(-4.6,-8), d=1, lwd=2);
-  text(-5.5, -9,
-       "Insert text")
+  # TODO: fix!
+  a1 = arrowSimple(x=c(-2.7,-5), y=c(-4.6,-8), d=-d, lwd=lwd);
+  text(-5.5, -9, lbl[[1]])
 
   # Right arrow
-  a2 = arrowSimple(x=c(3,5), y=c(-1,-7), d=-1, lwd=2);
-  text(5, -8,
-       "Insert text")
+  a2 = arrowSimple(x=c(1.4, 5), y=c(-2.4,-7), d=d, lwd=lwd);
+  text(5, -8, lbl[[2]])
 
   # Upper arrow
-  a3 = arrowSimple(x=c(0.08,1), y=c(3.5,8), d=-1, lwd=2);
-  text(1, 9,
-       "Insert text")
-
-
+  a3 = arrowSimple(x=c(0.08,1), y=c(3.5,8), d=d, lwd=lwd);
+  text(1, 9, lbl[[3]])
 }
 
 
-definition_liposome()
+plot.base(xlim=c(-10,10), ylim=c(-10,10))
+definition_liposome(
+  c("Outer lipid layer", "Inner lipid layer", "Lipid bilayer"))
 
-### Ex 1:
-plot.base()
-x = c(0,10); y = c(1, 5);
-arrowDH(x, y, lwd=2);
 
-### Ex 2:
-x = c(0, 6); y = c(1, 6);
-arrowInvH(x, y, lwd=2);
-
-### Ex 3:
-arrowDH(x, y*2 - 2, d = 0.3, lwd=2, col="blue");
+####################
 
 #### All Arrows ####
 
@@ -366,4 +360,3 @@ plot.base()
 lineBanded(c(0,5), c(1, 8), lwd=2.5)
 lineBanded(c(1,7), c(0, 5), lwd=2.5)
 lineBanded(c(0,6), c(6, 0), lwd=2.5, col="green")
-
