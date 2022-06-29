@@ -87,7 +87,7 @@ testArrow(h=h3, d=dH, dV=d.head)
 
 ###### Test 3 ######
 x = c(0, 6); y = c(1, 80);
-d = -3; d.head = c(-2,2); dH = 0.5; # default dH
+d = -0.33; d.head = c(-2,2); dH = 0.5; # default dH
 scale = (100/12)*aspect_ratio_max
 plot.base(ylim = c(0,100))
 a1 = arrowDoubleInverted(x, y, d=d, d.head=d.head, lwd=2, scale=scale);

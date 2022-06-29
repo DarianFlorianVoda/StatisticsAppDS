@@ -146,12 +146,13 @@ shiftPoint = function(p, x, y, d=1, slope=NULL, scale=1) {
     slope = compute_slope(x,y);
   }
   if(length(p) < 2) stop("Point needs both x & y coordinates!");
-  # V line: if(x[1] == x[2]) {
+  # V line: if(x[1] == x[2])
+  sgn = sign(slope);
   if(abs(slope) == Inf) {
-    r = cbind(x = p[1], y = p[2] + d);
+    r = cbind(x = p[1], y = p[2] + d*scale*sgn);
     return(r)
   }
-  slope.sqrt = 1 / sqrt(slope^2 + scale^2);
+  slope.sqrt = scale / sqrt(slope^2 + scale^2);
   dx = d * slope.sqrt;
   dy = dx * slope;
   xsh = p[[1]] + dx;
