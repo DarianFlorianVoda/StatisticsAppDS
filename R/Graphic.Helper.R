@@ -96,10 +96,10 @@ shiftLine = function(x, y, d=1, slope=NULL, scale=1) {
   ### Vertical Line
   if(abs(slope) == Inf) {
     if(length(d) == 1) {
-      r = data.frame(x = x + d, y = y);
+      r = data.frame(x = x - d, y = y);
     } else {
       r = lapply(seq(along=d), function(id) {
-        data.frame(x = x + d[id], y = y, id=id);
+        data.frame(x = x - d[id], y = y, id=id);
       })
       r = do.call(rbind, r);
     }
@@ -125,8 +125,8 @@ shiftLine = function(x, y, d=1, slope=NULL, scale=1) {
   # shift Start- & End-points:
   shift.f = function(x, y, id) {
     delta = d[id] / sl2;
-    x.sh  = x + delta / scale;
-    y.sh  = delta*sl.orto + y;
+    x.sh  = x - delta / scale;
+    y.sh  = y - delta*sl.orto;
     data.frame(x=x.sh, y=y.sh, id=id);
   }
   rez = lapply(seq(length(d)), function(id) shift.f(x, y, id))
