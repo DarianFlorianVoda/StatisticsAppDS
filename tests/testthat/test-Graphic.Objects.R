@@ -143,7 +143,7 @@ lst = liposomes(c(30, 17), r=0.5, phi=c(0, pi/34), d=0.2)
 testLiposome(lst)
 
 
-### Helix / DNA
+### Helix / DNA ####
 
 ### Ex 1a:
 p1 = c(1,1); p2 = c(8,3);

@@ -52,6 +52,7 @@ testShiftLine = function(x, y, d=1, color = "orange") {
   l = shiftLine(x, y, d)
   len = nrow(l) / 2;
   sapply(seq(len), function(id) lines(l[c(id, id+len),1], l[c(id, id+len),2], col=color))
+  return(l)
 }
 
 testRoundValues = function(x, y, p, decimal=6){
@@ -692,3 +693,4 @@ shape::plotellipse(0.5, 0.5, mid=midp, lcol="red")
 points(p$x, p$y, col="green", lwd=2)
 stopifnot(round(p$x - c(2.856325, 3.435889), 5) == 0)
 stopifnot(round(p$y - c(4.231547, 3.433845), 5) == 0)
+
