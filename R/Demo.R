@@ -24,7 +24,7 @@ all_objects = function(){
   ### Row 1:
   y = c(7, 9); yt = 6.7;
   text(4, y[2] + 1,
-       "Biological Objects")
+       "BioShapes Biological Objects")
 
   ### Liposome
   testLiposome = function(lst, col="#48B000", col.line=1){
