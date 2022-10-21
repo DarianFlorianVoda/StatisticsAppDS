@@ -1,0 +1,98 @@
+---
+title: "My very first R Notebook Script, 07.10.2022"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+Exercise 4: Classification of variables
+
+```{r}
+
+```
+
+
+Firstly we import Students.txt into R, using this command:
+```{r}
+students<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/students.txt",stringsAsFactors=F)
+```
+
+Now we are going to inspect the data:
+the command "head" gives the first 6 rows of the dataset.
+
+```{r}
+head(students)
+```
+If we use "tail" we see the last 6 rows.
+```{r}
+tail(students)
+```
+```{r}
+str(students)
+```
+
+
+Install packages
+```{r}
+#install.packages("mosaic")
+```
+
+Import it
+```{r}
+library(mosaic)
+```
+
+
+Use it
+```{r}
+mosaic::inspect(students)
+```
+### Problem number 5
+```{r}
+tab <- matrix(c(40, 30, 50, 60, 20), ncol=1, byrow= TRUE)
+colnames(tab) <- c('Frequency')
+rownames(tab) <- c('Overtaking','Right of way','
+                      Alcohol','Speeding','Other')
+tab <- as.table(tab)
+```
+
+
+### V1
+```{r}
+Reason <-c('Overtaking','Right of way','Alcohol','
+            Speeding','Other')
+Frequency <-c(40, 30, 50, 60, 20)
+exercise6 <-data.frame(col1 = Reason, col2 =
+                           Frequency)
+```
+
+### V2
+```{r}
+
+ex6 <- data.frame(Frequency = c(40, 30, 50, 60, 20),
+                  Reason = c('Overtaking','Right of way','Alcohol'
+                              ,'Speeding','Other'))
+```
+
+
+### barchart
+```{r}
+barplot(Frequency ~ Reason, ex6, col = 1:5)
+legend("top", ex6$Reason, fill = 1:5)
+```
+
+
+### ggplot2
+```{r}
+
+library(ggplot2)
+ggplot(ex6, aes(x = Reason, y = Frequency, fill =
+                    Reason)) +
+geom_col()
+```
+
+
+
+
+
