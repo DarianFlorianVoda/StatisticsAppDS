@@ -26,7 +26,10 @@ expected <- c(
   (data[, "errors"] + data[, "not errors"]) * errors_producer,
   (data[, "errors"] + data[, "not errors"]) * not_errors_producer)
 
+expected
+
 table_expected <- matrix(expected, ncol=2)
+table_expected
 dimnames(table_expected) <- list(
   producer = c("Line 1", "Line 2", "Line 3", "Line 4"),
   produced = c("errors", "not errors"))

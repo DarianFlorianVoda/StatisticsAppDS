@@ -1,0 +1,650 @@
+---
+title: "Homework 4"
+author: "Darian-Florian Voda"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+## Load packages
+```{r}
+library(mosaic)
+library(ggplot2)
+library(latex2exp)
+library(gridExtra)
+library(knitr)
+library(MASS)
+library(cowplot)
+library(PairedData)
+```
+
+## Exercise 33
+
+A hardware store buys ceramic tiles from three producers, A, B and C. The manager of the hardware store draws a sample of 1000 ceramic tiles per producer and determines the numbers of erroneous ceramic tiles:
+
+- Producer A: 41 erroneous ceramic tiles
+- Producer B: 21 erroneous ceramic tiles
+- Producer C: 55 erroneous ceramic tiles
+
+### Do the producers deliver ceramic tiles of equal quality? $\alpha$ = 1%? ($H_0$)
+
+```{r}
+####  Exercise 33 ####
+
+data <- matrix(c(41, 21, 55, 1000 - 41, 1000 - 21, 1000 - 55), ncol=2)
+dimnames(data) <- list(
+  producer = c("Producer A", "Producer B", "Producer C"),
+  produced = c("errors", "not errors"))
+kable(data)
+
+mosaicplot(data, col=c(7,5), main="Mosaic plot of tile producers")
+
+errors_producer <- sum(data[, "errors"]) / sum(data)
+errors_producer
+
+not_errors_producer <- sum(data[, "not errors"]) /
+  sum(data)
+not_errors_producer
+
+errors_producer + not_errors_producer
+
+
+expected <- c(
+  (data[, "errors"] + data[, "not errors"]) * errors_producer,
+  (data[, "errors"] + data[, "not errors"]) * not_errors_producer)
+
+expected
+
+table_expected <- matrix(expected, ncol=2)
+dimnames(table_expected) <- list(
+  producer = c("Producer A", "Producer B", "Producer C"),
+  produced = c("errors", "not errors"))
+kable(table_expected)
+
+x <- sum((data - expected)^2 / expected)
+x
+
+alpha = 0.01
+df = 2
+crit_val <- qchisq(alpha, df, lower.tail = FALSE)
+crit_val
+
+plot_chisq <- function(sim_data, x, crit_val, title = "Density plot of critical and observed values"
+) {
+  annotation_y_val <- max(sim_data$y) * 1/3
+  plt <- ggplot(sim_data, aes(x, y)) + ggtitle(title) +
+    labs(y = "density") + geom_line() + geom_area(
+      data = subset(sim_data, x >= crit_val),
+      fill = "red", alpha = 0.24) +
+    annotate("segment", x = crit_val, xend = crit_val,
+               y = 0, yend = annotation_y_val,
+               color = "red") + annotate("text",
+                                           x = crit_val, y = annotation_y_val * 1.3,
+                                           label = "chi-critical", parse = TRUE) +
+    annotate("segment", x = x, xend = x,
+                y = 0, yend = annotation_y_val,
+                color = "black") + annotate("text",
+                                               x = x, y = annotation_y_val * 1.3, label = "chi-observed", parse = TRUE)
+  return(plt)}
+
+sim_data <- data.frame(density(rchisq(1000, df))[c("x", "y")])
+plot_chisq(sim_data, x, crit_val)
+
+
+p_value <- 1 - pchisq(x, df)
+p_value
+```
+
+Thus, we can conclude that:
+
+- P-value is smaller than 0.05, so we can Reject $H_0$
+- Our critical value is 9.21, which is less than 15.58, so we can Reject $H_0$
+- Since $H_0$ is rejected, the producers **do not** deliver ceramic tiles of equal quality
+
+
+## Exercise 34
+
+A hardware store buys plastic bags from three producers, A, B and C. The manager of the hardware store draws draws different samples per producer and determines the numbers of broken plastic bags:
+
+- Producer A: 6 broken plastic bags out of 125 samples
+- Producer B: 17 broken plastic bags out of 200 samples
+- Producer C: 10 broken plastic bags out of 325 samples
+
+### Do the producers deliver plastic bags of equal quality? $\alpha$ = 1% and $\alpha$ = 5% ($H_0$)
+
+```{r}
+#### Exercise 34 ####
+data <- matrix(c(6, 17, 10, 125 - 6, 200 - 17, 325 - 10), ncol=2)
+dimnames(data) <- list(
+  producer = c("Producer A", "Producer B", "Producer C"),
+  produced = c("errors", "not errors"))
+kable(data)
+
+mosaicplot(data, shade=TRUE, off = 5)
+
+
+errors_producer <- sum(data[, "errors"]) / sum(data)
+errors_producer
+
+not_errors_producer <- sum(data[, "not errors"]) /
+  sum(data)
+not_errors_producer
+
+errors_producer + not_errors_producer
+
+
+expected <- c(
+  (data[, "errors"] + data[, "not errors"]) * errors_producer,
+  (data[, "errors"] + data[, "not errors"]) * not_errors_producer)
+
+expected
+
+table_expected <- matrix(expected, ncol=2)
+dimnames(table_expected) <- list(
+  producer = c("Producer A", "Producer B", "Producer C"),
+  produced = c("errors", "not errors"))
+kable(table_expected)
+
+x <- sum((data - expected)^2 / expected)
+x
+
+plot_chisq2 <- function(sim_data, x, crit_val, title = ""
+) {
+  annotation_y_val <- max(sim_data$y) * 1/3
+  plt <- ggplot(sim_data, aes(x, y)) + ggtitle(title) +
+    labs(y = "density") + geom_line() + geom_area(
+      data = subset(sim_data, x >= crit_val),
+      fill = "red", alpha = 0.24) +
+    annotate("segment", x = crit_val, xend = crit_val,
+             y = 0, yend = annotation_y_val,
+             color = "red") + 
+    annotate("text", x = crit_val, y = annotation_y_val,
+                                       label = "chi-critical", parse = TRUE) +
+    annotate("segment", x = x, xend = x,
+             y = 0, yend = annotation_y_val,
+             color = "black") + annotate("text",
+                                         x = x, y = annotation_y_val* 1.1, label = "chi-observed", parse = TRUE)
+  return(plt)}
+
+# alpha = 0.01
+alpha = 0.01
+df = 2
+crit_val1 <- qchisq(alpha, df, lower.tail = FALSE)
+crit_val1
+
+sim_data <- data.frame(density(rchisq(125+200+325, df))[c("x", "y")])
+plot1 = plot_chisq2(sim_data, x, crit_val1, title="Density plot of alpha=0.01")
+
+p_value <- 1 - pchisq(x, df)
+paste(round(p_value,5), "Thus, Reject H0")
+
+
+# alpha = 0.05
+alpha = 0.05
+df = 2
+crit_val2 <- qchisq(alpha, df, lower.tail = FALSE)
+crit_val2
+
+sim_data <- data.frame(density(rchisq(125+200+325, df))[c("x", "y")])
+plot2 = plot_chisq2(sim_data, x, crit_val2, title="Density plot of alpha=0.05")
+
+grid.arrange(plot1, plot2, ncol=2)
+
+p_value <- 1 - pchisq(x, df)
+paste(round(p_value,5), "Thus, Reject H0")
+paste("But")
+
+paste("Chi-obs =", round(x,5), ", Crit_val at 0.01 =", round(crit_val1,5), ", Crit_val at 0.05 =", round(crit_val2,5))
+((x > crit_val1) && (x > crit_val2))
+```
+
+Thus, we conclude that:
+
+- We cannot reject $H_0$ because Chi-observed is **LESS** than Chi-critical values for $\alpha=0.01$ and $\alpha=0.05$
+- Initially, we thought, considering p-values less than 0.05 that our $H_0$ could be easily rejected
+- However, the plotted graphs already showed us that we cannot directly reject the $H_0$ due to the change of Chi-observed and Chi-Critical values
+
+## Exercise 36
+
+Young adults were asked about their satisfaction with their own character and their own family situation.
+
+```{r, echo=FALSE}
+data = data.frame(" " = c("Happy with own character", "Unhappy with own character"), "Family OK"=c(11, 60), "Family not OK"=c(107, 94))
+
+kable(data)
+```
+### Use a Chi-squared test to determine whether there was a connection between these two variables. $(H_0)$
+
+- $\alpha$ = 1%
+- $\alpha$ = 5%
+
+```{r}
+#### Exercise 36 ####
+
+data35 <- matrix(c(11, 60, 107, 94), ncol=2)
+dimnames(data35) <- list(
+  happiness = c("happy", "unhappy"),
+  dreamjob = c("Family OK", "Family not OK"))
+kable(addmargins(data35))
+
+mosaicplot(data35, col=c(7,5), main="Happiness regarding status of the family")
+
+numerator <- sum(data35)*(11*94-60*107)^2
+numerator
+denominator <- sum(data35["happy", ])*sum(data35["unhappy", ])*sum(data35[ ,"Family OK"])*sum(data35[ ,
+                                                    "Family not OK"])
+denominator
+chi_obs <- numerator / denominator
+chi_obs
+
+# alpha = 0.05
+chi1= qchisq(0.95, 1, ncp=0, lower.tail = TRUE, log.p = FALSE)
+
+# alpha = 0.01
+chi2 = qchisq(0.99, 1, ncp=0, lower.tail = TRUE, log.p = FALSE)
+
+
+paste("Chi-obs =", round(chi_obs,5), ", Crit_val at 0.05 =", round(chi1,5), ", Crit_val at 0.01 =", round(chi2,5))
+((chi_obs > chi1) && (chi_obs > chi2))
+```
+
+We can conclude that:
+
+- Our $H_0$ is rejected, our Chi-Observed is bigger than Critical values
+- People with OK Families are unhappier than people with **NOT** OK Families. (Strange, but ok)
+
+## Exercise 37
+
+70 engineers and 30 sales men applied for a certain job position. The company categorized them into two classes: ’suitable’ and ’unsuitable’.
+
+```{r}
+data = data.frame(" " = c("Engineer", "Sales man"), "suitable"=c(34, 26), "unsuitable"=c(36, 4))
+
+kable(data)
+```
+
+### Use a Chi-squared test to determine whether there was a connection between these two variables. ($H_0$)
+
+- $\alpha$ = 1%
+- $\alpha$ = 5$
+
+
+```{r}
+#### Exercise 37 ####
+
+data35 <- matrix(c(34, 26, 36, 4), ncol=2)
+dimnames(data35) <- list(
+  happiness = c("suitable", "unsuitable"),
+  dreamjob = c("Engineer", "Sales man"))
+kable(addmargins(data35))
+
+mosaicplot(data35, col=c(7,5), main="Job application based on role and suitability")
+
+numerator <- sum(data35)*(34*4-36*26)^2
+numerator
+denominator <- sum(data35["suitable", ])*sum(data35["unsuitable", ])*sum(data35[ ,"Engineer"])*sum(data35[ ,"Sales man"])
+denominator
+chi_obs <- numerator / denominator
+chi_obs
+
+# alpha = 0.05
+chi1= qchisq(0.95, 1, ncp=0, lower.tail = TRUE, log.p = FALSE)
+
+# alpha = 0.01
+chi2 = qchisq(0.99, 1, ncp=0, lower.tail = TRUE, log.p = FALSE)
+
+
+paste("Chi-obs =", round(chi_obs,5), "/ Crit value at 0.05 =", round(chi1,5), "/ Crit value at 0.01 =", round(chi2,5))
+((chi_obs > chi1) && (chi_obs > chi2))
+```
+
+Thus, we can conclude that:
+
+- Our $H_0$ is rejected, Chi-obs value being **greater** than Crit value at 0.05 and 0.01
+- People with a Sales man job role are more suitable than Engineers
+
+## Exercise 38
+
+70 engineers and 30 sales men applied for a certain job position. The company categorized them into two classes: ’suitable’ and ’unsuitable’.
+
+```{r}
+data = data.frame(" " = c("Engineer", "Sales man"), "suitable"=c(48, 20), "unsuitable"=c(22, 10))
+
+kable(data)
+```
+
+### Use a Chi-squared test to determine whether there was a connection between these two variables. ($H_0$)
+
+- $\alpha$ = 1%
+- $\alpha$ = 5$
+
+```{r}
+#### Exercise 38 ####
+data35 <- matrix(c(48, 20, 22, 10), ncol=2)
+dimnames(data35) <- list(
+  happiness = c("suitable", "unsuitable"),
+  dreamjob = c("Engineer", "Sales man"))
+kable(addmargins(data35))
+
+mosaicplot(data35, col=c(7,5), main="Job application based on role and suitability",
+           xlab="Suitability", ylab="Job Role")
+
+numerator <- sum(data35)*(48*10-20*22)^2
+numerator
+denominator <- sum(data35["suitable", ])*sum(data35["unsuitable", ])*sum(data35[ ,"Engineer"])*sum(data35[ ,"Sales man"])
+denominator
+chi_obs <- numerator / denominator
+chi_obs
+
+# alpha = 0.05
+chi1= qchisq(0.95, 1, ncp=0, lower.tail = TRUE, log.p = FALSE)
+chi1
+
+# alpha = 0.01
+chi2 = qchisq(0.99, 1, ncp=0, lower.tail = TRUE, log.p = FALSE)
+chi2
+
+paste("Chi-obs =", round(chi_obs,5), "/ Crit value at 0.05 =", round(chi1,5), "/ Crit value at 0.01 =", round(chi2,5))
+((chi_obs > chi1) && (chi_obs > chi2))
+```
+
+Thus, we can conclude that:
+
+- $H_0$ is accepted, because Crit values are far way **bigger** than Chi-observed.
+- People with a specific job don't have a connection with their job roles of Engineer or Sales man.
+
+## Exercise 39
+
+- Use the dataset ’tips’.
+- Is there an association between smoking and the time of the day (lunch or dinner)? [$H_0$ is no association]
+
+```{r}
+#### Exercise 39 ####
+tips<-read.csv2("tips.csv")
+
+tally(~smoker | time, data = tips)
+mosaicplot(smoker ~ time, data = tips, col=c(5,7), main="Association between smoking and time of the day")
+xchisq.test(smoker ~ time, data = tips)
+
+paste("p-value is:", 0.4771, "which is greater than 0.05")
+```
+
+Thus, we conclude that:
+
+- $H_0$ is accepted, which says that there is ***no*** association between smoking and the time of the day (lunch or dinner)
+- We can also see from the mosaic plot that there is only a small difference between lunch and dinner smokers/non-smokers
+
+
+## Exercise 41
+
+- Use the dataset ’ICM’.
+- Is there an association between gender and education?  [$H_0$ is no association]
+```{r}
+#### Exercise 41 ####
+ICM<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/ICM.txt",
+                stringsAsFactors=F)
+inspect(ICM)
+tally(~Gender | Highest_level_of_education, data = ICM)
+mosaicplot(Gender ~ Highest_level_of_education, data = ICM, col=c(5,7), main="Association between Gender and Education")
+
+xchisq.test(Gender ~ Highest_level_of_education, data=ICM)
+
+paste("p-value is:", 0.1337, "which is greater than 0.05")
+```
+
+Thus, we conclude that:
+
+- $H_0$ is accepted, since it is greater than confidence interval of 0.05 which says that there is ***no*** association between Gender and Education
+- We can also see from the mosaic plot that there is only a small difference between Gender and Education Level
+
+
+## Exercise 42
+
+- Use the dataset ’ICM’.
+- Is there an association between education and smoking? [$H_0$ is no association]
+
+```{r}
+#### Exercise 42 ####
+ICM<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/ICM.txt",
+                stringsAsFactors=F)
+inspect(ICM)
+tally(~Highest_level_of_education | Do_you_smoke, data = ICM)
+mosaicplot(Highest_level_of_education ~ Do_you_smoke, data = ICM, col=c(5,7), main="Association between Education and Smoking")
+xchisq.test(Highest_level_of_education ~ Do_you_smoke, data=ICM)
+
+
+paste("p-value is:", 0.2021, "which is greater than 0.05")
+```
+
+Thus, we conclude that:
+
+- $H_0$ is accepted, since it is greater than confidence interval of 0.05 which says that there is ***no*** association between Education and Smoking
+- We can also see from the mosaic plot that there is only a small difference between Education Level and Smoking
+
+
+## Exercise 43
+
+- Use the dataset ’ICM’.
+- Is there an association between the transport used to get to work and the time spent with social media?
+
+```{r}
+#### Exercise 43 ####
+ICM<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/ICM.txt",
+                stringsAsFactors=F)
+inspect(ICM)
+tally(~Transport | Socialmediahours, data = ICM)
+mosaicplot(Transport ~ Socialmediahours, data = ICM, col=c(5,7), main="Association between Transport and Social media")
+xchisq.test(Transport ~ Socialmediahours, data=ICM)
+
+
+paste("p-value is:", 0.0052, "which is less than 0.05")
+```
+
+Thus, we conclude that:
+
+- $H_0$ is rejected, since it is less than confidence interval of 0.05 which says that there is an association between Transport and Social Media
+- We can also see from the mosaic plot that there is only an important difference between Transport types and Social media use per day
+
+
+## Exercise 45
+
+- Use the dataset 'diet paired'.
+- Is there a statistically significant difference between the body weight of the patients before the diet and after the diet? [$H_0$ assumes that there is no difference (identical) of body weight before and after diet]
+
+```{r}
+#### Exercise 45 ####
+diet<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/diet_paired.txt",
+                stringsAsFactors=F)
+head(diet, 3)
+inspect(diet)
+bp <- ggplot(diet, aes(x=before_diet, color=before_diet)) +
+  geom_boxplot(color="violet", varwidth = TRUE, fill="slateblue", alpha=0.2) +
+  theme(legend.position = "none")+
+  background_grid(major = "xy", minor = "none")+
+  xlim(85,110)
+
+bp2 = ggplot(diet, aes(x=after_diet, color=before_diet)) +
+  geom_boxplot(color="red", varwidth = TRUE, fill="orange", alpha=0.2) + 
+  theme(legend.position = "none")+
+  background_grid(major = "xy", minor = "none")+
+  xlim(85, 110)
+
+grid.arrange(bp, bp2, nrow=2)
+wilcox.test(diet$before_diet, diet$after_diet, paired=TRUE)
+
+paste("p-value is:", 0.037, "which is less than 0.05")
+```
+
+Thus, we conclude that:
+
+- $H_0$ is rejected, since it is less than confidence interval of 0.05 which says that there is a difference of weights before and after diet
+- We can also see from the box plot that there is only a change in medians
+
+
+## Exercise 46
+
+- Use the dataset ’OHS 2020 paired’.
+- Is there a statistically significant difference between the happiness of the students between the three time points? [$H_0$ assumes that there is no difference (identical) of happiness between three time points]
+
+```{r}
+#### Exercise 46 ####
+students<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/OHS_2020_paired.txt",
+                     stringsAsFactors=F)
+head(students, 3)
+inspect(students)
+bp <- ggplot(students, aes(x=OHS_1, color=before_diet)) +
+  geom_boxplot(color="violet", varwidth = TRUE, fill="slateblue", alpha=0.2) +
+  theme(legend.position = "none")+
+  background_grid(major = "xy", minor = "none")+
+  xlim(3.5, 5.5)
+
+bp2 = ggplot(students, aes(x=OHS_2, color=before_diet)) +
+  geom_boxplot(color="red", varwidth = TRUE, fill="orange", alpha=0.2) + 
+  theme(legend.position = "none")+
+  background_grid(major = "xy", minor = "none")+
+  xlim(3.5, 5.5)
+
+bp3 = ggplot(students, aes(x=OHS_3, color=before_diet)) +
+  geom_boxplot(color="green", varwidth = TRUE, fill="brown", alpha=0.2) + 
+  theme(legend.position = "none")+
+  background_grid(major = "xy", minor = "none")+
+  xlim(3.5, 5.5)
+
+grid.arrange(bp, bp2, bp3, nrow=3)
+
+
+## Remove NA vals
+oh1 = students$OHS_1
+oh1 = na.omit(oh1)
+oh1
+length(oh1)
+
+oh2 = students$OHS_2
+oh2 = na.omit(oh2)
+oh2
+length(oh2)
+
+oh3 = students$OHS_3
+oh3 = na.omit(oh3)
+oh3
+length(oh3)
+
+
+## Normalize the vectors length 
+
+## Create random variables to remove
+
+remove_element = function(vec){
+ran1 = sample(min(vec):max(vec),1)
+ran1
+ran1 = match(c(ran1),vec)
+ran1
+vec = vec[-ran1]
+return(vec)
+}
+
+oh1 = remove_element(oh1)
+oh2 = remove_element(oh2)
+oh2 = remove_element(oh2)
+length(oh1)
+length(oh2)
+length(oh3)
+
+
+# Test Oh1 & Oh2
+wilcox.test(oh1, oh2, paired=TRUE)
+paste("p-value is:", 0.058, "which is greater than 0.05")
+
+# Plot Oh1 & Oh2
+pd1 <- paired(oh1, oh2)
+pl1 = plot(pd1, type = "profile") + theme_bw()
+
+# Test Oh1 & Oh3
+wilcox.test(oh1, oh3, paired=TRUE)
+paste("p-value is:", 0.018, "which is less than 0.05")
+
+# Plot Oh1 & Oh3
+pd2 <- paired(oh1, oh3)
+pl2 = plot(pd2, type = "profile") + theme_bw()
+
+# Test Oh2 & Oh3
+wilcox.test(oh2, oh3, paired=TRUE)
+paste("p-value is:", 0.947, "which is greater than 0.05")
+
+# Plot Oh2 & Oh3
+pd3 <- paired(oh2, oh3)
+pl3 = plot(pd3, type = "profile") + theme_bw()
+
+grid.arrange(pl1, pl2, pl3, ncol=2)
+```
+
+Thus, we conclude that:
+
+- $H_0$ is rejected, since for OH1 and OH3 p-value it is less than confidence interval of 0.05 which says that there is a difference of happiness between these three points
+- We can also see from the box plots and the pairplots that there is a change in median and values
+
+## Exercise 49
+
+- Use the data set ’ICM’.
+- Without assuming the data to have normal distribution, decide at .05 significance level if the Communication style (open and direct) of students with siblings and students without siblings in ICM have identical data distribution. [$H_0$]
+
+```{r}
+#### Exercise 49 ####
+ICM<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/ICM.txt",
+                stringsAsFactors=F)
+
+head(ICM)
+inspect(ICM)
+
+wilcox.res <- wilcox.test(Communication_open_direct ~ Siblings, data=ICM)
+wilcox.res
+
+paste("p-value is:", 0.0303, "which is less than 0.05")
+
+ggplot(ICM, aes(x=Communication_open_direct, y=Siblings, color=Siblings)) +
+  geom_violin(fill="white", alpha=0.4) +
+  geom_boxplot()+
+  background_grid(major = "xy", minor = "none")+
+  geom_jitter(shape=16, position=position_jitter(0.2))+
+  scale_fill_brewer(palette="Blues") + theme_classic()
+```
+
+Thus, we conclude that:
+
+- $H_0$ is rejected, since p-value is **0.0303** which is less than confidence interval of 0.05 which says that there is a difference of communication between students with siblings and without
+- We can also see from the mosaic+box plots that there is a change in median and values
+
+
+## Exercise 50
+
+- Use the data set ’ICM’.
+- Without assuming the data to have normal distribution, decide at .05 significance level if the mental health of students with children and students without children in ICM have identical data distribution. [$H_0$]
+
+
+```{r}
+#### Exercise 50 ####
+ICM<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/ICM.txt",
+                stringsAsFactors=F)
+
+head(ICM)
+inspect(ICM)
+
+wilcox.res <- wilcox.test(Mentalhealth ~ Children, data=ICM)
+wilcox.res
+
+paste("p-value is:", 0.0912, "which is greater than 0.05")
+
+ggplot(ICM, aes(x=Mentalhealth, y=Children, color=Children)) +
+  geom_violin(fill="white", alpha=0.4) +
+  geom_boxplot()+
+  background_grid(major = "xy", minor = "none")+
+  geom_jitter(shape=16, position=position_jitter(0.2))+
+  scale_fill_brewer(palette="Blues") + theme_classic()
+```
+
+
+- $H_0$ is accepted, since p-value is **0.0912** which is greater than confidence interval of 0.05 which says that there is no difference of mental health between students with children and without
+- We can also see from the mosaic+box plots that there is not a big change in median and values
