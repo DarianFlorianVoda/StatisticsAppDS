@@ -1,0 +1,544 @@
+---
+title: "Homework 6"
+author: "Darian-Florian Voda"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+## Loading packages
+```{r}
+library(dplyr)
+library(ggplot2)
+library(car)
+library(tidyverse)
+library(ggpubr)
+library(rstatix)
+```
+
+
+## Exercise 70
+
+- A fast food franchise is test marketing 3 new menu items.
+- 18 franchisee restaurants are randomly chosen for participation in the study.
+- 6 of the restaurants are randomly chosen to test market the first new menu item, another 6 for the second menu item, and the remaining 6 for the last menu item.
+- At .05 level of significance, test whether the mean sales volume for the 3 new menu items are all equal.
+- Dataset: fastfood.txt [$H_0$ is considered that the mean sales volume is equal for all 3 menu items]
+
+```{r}
+#### Exercise 70 ####
+
+data<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/fastfood.txt",
+                stringsAsFactors=F)
+
+# EDA
+head(data)
+
+# EDA
+group_by(data, Menu) %>%
+  summarise(
+    count = n(),
+    mean = mean(Sales, na.rm = TRUE),
+    sd = sd(Sales, na.rm = TRUE)
+    )
+
+# Boxplot
+ggplot(data, aes(x=Menu, y=Sales, fill=Menu)) + 
+  geom_boxplot()+
+  labs(title="Plot of Sales per Menu",x="Menu", y = "Sales")+
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Levene's Test for homogeneity
+leveneTest(Sales ~ Menu, data = data)
+
+# Density plot
+ggdensity(data$Sales, fill = "lightblue") + labs(x="Sales")
+
+# QQ plot
+ggqqplot(data$Sales) + labs(x="Sales")
+
+# ANOVA test
+res.aov <- aov(Sales ~ Menu, data = data)
+
+# Anova variable
+res.aov
+
+# Extracting the p-value and F value
+summary(res.aov)
+
+# QQ plot of ANOVA
+plot(res.aov, 2)
+
+# Extract residuals
+aov_residuals <- residuals(object = res.aov)
+
+# Normality test using Shapiro-Wilkins test
+shapiro.test(x = aov_residuals)
+```
+
+Thus, we can conclude that:
+
+- $H_0$ is accepted, since the p-value from the ANOVA test is 0.112 which is greater than 0.05
+- This is quite interesting, since the boxplot and density plot doesn't show equal mean values and a normal distribution
+- Performed a Levene's test followed by a Shapiro-Wilk test to prove it's homogeneity and normality
+- Each p-value for our test proves that our data can be trusted in an ANOVA test
+- Thus, there **are** equal sales mean volumes between the Menus due to the fact that the sample size is quite small
+
+
+## Exercise 71
+
+- Use the data set ’ICM’.
+- At 0.05 level of significance, test whether the means of the negative mood of students are equal between the groups of social media use. [$H_0$ - the means of negative mood are equal between the social media use groups]
+
+```{r}
+#### Exercise 71 ####
+
+ICM<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/ICM.txt",
+                stringsAsFactors=F)
+
+# EDA
+head(ICM)
+
+# EDA
+group_by(ICM, Socialmediahours) %>%
+  summarise(
+    count = n(),
+    mean = mean(NegativeMood, na.rm = TRUE),
+    sd = sd(NegativeMood, na.rm = TRUE)
+  )
+
+# Boxplot
+ggplot(ICM, aes(x=Socialmediahours, y=NegativeMood, fill=Socialmediahours)) + 
+  geom_boxplot()+
+  labs(title="Plot of NegativeMood per Socialmediahours",x="Social Media (hours/day)", y = "Negative Mood")+
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Levene's Test for homogeneity
+leveneTest(NegativeMood ~ Socialmediahours, data = ICM)
+
+# Density plot
+ggdensity(ICM$NegativeMood, fill = "lightblue") + labs(x="NegativeMood")
+
+# QQ plot
+ggqqplot(ICM$NegativeMood) + labs(x="NegativeMood")
+
+# ANOVA test
+res.aov <- aov(NegativeMood ~ Socialmediahours, data = ICM)
+
+# Anova variable
+res.aov
+
+# Extracting the p-value and F value
+summary(res.aov)
+
+# QQ plot of ANOVA
+plot(res.aov, 2)
+
+# Get rid of outliers
+aov_residuals <- residuals(object = res.aov)
+
+# Normality test using Shapiro-Wilkins test
+shapiro.test(x = aov_residuals)
+```
+
+Thus, we can conclude that:
+
+- $H_0$ is rejected, since the p-value from the ANOVA test is 0.00538 which is less than 0.05
+- Performed a Levene's test followed by a Shapiro-Wilk test to prove it's homogeneity and normality
+- Each p-value for our test proves that our data can be trusted in an ANOVA test
+- Thus, there **are no** equal Negative mood means between the Social media in hours per day group
+
+## Exercise 72
+
+- Use the data set ’ICM’.
+- At 0.05 level of significance, test whether the means of the socialization of students are equal between the groups of time spent with friends. [$H_0$ - the means of socialization are equal between the time spend with friends groups]
+
+```{r}
+#### Exercise 72 ####
+
+ICM<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/ICM.txt",
+                stringsAsFactors=F)
+
+# EDA
+head(ICM)
+
+# EDA
+group_by(ICM, Timewithfriends) %>%
+  summarise(
+    count = n(),
+    mean = mean(Socialization, na.rm = TRUE),
+    sd = sd(Socialization, na.rm = TRUE)
+  )
+
+# Boxplot
+ggplot(ICM, aes(x=Timewithfriends, y=Socialization, fill=Timewithfriends)) + 
+  geom_boxplot()+
+  labs(title="Plot of Socialization per Timewithfriends",x="Time with friends (hours/week)", 
+       y = "Socialization")+
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Levene's Test for homogeneity
+leveneTest(Socialization ~ Timewithfriends, data = ICM)
+
+# Density plot
+ggdensity(ICM$Socialization, fill = "lightblue") + labs(x="Socialization")
+
+# QQ plot
+ggqqplot(ICM$Socialization) + labs(x="Socialization")
+
+# ANOVA test
+res.aov <- aov(Socialization ~ Timewithfriends, data = ICM)
+
+# Anova variable
+res.aov
+
+# Extracting the p-value and F value
+summary(res.aov)
+
+# QQ plot of ANOVA
+plot(res.aov, 2)
+
+# Get rid of outliers
+aov_residuals <- residuals(object = res.aov)
+
+# Normality test using Shapiro-Wilkins test
+shapiro.test(x = aov_residuals)
+```
+
+Thus, we can conclude that:
+
+- $H_0$ is rejected, since the p-value from the ANOVA test is 0.00000611 which is less than 0.05
+- Performed a Levene's test followed by a Shapiro-Wilk test to prove it's homogeneity and normality
+- Each p-value for our test proves that our data can be trusted in an ANOVA test
+- Thus, there **are no** equal Socialization means between the Time spent with friends in hours per week group
+
+## Exercise 75
+
+- Use the dataset mtcars and apply a simple linear
+regression model to estimate the miles per gallon if the
+weight of the automobile is 3 (in 1000 lbs).
+- Are the the assumptions met for linear regression?
+- Find the coefficient of determination.
+- Is there a significant relationship between the variables? [$H_0$ - there is no significant relationship]
+- Develop a 95% confidence interval of the mean miles per gallon for the weight of 3.
+- Plot the residual of the simple linear regression model against the independent variable.
+- Normal probability plot for the standardized residual.
+
+```{r}
+#### Exercise 75 ####
+head(mtcars)
+
+# linear model
+lm(mpg ~ wt, data=mtcars)
+
+
+mpg.lm = lm(mpg ~ wt, data=mtcars)
+
+summary(mpg.lm)
+
+coeffs = coefficients(mpg.lm)
+coeffs
+
+# weight (in 1000 lbs)
+weight.auto = 3.00
+duration = coeffs[1] + coeffs[2]*weight.auto
+
+# mpg with respect to weight=3
+duration
+
+paste("Based on the simple linear regression model, 
+      if the weight of the cars has been 3.00 (in 1000 lbs), 
+      we expect to consume 1 gallon of gas at 21.25 miles")
+
+
+# Plot
+plot(mtcars$wt, mtcars$mpg, xlab="Weight", ylab="Miles per gallon")
+abline(lm(mtcars$mpg ~ mtcars$wt))
+
+# Coefficient determination
+mpg.lm = lm(mpg ~ wt, data=mtcars)
+summary(mpg.lm)$r.squared
+
+paste("The results suggests that 75% of the dependent variable is predicted by the independent variable")
+
+# Significant relationship between variables
+mpg.lm = lm(mpg ~ wt, data=mtcars)
+summary(mpg.lm)
+
+paste("As the p-value is 0.000000000129, 
+      which is much less than 0.05, 
+      we reject the null hypothesis that beta = 0.")
+
+# Confidence Interval for weight = 3
+mpg.lm = lm(mpg ~ wt, data=mtcars)
+newdata=data.frame(wt=3.00)
+predict(mpg.lm, newdata, interval="confidence")
+
+
+paste("The 95% confidence interval of the mean miles per gallon for the weight of 3.00,
+      is between 20.12444 and 22.37899 miles per gallon.")
+
+
+# Residual Plot
+mpg.lm = lm(mpg ~ wt, data=mtcars)
+mpg.res=resid(mpg.lm)
+plot(mtcars$wt, mpg.res, ylab="Residuals", xlab="Weight",
+     main="Mtcars Weights (in 1000 lbs)", col="blue")
+abline(0, 0)
+
+# Normal Probability Plot of Residuals
+mpg.lm = lm(mpg ~ wt, data=mtcars)
+mpg.stdres = rstandard(mpg.lm)
+qqnorm(mpg.stdres, ylab="Standardized Residuals", xlab="Normal Scores", main="Mtcars data", col="red")
+qqline(mpg.stdres)
+```
+
+Thus, we can conclude that:
+
+- All the assumptions for a linear regression are met (Homogeneity of variance, Independence of observations, Normality, linear relationship) 
+- The coefficient of determination is **0.7528328**
+- $H_0$ is rejected due to low p-value, thus, there is a high significance between miles per gallon and weight of the car
+
+
+## Exercise 76
+- Use the dataset incomehappy.txt and apply a simple linear regression model to estimate the happiness if the income is 6 (in 1000 Euro per month).
+- Are the the assumptions met for linear regression?
+- Find the coefficient of determination.
+- Is there a significant relationship between the variables? [$H_0$ - there is no significant relationship]
+- Develop a 95% confidence interval of the mean happiness for the income of 6.
+- Plot the residual of the simple linear regression model against the independent variable.
+- Normal probability plot for the standardized residual.
+
+```{r}
+#### Exercise 76 ####
+incomehappy<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/incomehappy.txt",
+                stringsAsFactors=F)
+
+
+head(incomehappy)
+
+# linear model
+lm(happiness ~ income, data=incomehappy)
+
+
+happiness.lm = lm(happiness ~ income, data=incomehappy)
+
+summary(happiness.lm)
+
+coeffs = coefficients(happiness.lm)
+coeffs
+
+# income
+income.auto = 6.00
+duration = coeffs[1] + coeffs[2]*income.auto
+
+# happiness with respect to income=3
+duration
+
+paste("Based on the simple linear regression model, 
+      if the income has been 6.00 (in 1000 Euro), 
+      we expect to have a happiness index of 4.487223")
+
+
+# Plot
+plot(incomehappy$income, incomehappy$happiness, xlab="Income", ylab="Happiness")
+abline(lm(incomehappy$happiness ~ incomehappy$income))
+
+# Coefficient determination
+happiness.lm = lm(happiness ~ income, data=incomehappy)
+summary(happiness.lm)$r.squared
+
+paste("The results suggests that 74% of the dependent variable is predicted by the independent variable")
+
+# Significant relationship between variables
+happiness.lm = lm(happiness ~ income, data=incomehappy)
+summary(happiness.lm)
+
+paste("As the p-value is very very low, 
+      which is much less than 0.05, 
+      we reject the null hypothesis that beta = 0.")
+
+# Confidence Interval for income = 6
+happiness.lm = lm(happiness ~ income, data=incomehappy)
+newdata=data.frame(income=6.00)
+predict(happiness.lm, newdata, interval="confidence")
+
+
+paste("The 95% confidence interval of the mean happiness index for the income of 6.00,
+      is between 4.40287 and 4.571577.")
+
+
+# Residual Plot
+happiness.lm = lm(happiness ~ income, data=incomehappy)
+happiness.res=resid(happiness.lm)
+plot(incomehappy$income, happiness.res, ylab="Residuals", xlab="Weight",
+     main="Happiness by Income", col="blue")
+abline(0, 0)
+
+# Normal Probability Plot of Residuals
+happiness.lm = lm(happiness ~ income, data=incomehappy)
+happiness.stdres = rstandard(happiness.lm)
+qqnorm(happiness.stdres, ylab="Standardized Residuals", xlab="Normal Scores", main="incomehappy data", col="red")
+qqline(happiness.stdres)
+```
+
+Thus, we can conclude that:
+
+- All the assumptions for a linear regression are met (Homogeneity of variance, Independence of observations, Normality, linear relationship) 
+- The coefficient of determination is **0.7493218**
+- $H_0$ is rejected due to low p-value, thus, there is a high significance between happiness index and income [of course it is]
+
+
+## Exercise 79
+- Find the Pearson correlation coefficient of body weight and body height in the data set students.
+- Is there any linear relationship between the variables? [$H_0$ - there is no linear relationship between the variables]
+- Test for significance of the correlation. [$H_0$ - the variables correlation coefficient is 0]
+```{r}
+#### Exercise 79 ####
+students<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/students.txt",
+                        stringsAsFactors=F)
+
+
+head(students)
+
+# Computation of the correlation coefficient
+cor(students$Weight_kg, students$Size_cm)
+
+# Simple plot + Scatter plot
+plot(students$Weight_kg, students$Size_cm, xlab="Weight (kg)", ylab="Height (cm)")
+ggscatter(students, x = "Weight_kg", y = "Size_cm",
+          add = "reg.line", conf.int = TRUE,
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Weight (kg)", ylab = "Height (cm)")
+
+# Shapiro-Wilk normality tests
+shapiro.test(students$Weight_kg)
+shapiro.test(students$Size_cm)
+
+paste("Both p-values < 0.05, but, however, our sample is 82, so data is normally distributed (CLT)")
+
+# QQ Plots of the variables
+ggqqplot(students$Weight_kg, ylab = "Weight (kg)")
+ggqqplot(students$Size_cm, ylab = "Height (cm)")
+
+# Significance level (p-value) of the correlation
+cor.test(students$Weight_kg, students$Size_cm,
+         method = "pearson")
+```
+
+Thus, we can conclude that:
+
+- P-values for Shapiro-Wilk normality tests are both less than 0.05, but since we have 82 observations, we accept the significance due to the Central Limit Theorem
+- There is a linear relationship between the variables because the scatter plot does not show a curved pattern.
+- The test for significance is rejected, since p-value is less than 0.05, thus, we have a highly positive correlation of **0.7790491**
+
+## Exercise 80
+- Find the Pearson correlation coefficient of negative mood and positive mood in the data set ICM.
+- Is there any linear relationship between the variables?
+- Test for significance of the 
+```{r}
+#### Exercise 80 ####
+ICM<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/ICM.txt",
+                stringsAsFactors=F)
+
+
+head(ICM)
+
+# Computation of the correlation coefficient
+cor(ICM$NegativeMood, ICM$PositiveMood, use="complete.obs")
+
+# Simple plot + Scatter plot
+plot(ICM$NegativeMood, ICM$PositiveMood, xlab="Negative Mood", ylab="Positive Mood")
+ggscatter(ICM, x = "NegativeMood", y = "PositiveMood",
+          add = "reg.line", conf.int = TRUE,
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Negative Mood", ylab = "Positive Mood")
+
+# Shapiro-Wilk normality tests
+shapiro.test(ICM$NegativeMood)
+shapiro.test(ICM$PositiveMood)
+
+paste("Both p-values < 0.05, but, however, our sample is 199, so data is normally distributed (CLT)")
+
+# QQ Plots of the variables
+ggqqplot(ICM$NegativeMood, ylab = "Negative Mood")
+ggqqplot(ICM$PositiveMood, ylab = "Positive Mood")
+
+# Significance level (p-value) of the correlation
+cor.test(ICM$NegativeMood, ICM$PositiveMood,
+         method = "pearson")
+```
+
+Thus, we can conclude that:
+
+- P-values for Shapiro-Wilk normality tests are both less than 0.05, but since we have 199 observations, we accept the significance due to the Central Limit Theorem
+- There is a linear relationship between the variables because the scatter plot does not show a curved pattern.
+- The test for significance is rejected, since p-value is less than 0.05, thus, we have a highly negative correlation of **-0.6433565**
+
+## Exercise 83
+- Calculate Spearman’s rho as correlation coefficient for the variables body weight and body height in the data set students.
+- Test for significance of the correlation.
+
+```{r}
+#### Exercise 83 ####
+students<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/students.txt",
+                     stringsAsFactors=F)
+
+# Significance level (p-value) of the correlation
+cor.test(students$Weight_kg, students$Size_cm,
+         method = "spearman", exact=FALSE)
+```
+
+Thus, we can conclude that:
+
+- The rho correlation coefficient between weight and height is 0.7740172 and the p-value is lower than 0.05
+- There is a statistically highly significant positive correlation between weight and height.
+
+## Exercise 84
+- Calculate Spearman’s rho as correlation coefficient for the variables negative mood and OHS in the data set ICM.
+- Is there any linear relationship between the variables?
+- Test for significance of the correlation.
+
+```{r}
+#### Exercise 84 ####
+
+# Significance level (p-value) of the correlation
+ICM<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/ICM.txt",
+                stringsAsFactors=F)
+
+
+head(ICM)
+
+# Computation of the correlation coefficient
+cor(ICM$NegativeMood, ICM$OHS, use="complete.obs")
+
+# Simple plot + Scatter plot
+plot(ICM$NegativeMood, ICM$OHS, xlab="Negative Mood", ylab="OHS")
+ggscatter(ICM, x = "NegativeMood", y = "OHS",
+          add = "reg.line", conf.int = TRUE,
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Negative Mood", ylab = "OHS")
+
+# Shapiro-Wilk normality tests
+shapiro.test(ICM$NegativeMood)
+shapiro.test(ICM$OHS)
+
+paste("Both p-values < 0.05, but, however, our sample is 199, so data is normally distributed (CLT)")
+
+# QQ Plots of the variables
+ggqqplot(ICM$NegativeMood, ylab = "Negative Mood")
+ggqqplot(ICM$OHS, ylab = "OHS")
+
+# Significance level (p-value) of the correlation
+cor.test(ICM$NegativeMood, ICM$OHS,
+         method = "spearman", exact=FALSE)
+```
+
+Thus, we can conclude that:
+
+- The rho correlation coefficient between weight and height is 0.7740172 and the p-value is lower than 0.05
+- There is a statistically highly significant positive correlation between weight and height.
+- There is a linear relationship between the variables because the scatter plot does not show a curved pattern.

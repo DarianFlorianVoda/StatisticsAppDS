@@ -14,3 +14,8 @@ eruption.lm = lm(eruptions ~ waiting, data=faithful)
 summary(eruption.lm)$r.squared
 
 summary(eruption.lm)
+
+
+eruption.lm = lm(eruptions ~ waiting, data=faithful)
+newdata=data.frame(waiting=80)
+predict(eruption.lm, newdata, interval="confidence")
