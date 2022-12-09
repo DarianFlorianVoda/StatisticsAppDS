@@ -1,0 +1,394 @@
+---
+title: "Homework 7"
+author: "Darian-Florian Voda"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+## Loading packages
+```{r}
+library(dplyr)
+library(ggplot2)
+library(car)
+library(tidyverse)
+library(ggpubr)
+library(rstatix)
+```
+
+## Exercise 85: Outcome of lung ventilation
+
+- Use the dataset „Discriminant-pulmonary.txt“
+- Contains diverse parameters on patients receiving lung ventilation
+  - Age
+  - Oxygen concentration in blood
+  - Body size
+  - Aggressiveness of the ventilation
+  - Ventilation time
+- Not all patients survived. Can you predict, based on these parameters, whether a patient will survive or not?
+- Also try standardization of variables!
+
+Load packages
+```{r}
+library(ggplot2)
+library(klaR)
+library(ggord)
+library(psych)
+library(MASS)
+library(devtools)
+library(tidyverse)
+library(caret)
+library(mosaic)
+library(broom)
+```
+
+For this exercise, we will try to predict **using** scaled variables and **without** scaled variables.
+
+Let's start without scaled variables
+```{r}
+# Without standardization
+data<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/Discriminant-pulmonary.txt",
+                stringsAsFactors=F)
+# Look at the data
+head(data)
+
+# Get type of the data
+str(data)
+
+pairs.panels(data[2:6],
+             gap = 0,
+             bg = c("red", "green")[data$outcome],
+             pch = 21)
+
+# 70% for training, 30% for testing
+set.seed(123)
+ind <- sample(2, nrow(data),
+                replace = TRUE,
+                prob = c(0.7, 0.3))
+training <- data[ind==1,]
+testing <- data[ind==2,]
+
+linear <- lda(outcome~., training)
+linear
+
+plot(linear)
+
+paste("Prior probabilities of survival: 50%/50% rate of survival")
+
+# prediction
+p <- predict(linear, training)
+names(p)
+
+# Predicted classes
+head(p$class, 6)
+
+# Predicted probabilities
+head(p$posterior, 6)
+
+# Linear discriminants
+head(p$x, 3)
+
+# Stacked histogram for LD1
+p <- predict(linear, training)
+ldahist(data = p$x[,1], g = training$outcome)
+
+lda.data <- cbind(training, predict(linear)$x)
+ggplot(lda.data, aes(LD1, age)) +
+  geom_point(aes(color = outcome)) +
+  labs(title="Outcome of patients with pulmonary problems")
+
+# plot the classes using density plot
+ggplot(data = lda.data)+
+  geom_density(aes(age, fill = outcome), alpha = 0.2)+
+  scale_fill_discrete(name = "Outcome of patients", labels = c("Dead", "Survived"))
+
+partimat(factor(outcome)~., data = training,
+         method = "lda")
+
+# prediction accuracy of training set
+p1 <- predict(linear, training)$class
+tab <- table(Predicted = p1,
+               Actual = training$outcome)
+tab
+sum(diag(tab))/sum(tab)
+
+
+# prediction accuracy of test set
+p2 <- predict(linear, testing)$class
+tab1 <- table(Predicted = p2,
+                Actual = testing$outcome)
+tab1
+sum(diag(tab1))/sum(tab1)
+
+# QDA
+quadratic <- qda(outcome~., data = training)
+quadratic
+
+
+predquad <- predict(quadratic, training)
+names(predquad)
+
+# prediction accuracy of training set
+pq1 <- predict(quadratic, training)$class
+tab <- table(Predicted = pq1,
+               Actual = training$outcome)
+tab
+sum(diag(tab))/sum(tab)
+
+# prediction accuracy of test set
+pq2 <- predict(quadratic, testing)$class
+tab1 <- table(Predicted = pq2,
+                Actual = testing$outcome)
+tab1
+sum(diag(tab1))/sum(tab1)
+
+partimat(factor(outcome)~., data = training,
+         method = "qda")
+```
+From this we can conclude that:
+
+- Prior probabilities of groups are
+  - 50% chance to die
+  - 50% chance to survive
+- LD1 = -0.0085 * age - 2.164 * oxygen.conc + 0.032 * body.size - 0.054 * ventilation.aggressiveness - 0.089 * ventilation.time
+- The stacked histogram seems to show us that both groups are overlapping
+- However, we can predict with a 68% accuracy on the training set and 67% on the test set, which is a good accuracy despite the overlapping
+- Using QDA we get 74% accuracy on the training set and 67% on the test set, which is also an improvement on our learning algorithm.
+
+Now let's try with **standardized** variables:
+```{r}
+### data with standardization
+data2<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/Discriminant-pulmonary.txt",
+                 stringsAsFactors=F)
+
+data2_standardized = data2 %>% mutate_at(c('oxygen.conc', 'body.size', 'ventilation.aggressiveness', 'ventilation.time', 'age'),
+                         ~(scale(.) %>% as.vector))
+
+head(data2_standardized)
+
+
+pairs.panels(data2_standardized[2:6],
+             gap = 0,
+             bg = c("red", "green")[data2_standardized$outcome],
+             pch = 21)
+
+# 70% for training, 30% for testing
+set.seed(123)
+ind <- sample(2, nrow(data2_standardized),
+              replace = TRUE,
+              prob = c(0.7, 0.3))
+training <- data2_standardized[ind==1,]
+testing <- data2_standardized[ind==2,]
+
+linear <- lda(outcome~., training)
+linear
+
+plot(linear)
+
+paste("Prior probabilities of survival: 50%/50% rate of survival")
+
+# prediction
+p <- predict(linear, training)
+names(p)
+
+# Predicted classes
+head(p$class, 6)
+
+# Predicted probabilities
+head(p$posterior, 6)
+
+# Linear discriminants
+head(p$x, 3)
+
+# Stacked histogram for LD1
+p <- predict(linear, training)
+ldahist(data = p$x[,1], g = training$outcome)
+
+lda.data <- cbind(training, predict(linear)$x)
+ggplot(lda.data, aes(LD1, age)) +
+  geom_point(aes(color = outcome)) +
+  labs(title="Outcome of patients with pulmonary problems")
+
+# plot the classes using density plot
+ggplot(data = lda.data)+
+  geom_density(aes(age, fill = outcome), alpha = 0.2)+
+  scale_fill_discrete(name = "Outcome of patients", labels = c("Dead", "Survived"))
+
+partimat(factor(outcome)~., data = training,
+         method = "lda")
+
+# prediction accuracy of training set
+p1 <- predict(linear, training)$class
+tab <- table(Predicted = p1,
+             Actual = training$outcome)
+tab
+sum(diag(tab))/sum(tab)
+
+
+# prediction accuracy of test set
+p2 <- predict(linear, testing)$class
+tab1 <- table(Predicted = p2,
+              Actual = testing$outcome)
+tab1
+sum(diag(tab1))/sum(tab1)
+
+# QDA
+quadratic <- qda(outcome~., data = training)
+quadratic
+
+
+predquad <- predict(quadratic, training)
+names(predquad)
+
+# prediction accuracy of training set
+pq1 <- predict(quadratic, training)$class
+tab <- table(Predicted = pq1,
+             Actual = training$outcome)
+tab
+sum(diag(tab))/sum(tab)
+
+# prediction accuracy of test set
+pq2 <- predict(quadratic, testing)$class
+tab1 <- table(Predicted = pq2,
+              Actual = testing$outcome)
+tab1
+sum(diag(tab1))/sum(tab1)
+
+partimat(factor(outcome)~., data = training,
+         method = "qda")
+```
+
+We conclude from this standardization that:
+
+- Both not standardized and standardized methods show the same accuracy on predictibility
+- Standardization is better for understanding the importance of our data
+
+## Exercise 86
+
+- In bird species where males and females are coloured the same, it is usually difficult to determine sex on the basis of external characteristics such as size or behaviour.
+- Therefore, either an endoscopic examination of the internal reproductive organs or a blood sample must be taken.
+- Both procedures put the animals under a lot of stress, so they usually take place under general anaesthesia, which can also affect the birds’ health.
+- In addition, analysing the blood for hormone status or certain genetic traits is costly and requires specialist staff.
+- The aim of this study is to determine the sex of the birds based on the characteristics of wing length, beak length, head length, foot length and weight.
+- The aim of this study is to establish a discriminant function for sex determination using data from 245 birds, most of which have known sex.
+- The following research questions need to be answered:
+  - What is the discriminant function?
+  - How many birds can be correctly assigned to their sex with this?
+  - How many of the birds whose sex is unknown can still be assigned to a sex?
+
+```{r}
+#### Exercise 86 ####
+data3<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/Discriminant-birds.txt",
+                  stringsAsFactors=F)
+
+# Look at the data
+head(data3)
+
+# Get type of the data
+str(data3)
+
+pairs.panels(data3[2:6],
+             gap = 0,
+             bg = c("red", "green")[data3$ï..sex],
+             pch = 21)
+
+# 70% for training, 30% for testing
+set.seed(123)
+ind <- sample(2, nrow(data3),
+              replace = TRUE,
+              prob = c(0.7, 0.3))
+training <- data3[ind==1,]
+testing <- data3[ind==2,]
+
+linear <- lda(ï..sex~., training)
+linear
+
+paste("Prior probabilities of sex: 32% female, 15% male, 52% unknown")
+
+# prediction
+p <- predict(linear, training)
+names(p)
+
+# Predicted classes
+head(p$class, 6)
+
+# Predicted probabilities
+head(p$posterior, 6)
+
+# Linear discriminants
+head(p$x, 3)
+
+# Stacked histogram for LD1
+p <- predict(linear, training)
+ldahist(data = p$x[,1], g = training$ï..sex)
+
+lda.data <- cbind(training, predict(linear)$x)
+ggplot(lda.data, aes(LD1, LD2)) +
+  geom_point(aes(color = ï..sex)) +
+  labs(title="Sex of birds")
+
+# Biplot
+ggord(linear, training$ï..sex,
+      ylim = c(-10, 10), xlim=c(-10,10))
+
+partimat(factor(ï..sex)~., data = training,
+         method = "lda")
+
+# prediction accuracy of training set
+p1 <- predict(linear, training)$class
+tab <- table(Predicted = p1,
+             Actual = training$ï..sex)
+tab
+sum(diag(tab))/sum(tab)
+
+
+# prediction accuracy of test set
+p2 <- predict(linear, testing)$class
+tab1 <- table(Predicted = p2,
+              Actual = testing$ï..sex)
+tab1
+sum(diag(tab1))/sum(tab1)
+
+# QDA
+quadratic <- qda(ï..sex~., data = training)
+quadratic
+
+
+predquad <- predict(quadratic, training)
+names(predquad)
+
+# prediction accuracy of training set
+pq1 <- predict(quadratic, training)$class
+tab <- table(Predicted = pq1,
+             Actual = training$ï..sex)
+tab
+sum(diag(tab))/sum(tab)
+
+# prediction accuracy of test set
+pq2 <- predict(quadratic, testing)$class
+tab1 <- table(Predicted = pq2,
+              Actual = testing$ï..sex)
+tab1
+sum(diag(tab1))/sum(tab1)
+
+partimat(factor(ï..sex)~., data = training,
+         method = "qda")
+```
+
+Thus, we can conclude that:
+
+- Prior probabilities of sex groups are: 
+  - 32% female
+  - 16% male
+  - 52% unknown
+- The discriminant functions are:
+  - LD1 = 0.026 * wing - 0.260 * beak - 0.212 * head + 0.014 * food - 0.004 * weight
+  - LD2 = 0.096 * wing + 0.180 * beak - 0.105 * head - 0.084 * food - 0.030 * weight
+- There are quite no overlaps of the stacked histograms
+- The scatter plot shows a better performance for QDA method
+- There is 75% accuracy on the trained test and 64% accuracy on the test set, thus, a 64% chance to assign the sex correctly to a bird using LDA method
+- There is 82% accuracy on the trained test and 63% accuracy on the test set, thus, a 63% chance to assign the sex correctly to a bird using QDA method
+- There is a total of 123 birds whose sex is still unknown and still can be assigned. [Total sum of unknown column for both training and test set]
