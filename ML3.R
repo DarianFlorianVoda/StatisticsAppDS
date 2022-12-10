@@ -1,6 +1,6 @@
 data = read.csv("C:/Users/Dari-Laptop/Desktop/FH Karnten - Master - AppDs/StatisticsAppDSLaptop/penguins_lter.csv")
 library(dplyr)
-
+library(ggplot2)
 
 head(data)
 
@@ -66,13 +66,63 @@ summary(qualitative)
 
 
 # second method
-cnt = rowSums(is.na(df) | df == "") > 0
+cnt = rowSums(is.na(df) | df == "" | df == ".") > 0
+cnt
 sum(cnt)
 
 # What about data imputation? Check the rows with NA values. Can you apply data imputation on it?
 
-new_df <- df[rowSums(is.na(df)) > 0,]
+new_df <- df[-c(4, 340),]
 
 head(new_df)
 
+## Create Dataframe DataWithoutGender  
 
+
+# Select the rows where the gender is unknown and create a new data set for it. Name it "PenguinsWithoutGender"
+PenguinsWithoutGender <- df[is.na(df$Gender) | df$Gender == "" | df$Gender == ".", ]
+
+PenguinsWithoutGender
+
+# Delete the rows with NA values in the quantitative columns by using the function na.omit() 
+na.omit(PenguinsWithoutGender)
+
+
+# replace "." by "" in the column Gender
+PenguinsWithoutGender$Gender[PenguinsWithoutGender$Gender=="."] = ""
+
+PenguinsWithoutGender
+
+
+write.csv(PenguinsWithoutGender, file='C:/Users/Dari-Laptop/Desktop/FH Karnten - Master - AppDs/StatisticsAppDSLaptop/DataWithoutGender.csv', row.names = FALSE)
+
+
+## Create Dataframe PenguinsWithoutMissingValues  
+
+# Delete the rows with NA values in the quantitative columns by using the function na.omit() 
+
+PenguinsWithoutMissingValues = na.omit(df)
+
+PenguinsWithoutMissingValues = PenguinsWithoutMissingValues[-which(PenguinsWithoutMissingValues$Gender== "" | PenguinsWithoutMissingValues$Gender =="."),]
+head(PenguinsWithoutMissingValues)
+
+
+
+write.csv(PenguinsWithoutMissingValues, file='C:/Users/Dari-Laptop/Desktop/FH Karnten - Master - AppDs/StatisticsAppDSLaptop/PenguinsWithoutMissingValues.csv', row.names = FALSE)
+
+names(PenguinsWithoutMissingValues)
+names(PenguinsWithoutMissingValues)[7] = "BodyMass"
+
+
+ggplot(PenguinsWithoutMissingValues, aes(x=BodyMass, color=Species))+
+  geom_boxplot(outlier.colour="orange", outlier.shape=8, outlier.size=4)
+
+
+# Change histogram plot fill colors by groups
+ggplot(PenguinsWithoutMissingValues, aes(x=BodyMass, fill=Species, color=Species)) +
+  geom_histogram(position="identity")
+
+# Use semi-transparent fill
+p<-ggplot(df, aes(x=BodyMass, fill=Species, color=Species)) +
+  geom_histogram(position="identity", alpha=0.5)
+p
