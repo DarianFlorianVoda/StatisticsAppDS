@@ -126,3 +126,6 @@ ggplot(PenguinsWithoutMissingValues, aes(x=BodyMass, fill=Species, color=Species
 p<-ggplot(df, aes(x=BodyMass, fill=Species, color=Species)) +
   geom_histogram(position="identity", alpha=0.5)
 p
+
+
+head(PenguinsWithoutMissingValues)
