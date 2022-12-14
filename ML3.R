@@ -1,4 +1,4 @@
-data = read.csv("C:/Users/Dari-Laptop/Desktop/FH Karnten - Master - AppDs/StatisticsAppDSLaptop/penguins_lter.csv")
+data = read.csv("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/penguins_lter.csv")
 library(dplyr)
 library(ggplot2)
 
@@ -94,7 +94,7 @@ PenguinsWithoutGender$Gender[PenguinsWithoutGender$Gender=="."] = ""
 PenguinsWithoutGender
 
 
-write.csv(PenguinsWithoutGender, file='C:/Users/Dari-Laptop/Desktop/FH Karnten - Master - AppDs/StatisticsAppDSLaptop/DataWithoutGender.csv', row.names = FALSE)
+write.csv(PenguinsWithoutGender, file='C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/DataWithoutGender.csv', row.names = FALSE)
 
 
 ## Create Dataframe PenguinsWithoutMissingValues  
@@ -108,24 +108,24 @@ head(PenguinsWithoutMissingValues)
 
 
 
-write.csv(PenguinsWithoutMissingValues, file='C:/Users/Dari-Laptop/Desktop/FH Karnten - Master - AppDs/StatisticsAppDSLaptop/PenguinsWithoutMissingValues.csv', row.names = FALSE)
+write.csv(PenguinsWithoutMissingValues, file='C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/PenguinsWithoutMissingValues.csv', row.names = FALSE)
 
 names(PenguinsWithoutMissingValues)
 names(PenguinsWithoutMissingValues)[7] = "BodyMass"
 
 
-ggplot(PenguinsWithoutMissingValues, aes(x=BodyMass, color=Species))+
-  geom_boxplot(outlier.colour="orange", outlier.shape=8, outlier.size=4)
-
-
-# Change histogram plot fill colors by groups
-ggplot(PenguinsWithoutMissingValues, aes(x=BodyMass, fill=Species, color=Species)) +
-  geom_histogram(position="identity")
-
-# Use semi-transparent fill
-p<-ggplot(df, aes(x=BodyMass, fill=Species, color=Species)) +
-  geom_histogram(position="identity", alpha=0.5)
-p
-
-
-head(PenguinsWithoutMissingValues)
+# ggplot(PenguinsWithoutMissingValues, aes(x=BodyMass, color=Species))+
+#   geom_boxplot(outlier.colour="orange", outlier.shape=8, outlier.size=4)
+# 
+# 
+# # Change histogram plot fill colors by groups
+# ggplot(PenguinsWithoutMissingValues, aes(x=BodyMass, fill=Species, color=Species)) +
+#   geom_histogram(position="identity")
+# 
+# # Use semi-transparent fill
+# p<-ggplot(df, aes(x=BodyMass, fill=Species, color=Species)) +
+#   geom_histogram(position="identity", alpha=0.5)
+# p
+# 
+# 
+# head(PenguinsWithoutMissingValues)

@@ -1,0 +1,108 @@
+---
+title: "Classification Model (Penguins)"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  html_notebook: default
+---
+```{r pressure, echo=FALSE, out.width = '100%'}
+knitr::include_graphics("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/MeetPenguins.PNG")
+```
+**Classification model for PenguinsWithoutMissingValues**
+
+  - Use a decision tree to build a classifier for the Gender
+  - do a data preprocessing, e.g.: delete unnecessary columns, encode categorical data
+  - use a random 80%/20% training/test set
+  - for the training: 
+    - do a 10-fold cross validation
+    - check its accuracy and choose the best model for predicting the test set
+  - predict the Gender of the test data
+    - check accuracy and the confusion matrix 
+
+**Predict the missing Gender labels of the dataframe PenguinsWithoutGender**
+
+  - do an appropriate data preprocessing, e.g.: delete unnecessary columns, encode categorical data
+  - predict the Gender of the observations
+  
+  
+**Helpful Links:**
+
+- https://topepo.github.io/caret/
+- https://rpubs.com/maelillien/penguins-classification
+- https://stats.stackexchange.com/questions/82162/cohens-kappa-in-plain-english
+
+
+```{r}
+# Delete all variables 
+rm( list = ls() )
+
+# Import libraries
+library(caret)
+```
+
+# Classification model for PenguinsWithoutMissingValues$Gender
+
+Import the dataframes PenguinsWithoutMissingValues and PenguinsWithoutGender from the csv files. 
+
+Use therefore the function read.csv() or read.csv2() depending on your system's language (for a correct "." and "," interpretation) 
+
+
+## Import Data
+```{r}
+
+
+```
+
+## Preprocessing
+
+- delete column IndividualID
+- encode Species and Island
+
+```{r}
+
+```
+
+## Build and evaluate a classifier
+
+### Data Partitioning
+
+```{r}
+
+```
+
+### Use the classifier to predict the test data
+Use and evaluate the classifier to predict the Gender
+
+```{r}
+
+```
+
+
+
+# Predict the Gender of the dataframe PenguinsWithoutGender
+
+Use the classifier to predict the Gender in the dataframe PenguinsWithoutGender
+
+
+## Import Data
+```{r}
+
+```
+
+
+## Preprocessing
+
+- delete column IndividualID
+- encode Species and Island
+
+```{r}
+
+```
+
+## Predict the missing Gender 
+```{r}
+
+```
+
+In this case, we cannot evaluate the prediction accuracy at all. 
