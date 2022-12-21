@@ -1,0 +1,63 @@
+---
+title: "Homework 8"
+author: "Darian-Florian Voda"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+## Loading packages
+```{r}
+library(dplyr)
+library(ggplot2)
+library(car)
+library(tidyverse)
+library(ggpubr)
+library(rstatix)
+```
+
+## Exercise 87: Example from sociology
+
+- A survey was designed at the Institute of Sociology at the University of Marburg and conducted at two metalworking companies in Hesse on "attitudes towards foreigners". The respondents were presented with 15 statements. The answers were each given on a seven-point scale, intended to represent complete disagreement (1) to complete agreement (7). The results of 90 respondents were stored in variables a1 to a15 of the PCA-foreigner.txt file.
+
+- Questions of questionnaire
+  - a1 The integration of foreigners must be improved.
+  - a2 Refugee money must be reduced.
+  - a3 German money should be spent on German issues.
+  - a4 Germany is not the social welfare office of the world.
+  - a5 Good coexistence must be striven for.
+  - a6 The right of asylum should be restricted.
+  - a7 Germans are becoming a minority.
+  - a8 The right of asylum must be protected throughout Europe.
+  - a9 Xenophobia harms the German economy.
+  - a10 Housing should be created for Germans first.
+  - a11 We are foreigners too, almost everywhere.
+  - a12 Multicultural means multicriminal.
+  - a13 The boat is full.
+- Level of Agreement
+  - 1 Strongly disagree
+  - 2 Disagree
+  - 3 Somewhat disagree
+  - 4 Neither agree or disagree
+  - 5 Somewhat agree
+  - 6 Agree
+  - 7 Strongly agree
+- Aim of the study
+  - 1 The aim of this study is to use the data-set PCA-foreigner.txt and perform a PCA to identify the main components/dimensions.
+  - 2 Interpretation and naming of the detected underlying components.
+  - 3 Then, perform a reliability analyses of the extracted dimensions.
+  - 4 As a next step, scores for every of the new dimensions should be calculated and stored as new variables.
+  - 5 Finally, find associations between the new variables and the other variables in the data set.
+- Research questions
+  - 1 How many factors can be extracted?
+  - 2 Which items can be assigned to the extracted components?
+  - 3 What is the reliability (Crohnbach’s Alpha) of each of the new components?
+  - 4 Is there an association between the extracted components and
+    - the satisfaction with own economic circumstances?
+    - age?
+    - gender?
+    - socio-political commitment?
+    - the position in the company?

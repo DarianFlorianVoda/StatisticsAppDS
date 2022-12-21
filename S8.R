@@ -1,7 +1,7 @@
 library(psych)
 library(rela)
 
-dolesurvey<-read.delim("C:/Users/Dari-Laptop/Desktop/FH Karnten - Master - AppDs/Datasets-20221209/dole-survey.txt",
+dolesurvey<-read.delim("C:/Users/daria/OneDrive/Desktop/Master - AppDS/Statistics/Datasets-20221007/dole-survey.txt",
                        stringsAsFactors=F)
 
 dole<-na.omit(dolesurvey)
@@ -58,3 +58,4 @@ summary(dole$reliability)
 summary(dole$clarity)
 summary(dole$decency)
 summary(dole$helpfulness)
+
