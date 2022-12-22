@@ -173,7 +173,6 @@ legend("topright", legend=c("tau^2 = 1", "tau^2 = 100", "tau^2 = 10000"),
        col=c("red", "blue", "black"), lty=1)
 
 
-
 # 1.3 with improper prior
 x=c(185,200,225,208,194,217,220,203,206,190)
 pMean = mean(x) # Posterior mean
@@ -187,3 +186,64 @@ plot(values, dnorm(values,
 
 1-pnorm(200, pMean, sqrt(pVariance)) # Probability unsafe to swim
 
+
+##################
+
+# Ex. 1.5
+r1 = dbeta(30,11,30)
+r2 = dbeta(30,25,8)
+
+theta = 5
+p = (0.5*1/r1)*theta^(11-1)*(1-theta)^(30-1) + (0.5*1/r2)*theta^(25-1) * (1-theta)^(8-1)
+
+
+values = seq(0,1, 0.001)
+plot(values, 0.5*dbeta(values,11,30)+0.5*dbeta(values,25,8), type="l", col="blue")
+
+
+#### prof solution
+
+#####################
+##### Exercise 5#####
+#####################
+
+
+
+# Plot of distribution
+values = seq(0,1,0.001)
+plot(values, 0.5*dbeta(values,11,30)+0.5*dbeta(values,25,8), type = "l", col = "blue")
+
+
+
+# Equal tail interval
+n = 10000
+sim = vector()
+for(i in 1:n){
+  temp = rbinom(n = 1, size = 1, prob = 0.5)
+  if(temp == 1){
+    sim = c(sim, rbeta(1, 11, 30))
+  }else{
+    sim = c(sim, rbeta(1, 25, 8))
+  }
+}
+
+
+
+equTail = quantile(x = sim, probs = c(0.025, 0.975))
+values = seq(equTail[1],equTail[2],0.001)
+lines(values, 0.5*dbeta(values,11,30)+0.5*dbeta(values,25,8), type = "l", col = "red", lwd = "2")
+
+
+
+
+
+
+# HPD
+library(hdrcde)
+HPD = hdr(sim, prob = 95)
+values = seq(0,1,0.001)
+values1 = seq(HPD$hdr[1],HPD$hdr[2],0.001)
+values2 = seq(HPD$hdr[3],HPD$hdr[4],0.001)
+plot(values, 0.5*dbeta(values,11,30)+0.5*dbeta(values,25,8), type = "l", col = "blue")
+lines(values1, 0.5*dbeta(values1,11,30)+0.5*dbeta(values1,25,8), type = "l", col = "red", lwd = "2")
+lines(values2, 0.5*dbeta(values2,11,30)+0.5*dbeta(values2,25,8), type = "l", col = "red", lwd = "2")
