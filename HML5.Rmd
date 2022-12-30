@@ -1,0 +1,105 @@
+---
+title: 'Outlier Detection: Isolation Forest (Penguins)'
+author: "Darian-Florian Voda"
+date: "2022-12-30"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+always_allow_html: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, tidy.opts=list(width.cutoff=60),tidy=TRUE)
+```
+
+## Loading packages
+```{r}
+library(caret)
+library(dplyr)
+library(mltools)
+library(rpart)
+library(isotree)
+library(plotly)
+```
+
+## Exercise
+
+Let's check if there are anomalies in the dataset *"PenguinsWithoutMissingValues.csv"*. We want to use Isolation Forests for it since they have some advantages compared with other anomaly detection techniques.
+
+- import the data PenguinsWithoutMissingValues
+
+```{r}
+# import the data PenguinsWithoutMissingValues
+setwd("C:/Users/Dari-Laptop/Desktop/FH Karnten - Master - AppDs/StatisticsAppDSLaptop")
+data = read.csv("PenguinsWithoutMissingValues.csv")
+```
+- encode categorical data
+
+```{r}
+# encode categorical data
+data$Species = factor(data$Species)
+data$Island = factor(data$Island)
+data$Gender = factor(data$Gender)
+```
+
+- predict the average depth of the isolation forest (using the R library isotree)
+
+```{r}
+# predict the average depth
+
+model <- isolation.forest(data, ndim=1, ntrees=10, nthreads=1)
+scores <- predict(model, data, type="avg_depth")
+par(mar = c(4,5,3,2))
+plot(data$CulmenLength.mm., scores, type="p", col="darkred",
+     main="Average isolation depth\nfor CulmenLength(mm)",
+     xlab="value", ylab="Average isolation depth")
+
+
+plot(data$CulmenDepth.mm., scores, type="p", col="darkred",
+     main="Average isolation depth\nfor CulmenDepth(mm)",
+     xlab="value", ylab="Average isolation depth")
+
+plot(data$FlipperLength.mm., scores, type="p", col="darkred",
+     main="Average isolation depth\nfor FlipperLength(mm)",
+     xlab="value", ylab="Average isolation depth")
+
+plot(data$BodyMass.g., scores, type="p", col="darkred",
+     main="Average isolation depth\nfor BodyMass(g)",
+     xlab="value", ylab="Average isolation depth")
+```
+
+- calculate the anomaly score (see slides or original paper)
+
+```{r}
+data$score <- predict(model, newdata = data)
+
+data$score
+```
+
+- use ggplotly scatterplot to visualize the anomaly scores and show the IndividualIDs in the hoover text
+
+```{r}
+# use ggplotly scatterplot to visualize the anomaly scores 
+# and show the IndividualIDs in the hoover text
+
+p = ggplot(data, 
+           aes(x=score, y = 1:nrow(data), color=Species, 
+               text = paste("IndividualID :", IndividualID))) + 
+  geom_point() + 
+  labs(title="Anomaly scores",
+                      x ="Score", y = "Number")
+
+p
+
+ggplotly(p)
+
+```
+
+## Conclusions
+
+- Yes, there are anomalies regarding to our anomaly scores
+- I have computed the anomaly score using the predict function and not from scratch, even though several trials occured using the anomaly formula from the Isolation Forests article
+- ID number N81A1 seems to be an anomaly from its species
+- Same applies for ID N88A1, N72A1 and many others as we can see from our plot
+
